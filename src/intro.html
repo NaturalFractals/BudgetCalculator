@@ -1,0 +1,25 @@
+<template>
+    <form id="personalInfo">
+        <div class="form-group">
+            <label for="">Annual Income:</label>
+            <input type="text" class="form-control" placeholder="50,000">
+        </div>
+        <div class="form-group">
+            <label for="">Location:</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="radio">
+            <label>Adults in Household</label><br>
+            <label>1<input type="radio" name="adultsInHousehold" model.bind="1" checked.bind="numberAdults"></label>
+            <label>2<input type="radio" name="adultsInHousehold" model.bind="2" checked.bind="numberAdults"></label>
+        </div>
+        <div class="radio">
+            <label>Children in Household</label><br>
+            <label class="custom-control custom-radio">1<input class="custom-control-input" type="radio" name="childrenInHouseHold" model.bind="1" checked.bind="numberChildren"></label>
+            <label class="custom-control custom-radio">2<input class="custom-control-input" type="radio" name="childrenInHouseHold" model.bind="2" checked.bind="numberChildren"></label>
+            <label class="custom-control custom-radio">3<input class="custom-control-input" type="radio" name="childrenInHouseHold" model.bind="3" checked.bind="numberChildren"></label>
+            <label class="custom-control custom-radio">4<input class="custom-control-input" type="radio" name="childrenInHouseHold" model.bind="4" checked.bind="numberChildren"></label>
+        </div>
+        <button id="budgetButton" class="btn-success" click.delegate="route()">Budget</button>
+    </form>
+</template>

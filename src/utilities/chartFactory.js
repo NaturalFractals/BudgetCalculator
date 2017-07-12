@@ -1,6 +1,6 @@
 import * as HighCharts from "highcharts";
 
-export class Chart {
+export class ChartFactory {
     constructor() {
 
     }
