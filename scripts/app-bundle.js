@@ -37,6 +37,9 @@ define('app',['exports', 'aurelia-framework', 'jquery', 'bootstrap'], function (
         route: 'results', moduleId: 'results',
         name: 'results', title: 'Personal Budget', nav: true
       }]);
+      this.message = 'Hello World!';
+
+      this.modules = [{ display: false, path: "medical/medical" }, { display: false, path: "savings/savings" }];
     };
 
     return App;
@@ -52,6 +55,36 @@ define('environment',["exports"], function (exports) {
     debug: true,
     testing: true
   };
+});
+define('intro',['exports', 'aurelia-framework', 'aurelia-router'], function (exports, _aureliaFramework, _aureliaRouter) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Intro = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Intro = exports.Intro = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router), _dec(_class = function () {
+        function Intro(router) {
+            _classCallCheck(this, Intro);
+
+            this.router = router;
+        }
+
+        Intro.prototype.route = function route() {
+            this.router.navigate("#/results");
+        };
+
+        return Intro;
+    }()) || _class);
 });
 define('main',['exports', './environment'], function (exports, _environment) {
   'use strict';
@@ -85,6 +118,40 @@ define('main',['exports', './environment'], function (exports, _environment) {
     });
   }
 });
+define('results',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Results = exports.Results = function Results() {
+        _classCallCheck(this, Results);
+    };
+});
+define('medical/medical',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Medica = exports.Medica = function Medica() {
+        _classCallCheck(this, Medica);
+    };
+});
 define('resources/index',["exports"], function (exports) {
   "use strict";
 
@@ -94,32 +161,12 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('utilities/chart',["exports", "highcharts"], function (exports, _highcharts) {
+define('savings/savings',["exports"], function (exports) {
     "use strict";
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.Chart = undefined;
-
-    var HighCharts = _interopRequireWildcard(_highcharts);
-
-    function _interopRequireWildcard(obj) {
-        if (obj && obj.__esModule) {
-            return obj;
-        } else {
-            var newObj = {};
-
-            if (obj != null) {
-                for (var key in obj) {
-                    if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
-                }
-            }
-
-            newObj.default = obj;
-            return newObj;
-        }
-    }
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -127,101 +174,9 @@ define('utilities/chart',["exports", "highcharts"], function (exports, _highchar
         }
     }
 
-    var Chart = exports.Chart = function () {
-        function Chart() {
-            _classCallCheck(this, Chart);
-        }
-
-        Chart.prototype.createChart = function createChart(containerID) {
-            Highcharts.chart(containerID, {});
-        };
-
-        return Chart;
-    }();
-});
-define('routes',['exports'], function (exports) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Route = exports.Route = function Route() {
-        _classCallCheck(this, Route);
-
-        this.introRoute = 'intro';
-        this.introRouteModuleId = 'intro/intro';
-        this.introRouteName = 'intro';
-        this.introRouteTitle = 'Introduction';
-
-        this.resultsRoute = 'results';
-        this.resultsRouteModuleId = 'results/results';
-        this.resultsRouteName = 'results';
-        this.resultsRouteTitle = 'Personal Budget';
+    var Savings = exports.Savings = function Savings() {
+        _classCallCheck(this, Savings);
     };
-});
-define('route',['exports'], function (exports) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Route = exports.Route = function Route() {
-        _classCallCheck(this, Route);
-
-        this.introRoute = 'intro';
-        this.introRouteModuleId = 'intro/intro';
-        this.introRouteName = 'intro';
-        this.introRouteTitle = 'Introduction';
-
-        this.resultsRoute = 'results';
-        this.resultsRouteModuleId = 'results/results';
-        this.resultsRouteName = 'results';
-        this.resultsRouteTitle = 'Personal Budget';
-    };
-});
-define('intro',['exports', 'aurelia-framework', 'aurelia-router'], function (exports, _aureliaFramework, _aureliaRouter) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Intro = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var Intro = exports.Intro = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router), _dec(_class = function () {
-        function Intro(router) {
-            _classCallCheck(this, Intro);
-
-            this.router = router;
-        }
-
-        Intro.prototype.route = function route() {
-            this.router.navigate("#/results");
-        };
-
-        return Intro;
-    }()) || _class);
 });
 define('utilities/chartFactory',["exports", "highcharts"], function (exports, _highcharts) {
     "use strict";
@@ -268,8 +223,10 @@ define('utilities/chartFactory',["exports", "highcharts"], function (exports, _h
         return ChartFactory;
     }();
 });
-define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/styles.css\"></require><div id=\"app\"><div id=\"content\"><div id=\"intro\"><h1 style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><hr><router-view></router-view></div></div></template>"; });
-define('text!intro.html', ['module'], function(module) { module.exports = "<template><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\"></div><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div><div class=\"radio\"><label>Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"numberAdults\"></label></div><div class=\"radio\"><label>Children in Household</label><br><label class=\"custom-control custom-radio\">1<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">2<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">3<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">4<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"numberChildren\"></label></div><button id=\"budgetButton\" class=\"btn-success\" click.delegate=\"route()\">Budget</button></form></template>"; });
-define('text!css/style.css', ['module'], function(module) { module.exports = ""; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/styles.css\"></require><div id=\"app\"><div id=\"content\"><div id=\"intro\"><h1 style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><hr><router-view></router-view></div><div repeat.for=\"module of modules\"><compose view-model=\"savings/savings\"></compose></div></div></template>"; });
 define('text!css/styles.css', ['module'], function(module) { module.exports = "#personalInfo {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}"; });
+define('text!intro.html', ['module'], function(module) { module.exports = "<template><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\"></div><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div><div class=\"radio\"><label>Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"numberAdults\"></label></div><div class=\"radio\"><label>Children in Household</label><br><label class=\"custom-control custom-radio\">1<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">2<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">3<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">4<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"numberChildren\"></label></div><button id=\"budgetButton\" class=\"btn-success\" click.delegate=\"route()\">Budget</button></form></template>"; });
+define('text!results.html', ['module'], function(module) { module.exports = "<template></template>"; });
+define('text!medical/medical.html', ['module'], function(module) { module.exports = "<template><h1>This is medical.</h1></template>"; });
+define('text!savings/savings.html', ['module'], function(module) { module.exports = "<template><h1>This is savings.</h1></template>"; });
 //# sourceMappingURL=app-bundle.js.map

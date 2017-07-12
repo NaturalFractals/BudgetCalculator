@@ -4,15 +4,18 @@
             <label for="">Annual Income:</label>
             <input type="text" class="form-control" placeholder="50,000">
         </div>
+        <!-- Input user's location-->
         <div class="form-group">
             <label for="">Location:</label>
             <input type="text" class="form-control">
         </div>
+        <!-- Input number of adults in household-->
         <div class="radio">
             <label>Adults in Household</label><br>
             <label>1<input type="radio" name="adultsInHousehold" model.bind="1" checked.bind="numberAdults"></label>
             <label>2<input type="radio" name="adultsInHousehold" model.bind="2" checked.bind="numberAdults"></label>
         </div>
+        <!-- Input number of children in household-->
         <div class="radio">
             <label>Children in Household</label><br>
             <label class="custom-control custom-radio">1<input class="custom-control-input" type="radio" name="childrenInHouseHold" model.bind="1" checked.bind="numberChildren"></label>
