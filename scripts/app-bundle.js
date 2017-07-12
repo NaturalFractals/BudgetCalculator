@@ -1,5 +1,5 @@
-define('app',['exports'], function (exports) {
-  'use strict';
+define('app',["exports"], function (exports) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -15,6 +15,8 @@ define('app',['exports'], function (exports) {
     _classCallCheck(this, App);
 
     this.message = 'Hello World!';
+
+    this.modules = [{ display: false, path: "medical/medical" }, { display: false, path: "savings/savings" }];
   };
 });
 define('environment',["exports"], function (exports) {
@@ -59,6 +61,23 @@ define('main',['exports', './environment'], function (exports, _environment) {
       return aurelia.setRoot();
     });
   }
+});
+define('medical/medical',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Medica = exports.Medica = function Medica() {
+        _classCallCheck(this, Medica);
+    };
 });
 define('resources/index',["exports"], function (exports) {
   "use strict";
@@ -114,5 +133,24 @@ define('utilities/chart',["exports", "highcharts"], function (exports, _highchar
         return Chart;
     }();
 });
-define('text!app.html', ['module'], function(module) { module.exports = "<template><h1>${message}</h1></template>"; });
+define('savings/savings',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Savings = exports.Savings = function Savings() {
+        _classCallCheck(this, Savings);
+    };
+});
+define('text!app.html', ['module'], function(module) { module.exports = "<template><div repeat.for=\"module of modules\"><compose view-model=\"savings/savings\"></compose></div></template>"; });
+define('text!medical/medical.html', ['module'], function(module) { module.exports = "<template><h1>This is medical.</h1></template>"; });
+define('text!savings/savings.html', ['module'], function(module) { module.exports = "<template><h1>This is savings.</h1></template>"; });
 //# sourceMappingURL=app-bundle.js.map
