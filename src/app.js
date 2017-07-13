@@ -15,7 +15,7 @@ export class App {
         name: 'intro', title: 'Introduction', nav: true
       },
       {
-        route: 'results', moduleId: 'restults/results',
+        route: 'results', moduleId: 'results/results',
         name: 'results', title: 'Personal Budget', nav: true
       }
     ]);
