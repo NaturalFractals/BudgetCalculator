@@ -13,8 +13,11 @@ export class Intro {
         this.getLocation();
     }
 
+    //Retrieves the user's current location.
+    //TODO: Move this method out of intro.js
     async getLocation() {
         var self = this;
+        
         // check for Geolocation support
         if (navigator.geolocation) {
             console.log('Geolocation is supported!');
@@ -22,6 +25,7 @@ export class Intro {
         else {
             console.log('Geolocation is not supported for this Browser/OS version yet.');
         }
+
         //Load users current location
         window.onload = async function () {
             var startPos;

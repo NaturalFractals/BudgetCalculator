@@ -1,10 +1,23 @@
+/* Style for personal info or intro page*/
 #personalInfo {
     width: 75%;
     margin: 0 auto;
 }
 
+/* Style for banner module table*/
 #banner-table {
     background: #E4E4E4;
     width: 75%;
     margin: 0 auto;
 }
+
+/* Style for radio button lables in banner table*/
+#radio-label {
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+
+
