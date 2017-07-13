@@ -11,6 +11,9 @@ export class Intro {
         this.router = router;
         this.httpClient = httpClient;
         this.getLocation();
+
+        this.income = null;
+        this.displayIncome = "";
     }
 
     //Retrieves the user's current location.
@@ -42,5 +45,14 @@ export class Intro {
     //Routes the user to the results page after clicking budget button
     route() {
         this.router.navigate("#/results");
+    }
+
+    sanitizeIncome() {
+        this.displayIncome = this.displayIncome.replace(/,/g, "");
+        this.displayIncome = this.displayIncome.replace(/\$/g, "");
+
+        this.income = parseInt(this.displayIncome);
+
+        this.displayIncome = '$' + this.income.toLocaleString();
     }
 }
