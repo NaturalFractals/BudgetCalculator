@@ -39,6 +39,7 @@ export class Intro {
         await window.onload();
     }
 
+    //Routes the user to the results page after clicking budget button
     route() {
         this.router.navigate("#/results");
     }

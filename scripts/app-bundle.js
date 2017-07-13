@@ -29,10 +29,10 @@ define('app',['exports', 'aurelia-framework', 'jquery', 'bootstrap'], function (
       this.router = router;
       config.title = "Budget Expectancy Calculator";
       config.map([{
-        route: ['', 'intro'], moduleId: 'intro',
+        route: ['', 'intro'], moduleId: 'intro/intro',
         name: 'intro', title: 'Introduction', nav: true
       }, {
-        route: 'results', moduleId: 'results',
+        route: 'results', moduleId: 'restults/results',
         name: 'results', title: 'Personal Budget', nav: true
       }]);
 
@@ -320,23 +320,6 @@ define('results/results',["exports"], function (exports) {
         _classCallCheck(this, Results);
     };
 });
-define('results-banner-module/banner',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Banner = exports.Banner = function Banner() {
-        _classCallCheck(this, Banner);
-    };
-});
 define('savings/savings',["exports"], function (exports) {
     "use strict";
 
@@ -352,6 +335,23 @@ define('savings/savings',["exports"], function (exports) {
 
     var Savings = exports.Savings = function Savings() {
         _classCallCheck(this, Savings);
+    };
+});
+define('results-banner-module/banner',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Banner = exports.Banner = function Banner() {
+        _classCallCheck(this, Banner);
     };
 });
 define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _highcharts) {
@@ -449,8 +449,8 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/styles.css\"></require><div id=\"app\"><div id=\"content\"><div id=\"intro\"><h1 style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><hr><router-view></router-view></div><div repeat.for=\"module of modules\"><compose view-model=\"savings/savings\"></compose></div></div></template>"; });
 define('text!css/styles.css', ['module'], function(module) { module.exports = "/* Style for personal info or intro page*/\r\n#personalInfo {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for banner module table*/\r\n#banner-table {\r\n    background: #E4E4E4;\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for radio button lables in banner table*/\r\n#radio-label {\r\n    color: black;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    font-size: 16px;\r\n}\r\n\r\n\r\n\r\n"; });
-define('text!budget-breakdown-module/breakdown.html', ['module'], function(module) { module.exports = "<template><table><tbody></tbody></table></template>"; });
 define('text!chart/chart.html', ['module'], function(module) { module.exports = "<template><require from=\"highcharts/css/highcharts.css\"></require><div id=\"chartContainer\" style=\"height:450px\" onload=\"loadChart()\"></div><button click.delegate=\"changeChart()\">Toggle Hide Something</button></template>"; });
+define('text!budget-breakdown-module/breakdown.html', ['module'], function(module) { module.exports = "<template><table><tbody></tbody></table></template>"; });
 define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\"></div><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div><div class=\"radio\"><label>Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"numberAdults\"></label></div><div class=\"radio\"><label>Children in Household</label><br><label class=\"custom-control custom-radio\">1<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">2<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">3<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">4<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"numberChildren\"></label></div><button id=\"budgetButton\" class=\"btn-success\" click.delegate=\"route()\">Budget</button></form></template>"; });
 define('text!medical/medical.html', ['module'], function(module) { module.exports = "<template><h1>This is medical.</h1></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"results-banner-module/banner\"></compose><compose view-model=\"chart/chart\"></compose></template>"; });
