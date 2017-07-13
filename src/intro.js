@@ -6,6 +6,7 @@ import { HttpClient, json } from 'aurelia-fetch-client';
 export class Intro {
     numberChildren;
     numberAdults;
+
     constructor(router, httpClient) {
         this.router = router;
         this.httpClient = httpClient;
@@ -13,8 +14,7 @@ export class Intro {
     }
 
     async getLocation() {
-        var lat = 0;
-        var lng = 0;
+        var self = this;
         // check for Geolocation support
         if (navigator.geolocation) {
             console.log('Geolocation is supported!');
@@ -22,25 +22,17 @@ export class Intro {
         else {
             console.log('Geolocation is not supported for this Browser/OS version yet.');
         }
-        window.onload = function () {
+        //Load users current location
+        window.onload = async function () {
             var startPos;
-            navigator.geolocation.getCurrentPosition(function (position) {
+            navigator.geolocation.getCurrentPosition(async function (position) {
                 startPos = position;
-                document.getElementById('startLat').innerHTML = startPos.coords.latitude;
-                lat = startPos.coords.latitude;
-                document.getElementById('startLon').innerHTML = startPos.coords.longitude;
-                lng = startPos.coords.longitude;
+                let data = await self.httpClient.fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + startPos.coords.latitude + ',' + startPos.coords.longitude + '&key=AIzaSyBM9-m7L5132H_bDe3JUn9tlwblTARBRbQ');
+                let data2 = await data.json();
+                console.log(data2);
             });
         };
         await window.onload();
-        console.log(lat);
-        console.log(lng);
-        let data = await this.httpClient.fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBM9-m7L5132H_bDe3JUn9tlwblTARBRbQ');
-        let data2 = await data.json();
-        console.log(data2);
-    }
-
-    attached() {
     }
 
     route() {

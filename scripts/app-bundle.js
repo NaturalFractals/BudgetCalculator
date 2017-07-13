@@ -20,9 +20,7 @@ define('app',['exports', 'aurelia-framework', 'jquery', 'bootstrap'], function (
     }
   }
 
-  var _dec, _class;
-
-  var App = exports.App = (_dec = (0, _aureliaFramework.inject)(), _dec(_class = function () {
+  var App = exports.App = function () {
     function App() {
       _classCallCheck(this, App);
     }
@@ -37,13 +35,12 @@ define('app',['exports', 'aurelia-framework', 'jquery', 'bootstrap'], function (
         route: 'results', moduleId: 'results',
         name: 'results', title: 'Personal Budget', nav: true
       }]);
-      this.message = 'Hello World!';
 
-      this.modules = [{ display: false, path: "medical/medical" }, { display: false, path: "savings/savings" }];
+      this.modules = [{ display: false, path: "results-banner-module/banner" }, { display: false, path: "medical/medical" }, { display: false, path: "savings/savings" }];
     };
 
     return App;
-  }()) || _class);
+  }();
 });
 define('environment',["exports"], function (exports) {
   "use strict";
@@ -111,55 +108,76 @@ define('intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia-fetch
         }
 
         Intro.prototype.getLocation = function () {
-            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-                var lat, lng, data, data2;
-                return regeneratorRuntime.wrap(function _callee$(_context) {
+            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+                var self;
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
-                        switch (_context.prev = _context.next) {
+                        switch (_context3.prev = _context3.next) {
                             case 0:
-                                lat = 0;
-                                lng = 0;
+                                self = this;
 
                                 if (navigator.geolocation) {
                                     console.log('Geolocation is supported!');
                                 } else {
                                     console.log('Geolocation is not supported for this Browser/OS version yet.');
                                 }
-                                window.onload = function () {
+
+                                window.onload = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
                                     var startPos;
-                                    navigator.geolocation.getCurrentPosition(function (position) {
-                                        startPos = position;
-                                        document.getElementById('startLat').innerHTML = startPos.coords.latitude;
-                                        lat = startPos.coords.latitude;
-                                        document.getElementById('startLon').innerHTML = startPos.coords.longitude;
-                                        lng = startPos.coords.longitude;
-                                    });
-                                };
-                                _context.next = 6;
+                                    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                                        while (1) {
+                                            switch (_context2.prev = _context2.next) {
+                                                case 0:
+                                                    navigator.geolocation.getCurrentPosition(function () {
+                                                        var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(position) {
+                                                            var data, data2;
+                                                            return regeneratorRuntime.wrap(function _callee$(_context) {
+                                                                while (1) {
+                                                                    switch (_context.prev = _context.next) {
+                                                                        case 0:
+                                                                            startPos = position;
+                                                                            _context.next = 3;
+                                                                            return self.httpClient.fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + startPos.coords.latitude + ',' + startPos.coords.longitude + '&key=AIzaSyBM9-m7L5132H_bDe3JUn9tlwblTARBRbQ');
+
+                                                                        case 3:
+                                                                            data = _context.sent;
+                                                                            _context.next = 6;
+                                                                            return data.json();
+
+                                                                        case 6:
+                                                                            data2 = _context.sent;
+
+                                                                            console.log(data2);
+
+                                                                        case 8:
+                                                                        case 'end':
+                                                                            return _context.stop();
+                                                                    }
+                                                                }
+                                                            }, _callee, this);
+                                                        }));
+
+                                                        return function (_x) {
+                                                            return _ref3.apply(this, arguments);
+                                                        };
+                                                    }());
+
+                                                case 1:
+                                                case 'end':
+                                                    return _context2.stop();
+                                            }
+                                        }
+                                    }, _callee2, this);
+                                }));
+                                _context3.next = 5;
                                 return window.onload();
 
-                            case 6:
-                                console.log(lat);
-                                console.log(lng);
-                                _context.next = 10;
-                                return this.httpClient.fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&key=AIzaSyBM9-m7L5132H_bDe3JUn9tlwblTARBRbQ');
-
-                            case 10:
-                                data = _context.sent;
-                                _context.next = 13;
-                                return data.json();
-
-                            case 13:
-                                data2 = _context.sent;
-
-                                console.log(data2);
-
-                            case 15:
+                            case 5:
                             case 'end':
-                                return _context.stop();
+                                return _context3.stop();
                         }
                     }
-                }, _callee, this);
+                }, _callee3, this);
             }));
 
             function getLocation() {
@@ -168,8 +186,6 @@ define('intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia-fetch
 
             return getLocation;
         }();
-
-        Intro.prototype.attached = function attached() {};
 
         Intro.prototype.route = function route() {
             this.router.navigate("#/results");
@@ -243,8 +259,6 @@ define('chart/chart',['exports', '../utilities/chartFactory'], function (exports
 
     var Chart = exports.Chart = function Chart() {
         _classCallCheck(this, Chart);
-
-        _chartFactory.ChartFactory.createChart('container');
     };
 });
 define('medical/medical',["exports"], function (exports) {
@@ -383,11 +397,29 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
         return ChartFactory;
     }();
 });
+define('results-banner-module/banner',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Banner = exports.Banner = function Banner() {
+        _classCallCheck(this, Banner);
+    };
+});
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/styles.css\"></require><div id=\"app\"><div id=\"content\"><div id=\"intro\"><h1 style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><hr><router-view></router-view></div><div repeat.for=\"module of modules\"><compose view-model=\"savings/savings\"></compose></div></div></template>"; });
-define('text!intro.html', ['module'], function(module) { module.exports = "<template><form id=\"personalInfo\"><div id=\"tripmeter\"><p>Starting Location (lat, lon):<br><span id=\"startLat\">???</span>°, <span id=\"startLon\">???</span>°</p><p>Current Location (lat, lon):<br><span id=\"currentLat\">???</span>°, <span id=\"currentLon\">???</span>°</p><p>Distance from starting location:<br><span id=\"distance\">0</span> km</p><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\"></div><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div><div class=\"radio\"><label>Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"numberAdults\"></label></div><div class=\"radio\"><label>Children in Household</label><br><label class=\"custom-control custom-radio\">1<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">2<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">3<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">4<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"numberChildren\"></label></div><button id=\"budgetButton\" class=\"btn-success\" click.delegate=\"route()\">Budget</button></form></template>"; });
-define('text!css/styles.css', ['module'], function(module) { module.exports = "#personalInfo {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}"; });
-define('text!results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"chart/chart\"></compose></template>"; });
+define('text!css/styles.css', ['module'], function(module) { module.exports = "#personalInfo {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n#banner-table {\r\n    background: #E4E4E4;\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}"; });
+define('text!intro.html', ['module'], function(module) { module.exports = "<template><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\"></div><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div><div class=\"radio\"><label>Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"numberAdults\"></label></div><div class=\"radio\"><label>Children in Household</label><br><label class=\"custom-control custom-radio\">1<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">2<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">3<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">4<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"numberChildren\"></label></div><button id=\"budgetButton\" class=\"btn-success\" click.delegate=\"route()\">Budget</button></form></template>"; });
+define('text!results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"results-banner-module/banner\"></compose><compose view-model=\"chart/chart\"></compose></template>"; });
 define('text!chart/chart.html', ['module'], function(module) { module.exports = "<template><div id=\"container\" style=\"height:450px\"></div></template>"; });
-define('text!savings/savings.html', ['module'], function(module) { module.exports = "<template><h1>This is savings.</h1></template>"; });
 define('text!medical/medical.html', ['module'], function(module) { module.exports = "<template><h1>This is medical.</h1></template>"; });
+define('text!savings/savings.html', ['module'], function(module) { module.exports = "<template><h1>This is savings.</h1></template>"; });
+define('text!results-banner-module/banner.html', ['module'], function(module) { module.exports = "<template><table id=\"banner-table\" class=\"table\"><tr><td><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\"></div></td><td><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div></td><td><div class=\"radio\"><label>Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"numberAdults\"></label></div></td><td><div class=\"radio\"><label>Children in Household</label><br><label class=\"custom-control custom-radio\">1<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">2<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">3<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">4<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"numberChildren\"></label></div></td></tr></table></template>"; });
 //# sourceMappingURL=app-bundle.js.map
