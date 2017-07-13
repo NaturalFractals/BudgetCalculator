@@ -11,11 +11,11 @@ export class App {
     config.title = "Budget Expectancy Calculator";
     config.map([
       {
-        route: ['', 'intro'], moduleId: 'intro',
+        route: ['', 'intro'], moduleId: 'intro/intro',
         name: 'intro', title: 'Introduction', nav: true
       },
       {
-        route: 'results', moduleId: 'results',
+        route: 'results', moduleId: 'results/results',
         name: 'results', title: 'Personal Budget', nav: true
       }
     ]);
