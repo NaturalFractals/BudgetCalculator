@@ -149,11 +149,24 @@ define('chart/chart',['exports', '../utilities/chartFactory'], function (exports
         }
     }
 
-    var Chart = exports.Chart = function Chart() {
-        _classCallCheck(this, Chart);
+    var Chart = exports.Chart = function () {
+        function Chart() {
+            _classCallCheck(this, Chart);
 
-        _chartFactory.ChartFactory.createChart('container');
-    };
+            this.chart = null;
+        }
+
+        Chart.prototype.attached = function attached() {
+            this.chart = _chartFactory.ChartFactory.createChart('chartContainer');
+        };
+
+        Chart.prototype.changeChart = function changeChart() {
+            var visible = this.chart.series[0].data[0].visible ? false : true;
+            this.chart.series[0].data[0].setVisible(visible);
+        };
+
+        return Chart;
+    }();
 });
 define('medical/medical',["exports"], function (exports) {
     "use strict";
@@ -237,7 +250,7 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
         }
 
         ChartFactory.createChart = function createChart(containerID) {
-            Highcharts.chart(containerID, {
+            return Highcharts.chart(containerID, {
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -295,7 +308,7 @@ define('text!app.html', ['module'], function(module) { module.exports = "<templa
 define('text!css/styles.css', ['module'], function(module) { module.exports = "#personalInfo {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}"; });
 define('text!intro.html', ['module'], function(module) { module.exports = "<template><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\"></div><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div><div class=\"radio\"><label>Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"numberAdults\"></label></div><div class=\"radio\"><label>Children in Household</label><br><label class=\"custom-control custom-radio\">1<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">2<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">3<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">4<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"numberChildren\"></label></div><button id=\"budgetButton\" class=\"btn-success\" click.delegate=\"route()\">Budget</button></form></template>"; });
 define('text!results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"chart/chart\"></compose></template>"; });
-define('text!chart/chart.html', ['module'], function(module) { module.exports = "<template><div id=\"container\" style=\"height:450px\"></div></template>"; });
+define('text!chart/chart.html', ['module'], function(module) { module.exports = "<template><require from=\"highcharts/css/highcharts.css\"></require><div id=\"chartContainer\" style=\"height:450px\" onload=\"loadChart()\"></div><button click.delegate=\"changeChart()\">Toggle Hide Something</button></template>"; });
 define('text!medical/medical.html', ['module'], function(module) { module.exports = "<template><h1>This is medical.</h1></template>"; });
 define('text!savings/savings.html', ['module'], function(module) { module.exports = "<template><h1>This is savings.</h1></template>"; });
 //# sourceMappingURL=app-bundle.js.map

@@ -1,12 +1,9 @@
 import * as HighCharts from "highcharts";
 
 export class ChartFactory {
-    constructor() {
-
-    }
-
+  
     static createChart(containerID) {
-        Highcharts.chart(containerID, {
+        return Highcharts.chart(containerID, {
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,

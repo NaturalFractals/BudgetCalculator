@@ -1,3 +1,5 @@
 <template>
-    <div id="container" style="height:450px;"></div>
+    <require from="highcharts/css/highcharts.css"></require>
+    <div id="chartContainer" style="height:450px;" onload="loadChart()"></div>
+    <button click.delegate="changeChart()">Toggle Hide Something</button>
 </template>
