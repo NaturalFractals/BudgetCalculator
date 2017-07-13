@@ -1,18 +1,38 @@
-import {inject} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
+import { HttpClient, json } from 'aurelia-fetch-client';
 
-@inject(Router)
+@inject(Router, HttpClient)
 export class Intro {
     numberChildren;
     numberAdults;
-    constructor(router) {
-        this.router = router;
 
-        //     this.httpClient.fetch('https://maps.googleapis.com/maps/api/geocode/json?address=23314&key=AIzaSyBM9-m7L5132H_bDe3JUn9tlwblTARBRbQ')
-        //   .then(response => response.json())
-        //   .then(data => {
-        //      console.log(data.results[0]);
-        //   });
+    constructor(router, httpClient) {
+        this.router = router;
+        this.httpClient = httpClient;
+        this.getLocation();
+    }
+
+    async getLocation() {
+        var self = this;
+        // check for Geolocation support
+        if (navigator.geolocation) {
+            console.log('Geolocation is supported!');
+        }
+        else {
+            console.log('Geolocation is not supported for this Browser/OS version yet.');
+        }
+        //Load users current location
+        window.onload = async function () {
+            var startPos;
+            navigator.geolocation.getCurrentPosition(async function (position) {
+                startPos = position;
+                let data = await self.httpClient.fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + startPos.coords.latitude + ',' + startPos.coords.longitude + '&key=AIzaSyBM9-m7L5132H_bDe3JUn9tlwblTARBRbQ');
+                let data2 = await data.json();
+                console.log(data2);
+            });
+        };
+        await window.onload();
     }
 
     route() {

@@ -2,7 +2,6 @@ import {inject} from 'aurelia-framework';
 import 'bootstrap';
 import $ from 'jquery';
 
-@inject()
 export class App {
   constructor() {
   }
@@ -20,9 +19,9 @@ export class App {
         name: 'results', title: 'Personal Budget', nav: true
       }
     ]);
-    this.message = 'Hello World!';
 
-    this.modules = [{display: false, path: "medical/medical" },
+    this.modules = [{display: false, path: "results-banner-module/banner"},
+                    {display: false, path: "medical/medical" },
                     // {display: false, path: "taxes"}, 
                     // {display: false, path: "savings"}, 
                     {display: false, path: "savings/savings"}]
