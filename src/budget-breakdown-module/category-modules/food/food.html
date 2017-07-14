@@ -1,7 +1,6 @@
 <template>
-<div id="foodCollapse" role="tablist" aria-multiselectable="true">
   <div class="card">
-    <div class="card-header" role="tab" id="headingOne">
+    <div class="card-header" role="tab" id="headingFood">
       <h4 class="mb-0">
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseFood" aria-expanded="true" aria-controls="collapseFood">
           Food
@@ -12,9 +11,9 @@
     <div id="collapseFood" class="collapse" role="tabpanel" aria-labelledby="headingFood">
       <div class="card-block">
         <div repeat.for="constant of constants.food" class="form-group"> 
-          <label>${constant.label}</label>
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-              <input type="text" value.bind="masterBudgent.food[constant.value]" class="form-control">
+            <label for="food-input">${constant.label}</label>
+            <input id="food-input" type="text" value.bind="masterBudgent.food[constant.value]">
           </div>
         </div>
       </div>

@@ -4,13 +4,6 @@ import $ from 'jquery';
 
 export class App {
   constructor() {
-        this.modules = [{display: false, path: "budget-breakdown-module/category-modules/child-care"},
-                    {display: false, path: "budget-breakdown-module/category-modules/food" },
-                    {display: false, path: "budget-breakdown-module/category-modules/housing"}, 
-                    {display: false, path: "budget-breakdown-module/category-modules/medical"}, 
-                    {display: false, path: "budget-breakdown-module/category-modules/savings"},
-                    {display: false, path: "budget-breakdown-module/category-modules/other"},
-                    {display: false, path: "budget-breakdown-module/category-modules/taxes"}];
   }
 
   configureRouter(config, router) {

@@ -11,9 +11,9 @@
     <div id="collapseSavings" class="collapse" role="tabpanel" aria-labelledby="headingSavings">
       <div class="card-block">
         <div repeat.for="constant of constants.savings" class="form-group"> 
-          <label>${savings.label}</label>
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-              <input type="text" value.bind="masterBudgent.savings[constant.value]" class="form-control">
+            <label>${constant.label}</label>
+            <input type="text" value.bind="masterBudgent.savings[constant.value]">
           </div>
         </div>
       </div>

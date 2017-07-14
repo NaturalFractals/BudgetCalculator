@@ -1,5 +1,4 @@
 <template>
-  <div id="housingCollapse" role="tablist" aria-multiselectable="true">
     <div class="card">
       <div class="card-header" role="tab" id="headingHousing">
         <h5 class="mb-0">
@@ -11,8 +10,9 @@
 
       <div id="collapseHousing" class="collapse" role="tabpanel" aria-labelledby="headingHousing">
         <div class="card-block">
-          <div repeat.for="constant of housing.constants" class="form-group">
+          <div repeat.for="constant of constants.housing" class="form-group">
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <label>${constant.label}</label>
             <input type="text" value.bind="masterBudget.housing[constant.value]"/>
           </div>
           </div>

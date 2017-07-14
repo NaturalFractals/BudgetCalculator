@@ -1,12 +1,18 @@
+import {inject} from 'aurelia-framework';
 import {ChartFactory} from '../utilities/chartFactory';
+import {MasterBudget} from 'masterBudget';
 
+@inject(MasterBudget)
 export class Chart {
-    constructor() {
+    constructor(masterBudget) {
         this.chart = null;
+        this.masterBudget = masterBudget;
     }
 
     attached() {
-        this.chart = ChartFactory.createChart('chartContainer');
+        var tuples = ChartFactory.createChartTuple(this.masterBudget.budgetCategories, this.masterBudget.percentageByCategory);
+        this.chart = ChartFactory.createChart('chartContainer', tuples);
+        //this.chart = ChartFactory.createChart('chartContainer');
     }
 
     changeChart() {
