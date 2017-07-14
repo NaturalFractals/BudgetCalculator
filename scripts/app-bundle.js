@@ -290,7 +290,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
 
         Intro.prototype.getLocation = function () {
             var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-                var self, childCare, childCareData;
+                var self, childCare, childCareData, carCost, carCostData, homeInsurance, homeInsuranceData;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
@@ -354,26 +354,64 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                 return window.onload();
 
                             case 5:
-                                console.log('here');
-                                _context3.next = 8;
+                                _context3.next = 7;
                                 return this.httpClient.fetch('/api/child-care/get.json');
 
-                            case 8:
+                            case 7:
                                 childCare = _context3.sent;
-                                _context3.next = 11;
+                                _context3.next = 10;
                                 return childCare.json();
 
-                            case 11:
+                            case 10:
                                 childCareData = _context3.sent;
 
                                 console.log(childCareData);
+
                                 childCareData.costByState.forEach(function (stateData) {
                                     if (stateData[0] == self.masterBudget.stateLocation) {
-                                        console.log(stateData[8]);
+                                        self.masterBudget.childCareCost = stateData[8];
                                     }
                                 });
 
-                            case 14:
+                                _context3.next = 15;
+                                return this.httpClient.fetch('/api/car-costs/get.json');
+
+                            case 15:
+                                carCost = _context3.sent;
+                                _context3.next = 18;
+                                return carCost.json();
+
+                            case 18:
+                                carCostData = _context3.sent;
+
+                                console.log(carCostData);
+
+                                carCostData.costByState.forEach(function (stateData) {
+                                    if (stateData[0] === self.masterBudget.stateLocation) {
+                                        self.masterBudget.carYearlyUpkeepCost = stateData[4];
+                                    }
+                                });
+
+                                carCostData.costByAge.forEach(function (ageData) {
+                                    if (ageData[0] >= self.masterBudget.currentUserAge) {
+                                        selfmasterBudget.carMonthlyOwnershipCost = ageData[2];
+                                    }
+                                });
+
+                                _context3.next = 24;
+                                return this.httpClient.fetch('/api/healthcare-insurance');
+
+                            case 24:
+                                homeInsurance = _context3.sent;
+                                _context3.next = 27;
+                                return homeInsurance.json();
+
+                            case 27:
+                                homeInsuranceData = _context3.sent;
+
+                                console.log(homeInsuranceData);
+
+                            case 29:
                             case 'end':
                                 return _context3.stop();
                         }

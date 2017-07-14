@@ -36,15 +36,35 @@ export class Intro {
             });
         };
         await window.onload();
-        console.log('here');
         let childCare = await this.httpClient.fetch('/api/child-care/get.json');
         let childCareData = await childCare.json();
         console.log(childCareData);
+        //Get average child care cost by state
         childCareData.costByState.forEach((stateData) => {
             if(stateData[0] == self.masterBudget.stateLocation) {
-                console.log(stateData[8]);
+                self.masterBudget.childCareCost = stateData[8];
             }
         })
+
+        let carCost = await this.httpClient.fetch('/api/car-costs/get.json');
+        let carCostData = await carCost.json();
+        console.log(carCostData);
+        //Get average car cost for repairs, insurance, and gasoline
+        carCostData.costByState.forEach((stateData) => {
+            if(stateData[0] === self.masterBudget.stateLocation) {
+                self.masterBudget.carYearlyUpkeepCost = stateData[4];
+            }
+        })
+        //Get average car cost for renting/buying
+        carCostData.costByAge.forEach((ageData) =>{
+            if(ageData[0] >= self.masterBudget.currentUserAge) {
+                selfmasterBudget.carMonthlyOwnershipCost = ageData[2];
+            }
+        })
+
+        let homeInsurance = await this.httpClient.fetch('/api/healthcare-insurance');
+        let homeInsuranceData = await homeInsurance.json();
+        console.log(homeInsuranceData);
     }
 
     //Get current county/location of user
