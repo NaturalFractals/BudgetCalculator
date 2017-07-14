@@ -1,3 +1,3 @@
 export class Breakdown {
-    constructor(){}
+    constructor() {}
 }

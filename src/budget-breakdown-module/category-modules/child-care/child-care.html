@@ -1,0 +1,23 @@
+<template>
+<div id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="card">
+    <div class="card-header" role="tab" id="headingOne">
+      <h5 class="mb-0">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseChildCare" aria-expanded="true" aria-controls="collapseChildCare">
+          Child Care
+        </a>
+      </h5>
+    </div>
+
+    <div id="collapseChildCare" class="collapse" role="tabpanel" aria-labelledby="headingChildCare">
+      <div class="card-block">
+        <div repeat.for="constant of constants.childCare" class="form-group"> 
+          <label>${childCare.label}</label>
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input type="text" value.bind="masterBudgent.childCare[constant.value]" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

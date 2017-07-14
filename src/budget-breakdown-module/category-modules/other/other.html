@@ -1,0 +1,23 @@
+<template>
+<div id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="card">
+    <div class="card-header" role="tab" id="headingOther">
+      <h5 class="mb-0">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseMedical" aria-expanded="true" aria-controls="collapseOther">
+          Other
+        </a>
+      </h5>
+    </div>
+
+    <div id="collapseOther" class="collapse" role="tabpanel" aria-labelledby="headingOther">
+      <div class="card-block">
+        <div repeat.for="constant of constants.other" class="form-group"> 
+          <label>${other.label}</label>
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input type="text" value.bind="masterBudgent.other[constant.value]" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
