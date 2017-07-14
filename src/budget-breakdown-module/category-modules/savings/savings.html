@@ -1,0 +1,22 @@
+<template>
+  <div class="card">
+    <div class="card-header" role="tab" id="headingSavings">
+      <h5 class="mb-0">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSavings" aria-expanded="true" aria-controls="collapseSavings">
+          Savings
+        </a>
+      </h5>
+    </div>
+
+    <div id="collapseSavings" class="collapse" role="tabpanel" aria-labelledby="headingSavings">
+      <div class="card-block">
+        <div repeat.for="constant of constants.savings" class="form-group"> 
+          <label>${savings.label}</label>
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input type="text" value.bind="masterBudgent.savings[constant.value]" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

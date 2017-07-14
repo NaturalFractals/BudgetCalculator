@@ -4,6 +4,13 @@ import $ from 'jquery';
 
 export class App {
   constructor() {
+        this.modules = [{display: false, path: "budget-breakdown-module/category-modules/child-care"},
+                    {display: false, path: "budget-breakdown-module/category-modules/food" },
+                    {display: false, path: "budget-breakdown-module/category-modules/housing"}, 
+                    {display: false, path: "budget-breakdown-module/category-modules/medical"}, 
+                    {display: false, path: "budget-breakdown-module/category-modules/savings"},
+                    {display: false, path: "budget-breakdown-module/category-modules/other"},
+                    {display: false, path: "budget-breakdown-module/category-modules/taxes"}];
   }
 
   configureRouter(config, router) {
@@ -19,11 +26,5 @@ export class App {
         name: 'results', title: 'Personal Budget', nav: true
       }
     ]);
-
-    this.modules = [{display: false, path: "results-banner-module/banner"},
-                    {display: false, path: "medical/medical" },
-                    // {display: false, path: "taxes"}, 
-                    // {display: false, path: "savings"}, 
-                    {display: false, path: "savings/savings"}]
   }
 }

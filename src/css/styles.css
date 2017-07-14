@@ -19,5 +19,32 @@
     font-size: 16px;
 }
 
+/* Style for breakdown div*/
+#breakdown-div {
+    float:right;
+    width: 600px;
+    height: 400px;
+}
 
+/* Style for chart div*/
+#chart-div {
+    float:left;
+    width: 600px;
+    height: 400px;
+}
 
+/* Chart and breakdown table container*/
+#results-container {
+    width: 75%;
+    margin: 0 auto;
+}
+
+#collapse-table {
+    background: gray;
+}
+
+label {
+    display: inline-block;
+    width: 10em;
+    /* other CSS unchanged */
+}
