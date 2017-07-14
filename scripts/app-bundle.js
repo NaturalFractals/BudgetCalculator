@@ -61,13 +61,13 @@ define('constants',['exports'], function (exports) {
         this.childCare = [];
 
         this.food = [{
-            'Label': 'Groceries'
+            'label': 'Groceries'
         }];
 
         this.housing = [];
 
         this.medical = [{
-            'Label': 'Health Insurance'
+            'label': 'Health Insurance'
         }];
 
         this.other = [];
@@ -136,9 +136,11 @@ define('masterBudget',["exports"], function (exports) {
     var MasterBudget = exports.MasterBudget = function MasterBudget() {
         _classCallCheck(this, MasterBudget);
 
+        this.totalMonthlyIncome = 0;
         this.numberChildren = 0;
         this.numberAdults = 0;
         this.foodCost = 0;
+        this.otherCost = 0;
     };
 });
 define('user',["exports"], function (exports) {
@@ -178,6 +180,39 @@ define('budget-breakdown-module/breakdown',["exports"], function (exports) {
     var Breakdown = exports.Breakdown = function Breakdown() {
         _classCallCheck(this, Breakdown);
     };
+});
+define('chart/chart',['exports', '../utilities/chartFactory'], function (exports, _chartFactory) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Chart = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Chart = exports.Chart = function () {
+        function Chart() {
+            _classCallCheck(this, Chart);
+
+            this.chart = null;
+        }
+
+        Chart.prototype.attached = function attached() {
+            this.chart = _chartFactory.ChartFactory.createChart('chartContainer');
+        };
+
+        Chart.prototype.changeChart = function changeChart() {
+            var visible = this.chart.series[0].data[0].visible ? false : true;
+            this.chart.series[0].data[0].setVisible(visible);
+        };
+
+        return Chart;
+    }();
 });
 define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia-fetch-client'], function (exports, _aureliaFramework, _aureliaRouter, _aureliaFetchClient) {
     'use strict';
@@ -332,39 +367,6 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
         return Intro;
     }()) || _class);
 });
-define('chart/chart',['exports', '../utilities/chartFactory'], function (exports, _chartFactory) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Chart = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Chart = exports.Chart = function () {
-        function Chart() {
-            _classCallCheck(this, Chart);
-
-            this.chart = null;
-        }
-
-        Chart.prototype.attached = function attached() {
-            this.chart = _chartFactory.ChartFactory.createChart('chartContainer');
-        };
-
-        Chart.prototype.changeChart = function changeChart() {
-            var visible = this.chart.series[0].data[0].visible ? false : true;
-            this.chart.series[0].data[0].setVisible(visible);
-        };
-
-        return Chart;
-    }();
-});
 define('resources/index',["exports"], function (exports) {
   "use strict";
 
@@ -392,39 +394,6 @@ define('results/results',["exports"], function (exports) {
 
         this.arr = [1, 2, 3, 4];
     };
-});
-define('results-banner-module/banner',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Banner = exports.Banner = function () {
-        function Banner() {
-            _classCallCheck(this, Banner);
-
-            this.income = null;
-            this.displayIncome = "";
-        }
-
-        Banner.prototype.sanitizeIncome = function sanitizeIncome() {
-            this.displayIncome = this.displayIncome.replace(/,/g, "");
-            this.displayIncome = this.displayIncome.replace(/\$/g, "");
-
-            this.income = parseInt(this.displayIncome);
-
-            this.displayIncome = '$' + this.income.toLocaleString();
-        };
-
-        return Banner;
-    }();
 });
 define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _highcharts) {
     'use strict';
@@ -519,12 +488,13 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
         return ChartFactory;
     }();
 });
-define('budget-breakdown-module/category-modules/child-care/child-care',['exports'], function (exports) {
+define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBudget'], function (exports, _aureliaFramework, _masterBudget) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    exports.Banner = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -532,65 +502,53 @@ define('budget-breakdown-module/category-modules/child-care/child-care',['export
         }
     }
 
-    var ChildCare = exports.ChildCare = function ChildCare() {
+    var _dec, _class;
+
+    var Banner = exports.Banner = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget), _dec(_class = function () {
+        function Banner(masterBudget) {
+            _classCallCheck(this, Banner);
+
+            this.income = null;
+            this.displayIncome = "";
+            this.masterBudget = masterBudget;
+        }
+
+        Banner.prototype.sanitizeIncome = function sanitizeIncome() {
+            this.displayIncome = this.displayIncome.replace(/,/g, "");
+            this.displayIncome = this.displayIncome.replace(/\$/g, "");
+
+            this.income = parseInt(this.displayIncome);
+
+            this.displayIncome = '$' + this.income.toLocaleString();
+        };
+
+        return Banner;
+    }()) || _class);
+});
+define('budget-breakdown-module/category-modules/child-care/child-care',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.ChildCare = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var ChildCare = exports.ChildCare = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget, _constants.Constants), _dec(_class = function ChildCare(masterBudget, constants) {
         _classCallCheck(this, ChildCare);
 
-        this.childCareCost = 1000;
-        this.percentage = '30%';
-    };
+        this.masterBudget = masterBudget;
+        this.constants = constants;
+    }) || _class);
 });
-define('budget-breakdown-module/category-modules/housing/housing',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Housing = exports.Housing = function Housing() {
-        _classCallCheck(this, Housing);
-    };
-});
-define('budget-breakdown-module/category-modules/medical/medical',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Medica = exports.Medica = function Medica() {
-        _classCallCheck(this, Medica);
-    };
-});
-define('budget-breakdown-module/category-modules/savings/savings',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Savings = exports.Savings = function Savings() {
-        _classCallCheck(this, Savings);
-    };
-});
-define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia-framework', 'user'], function (exports, _aureliaFramework, _user) {
+define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -606,15 +564,16 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
 
     var _dec, _class;
 
-    var Food = exports.Food = (_dec = (0, _aureliaFramework.inject)(_user.User), _dec(_class = function () {
-        function Food(user) {
+    var Food = exports.Food = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget, _constants.Constants), _dec(_class = function () {
+        function Food(masterBudget, constants) {
             _classCallCheck(this, Food);
 
-            this.user = user;
+            this.masterBudget = masterBudget;
+            this.constants = constants;
         }
 
         Food.prototype.calculateFoodCost = function calculateFoodCost() {
-            this.user.foodCost = this.user.numberChildren * 155.70 + this.user.numberAdults * 158.70;
+            this.masterBudget.foodCost = this.masterBudget.numberChildren * 155.70 + this.masterBudget.numberAdults * 158.70;
         };
 
         Food.prototype.calculateAdvancedFoodCost = function calculateAdvancedFoodCost() {};
@@ -622,12 +581,13 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
         return Food;
     }()) || _class);
 });
-define('budget-breakdown-module/category-modules/taxes/taxes',["exports"], function (exports) {
-    "use strict";
+define('budget-breakdown-module/category-modules/housing/housing',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
+    'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    exports.Housing = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -635,16 +595,22 @@ define('budget-breakdown-module/category-modules/taxes/taxes',["exports"], funct
         }
     }
 
-    var Taxes = exports.Taxes = function Taxes() {
-        _classCallCheck(this, Taxes);
-    };
+    var _dec, _class;
+
+    var Housing = exports.Housing = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget, _constants.Constants), _dec(_class = function Housing(masterBudget, constants) {
+        _classCallCheck(this, Housing);
+
+        this.masterBudget = masterBudget;
+        this.constants = constants;
+    }) || _class);
 });
-define('budget-breakdown-module/category-modules/other/other',["exports"], function (exports) {
-    "use strict";
+define('budget-breakdown-module/category-modules/medical/medical',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
+    'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    exports.Medical = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -652,22 +618,104 @@ define('budget-breakdown-module/category-modules/other/other',["exports"], funct
         }
     }
 
-    var Other = exports.Other = function Other() {
-        _classCallCheck(this, Other);
-    };
+    var _dec, _class;
+
+    var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget, _constants.Constants), _dec(_class = function Medical(masterBudget, constants) {
+        _classCallCheck(this, Medical);
+
+        this.masterBudget = masterBudget;
+        this.constants = constants;
+    }) || _class);
+});
+define('budget-breakdown-module/category-modules/other/other',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Other = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Other = exports.Other = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget, _constants.Constants), _dec(_class = function () {
+        function Other(masterBudget, constants) {
+            _classCallCheck(this, Other);
+
+            this.masterBudget = masterBudget;
+            this.constants = constants;
+        }
+
+        Other.prototype.getBasicOtherCost = function getBasicOtherCost() {
+            this.masterBudget.otherCost = this.masterBudget.totalMonthlyIncome * 0.05;
+        };
+
+        return Other;
+    }()) || _class);
+});
+define('budget-breakdown-module/category-modules/savings/savings',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Savings = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Savings = exports.Savings = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget, _constants.Constants), _dec(_class = function Savings(masterBudget, constants) {
+        _classCallCheck(this, Savings);
+
+        this.masterBudget = masterBudget;
+        this.constants = constants;
+    }) || _class);
+});
+define('budget-breakdown-module/category-modules/taxes/taxes',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Taxes = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Taxes = exports.Taxes = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget, _constants.Constants), _dec(_class = function Taxes(masterBudget, constants) {
+        _classCallCheck(this, Taxes);
+
+        this.masterBudget = masterBudget;
+        this.constants = constants;
+    }) || _class);
 });
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/styles.css\"></require><div id=\"app\"><div id=\"content\"><div id=\"intro\"><h1 style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><hr><router-view></router-view></div></div></template>"; });
 define('text!css/styles.css', ['module'], function(module) { module.exports = "/* Style for personal info or intro page*/\r\n#personalInfo {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for banner module table*/\r\n#banner-table {\r\n    background: #E4E4E4;\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for radio button lables in banner table*/\r\n#radio-label {\r\n    color: black;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    font-size: 16px;\r\n}\r\n\r\n/* Style for breakdown div*/\r\n#breakdown-div {\r\n    float:right;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Style for chart div*/\r\n#chart-div {\r\n    float:left;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Chart and breakdown table container*/\r\n#results-container {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n#collapse-table {\r\n    background: gray;\r\n}\r\n\r\nlabel {\r\n    display: inline-block;\r\n    width: 10em;\r\n    /* other CSS unchanged */\r\n}\r\n"; });
-define('text!chart/chart.html', ['module'], function(module) { module.exports = "<template><require from=\"highcharts/css/highcharts.css\"></require><div id=\"chartContainer\" style=\"height:450px\"></div><button click.delegate=\"changeChart()\">Toggle Hide Something</button></template>"; });
 define('text!budget-breakdown-module/breakdown.html', ['module'], function(module) { module.exports = "<template><div id=\"collapse-table\" role=\"tablist\" aria-multiselectable=\"true\"><compose view-model=\"./category-modules/child-care/child-care\"></compose><compose view-model=\"./category-modules/food/food\"></compose><compose view-model=\"./category-modules/housing/housing\"></compose><compose view-model=\"./category-modules/medical/medical\"></compose><compose view-model=\"./category-modules/other/other\"></compose><compose view-model=\"./category-modules/savings/savings\"></compose><compose view-model=\"./category-modules/taxes/taxes\"></compose></div></template>"; });
+define('text!chart/chart.html', ['module'], function(module) { module.exports = "<template><require from=\"highcharts/css/highcharts.css\"></require><div id=\"chartContainer\" style=\"height:450px\"></div><button click.delegate=\"changeChart()\">Toggle Hide Something</button></template>"; });
 define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"displayIncome\" change.delegate=\"sanitizeIncome()\"></div><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div><div class=\"radio\"><label>Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"numberAdults\"></label></div><div class=\"radio\"><label>Children in Household</label><br><label class=\"custom-control custom-radio\">1<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">2<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">3<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"numberChildren\"></label><label class=\"custom-control custom-radio\">4<input class=\"custom-control-input\" type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"numberChildren\"></label></div><button id=\"budgetButton\" class=\"btn-success\" click.delegate=\"route()\">Budget</button></form></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"results-banner-module/banner\"></compose><div id=\"results-container\" class=\"row\"><div id=\"chart-div\"><compose view-model=\"chart/chart\"></compose></div><div id=\"breakdown-div\"><compose view-model=\"budget-breakdown-module/breakdown\"></compose></div><div></div></div></template>"; });
-define('text!results-banner-module/banner.html', ['module'], function(module) { module.exports = "<template><table id=\"banner-table\" class=\"table\"><tr><td><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"displayIncome\" change.delegate=\"sanitizeIncome()\"></div></td><td><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div></td><td><div class=\"radio\"><label id=\"radio-label\">Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"numberAdults\"></label></div></td><td><div class=\"radio\"><label id=\"radio-label\">Children in Household</label><br><label>1<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"numberChildren\"></label><label>2<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"numberChildren\"></label><label>3<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"numberChildren\"></label><label>4<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"numberChildren\"></label></div></td></tr></table></template>"; });
-define('text!budget-breakdown-module/category-modules/food/food.html', ['module'], function(module) { module.exports = "<template><div id=\"foodCollapse\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOne\"><h4 class=\"mb-0\"><a class=\"col-md-2\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFood\" aria-expanded=\"true\" aria-controls=\"collapseFood\">Food</a><h5 class=\"col-md-2\">70%</h5></h4></div><div id=\"collapseFood\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFood\"><div class=\"card-block\"><div repeat.for=\"constant of constants.food\" class=\"form-group\"><label>${food.label}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><input type=\"text\" value.bind=\"masterBudgent.food[constant.value]\" class=\"form-control\"></div></div></div></div></div></div></template>"; });
+define('text!results-banner-module/banner.html', ['module'], function(module) { module.exports = "<template><table id=\"banner-table\" class=\"table\"><tr><td><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"displayIncome\" change.delegate=\"sanitizeIncome()\"></div></td><td><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div></td><td><div class=\"radio\"><label id=\"radio-label\">Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"masterBudget.numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"masterBudget.numberAdults\"></label></div></td><td><div class=\"radio\"><label id=\"radio-label\">Children in Household</label><br><label>1<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"masterBudget.numberChildren\"></label><label>2<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"masterBudget.numberChildren\"></label><label>3<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"masterBudget.numberChildren\"></label><label>4<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"masterBudget.numberChildren\"></label></div></td></tr></table></template>"; });
 define('text!budget-breakdown-module/category-modules/child-care/child-care.html', ['module'], function(module) { module.exports = "<template><div id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOne\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseChildCare\" aria-expanded=\"true\" aria-controls=\"collapseChildCare\">Child Care</a></h5></div><div id=\"collapseChildCare\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingChildCare\"><div class=\"card-block\"><div repeat.for=\"constant of constants.childCare\" class=\"form-group\"><label>${childCare.label}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><input type=\"text\" value.bind=\"masterBudgent.childCare[constant.value]\" class=\"form-control\"></div></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/housing/housing.html', ['module'], function(module) { module.exports = "<template><div id=\"housingCollapse\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingHousing\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseHousing\" aria-expanded=\"true\" aria-controls=\"collapseHousing\">Housing</a></h5></div><div id=\"collapseHousing\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingHousing\"><div class=\"card-block\"><div repeat.for=\"constant of housing.constants\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><input type=\"text\" value.bind=\"masterBudget.housing[constant.value]\"></div></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/food/food.html', ['module'], function(module) { module.exports = "<template><div id=\"foodCollapse\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOne\"><h4 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFood\" aria-expanded=\"true\" aria-controls=\"collapseFood\">Food</a></h4></div><div id=\"collapseFood\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFood\"><div class=\"card-block\"><div repeat.for=\"constant of constants.food\" class=\"form-group\"><label>${constant.label}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><input type=\"text\" value.bind=\"masterBudgent.food[constant.value]\" class=\"form-control\"></div></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/medical/medical.html', ['module'], function(module) { module.exports = "<template><div id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingMedical\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseMedical\">Medical</a></h5></div><div id=\"collapseMedical\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingMedical\"><div class=\"card-block\"><div repeat.for=\"constant of constants.medical\" class=\"form-group\"><label>${medical.label}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><input type=\"text\" value.bind=\"masterBudgent.medical[constant.value]\" class=\"form-control\"></div></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/other/other.html', ['module'], function(module) { module.exports = "<template><div id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOther\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseOther\">Other</a></h5></div><div id=\"collapseOther\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOther\"><div class=\"card-block\"><div repeat.for=\"constant of constants.other\" class=\"form-group\"><label>${other.label}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><input type=\"text\" value.bind=\"masterBudgent.other[constant.value]\" class=\"form-control\"></div></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/taxes/taxes.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTaxes\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTaxes\" aria-expanded=\"true\" aria-controls=\"collapseTaxes\">Taxes</a></h5></div><div id=\"collapseTaxes\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTaxes\"><div class=\"card-block\"></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/savings/savings.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingSavings\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseSavings\" aria-expanded=\"true\" aria-controls=\"collapseSavings\">Savings</a></h5></div><div id=\"collapseSavings\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingSavings\"><div class=\"card-block\"><div repeat.for=\"constant of constants.savings\" class=\"form-group\"><label>${savings.label}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><input type=\"text\" value.bind=\"masterBudgent.savings[constant.value]\" class=\"form-control\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/taxes/taxes.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTaxes\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTaxes\" aria-expanded=\"true\" aria-controls=\"collapseTaxes\">Taxes</a></h5></div><div id=\"collapseTaxes\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTaxes\"><div class=\"card-block\"></div></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
