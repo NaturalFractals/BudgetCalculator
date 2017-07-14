@@ -179,27 +179,6 @@ define('masterBudget',['exports'], function (exports) {
         this.percentageByCategory = [0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.3];
     };
 });
-define('user',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var User = exports.User = function User() {
-        _classCallCheck(this, User);
-
-        this.numberChildren = 0;
-        this.numberAdults = 0;
-        this.foodCost = 0;
-    };
-});
 define('budget-breakdown-module/breakdown',["exports"], function (exports) {
     "use strict";
 
@@ -311,7 +290,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
 
         Intro.prototype.getLocation = function () {
             var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
-                var self;
+                var self, childCare, childCareData;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
                         switch (_context3.prev = _context3.next) {
@@ -375,6 +354,26 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                 return window.onload();
 
                             case 5:
+                                console.log('here');
+                                _context3.next = 8;
+                                return this.httpClient.fetch('/api/child-care/get.json');
+
+                            case 8:
+                                childCare = _context3.sent;
+                                _context3.next = 11;
+                                return childCare.json();
+
+                            case 11:
+                                childCareData = _context3.sent;
+
+                                console.log(childCareData);
+                                childCareData.costByState.forEach(function (stateData) {
+                                    if (stateData[0] == self.masterBudget.stateLocation) {
+                                        console.log(stateData[8]);
+                                    }
+                                });
+
+                            case 14:
                             case 'end':
                                 return _context3.stop();
                         }
@@ -392,7 +391,6 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
         Intro.prototype.getCurrentLocation = function getCurrentLocation(jsonData) {
             var array = jsonData.results[4].formatted_address.split(",");
             this.masterBudget.location = array[0];
-            console.log(this.masterBudget.location);
         };
 
         Intro.prototype.route = function route() {
@@ -410,15 +408,6 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
 
         return Intro;
     }()) || _class);
-});
-define('resources/index',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
 });
 define('results/results',["exports"], function (exports) {
     "use strict";
@@ -438,6 +427,52 @@ define('results/results',["exports"], function (exports) {
 
         this.arr = [1, 2, 3, 4];
     };
+});
+define('resources/index',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
+});
+define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBudget'], function (exports, _aureliaFramework, _masterBudget) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Banner = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Banner = exports.Banner = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget), _dec(_class = function () {
+        function Banner(masterBudget) {
+            _classCallCheck(this, Banner);
+
+            this.income = null;
+            this.displayIncome = "";
+            this.masterBudget = masterBudget;
+        }
+
+        Banner.prototype.sanitizeIncome = function sanitizeIncome() {
+            this.displayIncome = this.displayIncome.replace(/,/g, "");
+            this.displayIncome = this.displayIncome.replace(/\$/g, "");
+
+            this.income = parseInt(this.displayIncome);
+
+            this.displayIncome = '$' + this.income.toLocaleString();
+        };
+
+        return Banner;
+    }()) || _class);
 });
 define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _highcharts) {
     'use strict';
@@ -523,13 +558,12 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
         return ChartFactory;
     }();
 });
-define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBudget'], function (exports, _aureliaFramework, _masterBudget) {
-    'use strict';
+define('utilities/moneyValueConverter',["exports"], function (exports) {
+    "use strict";
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.Banner = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -537,28 +571,18 @@ define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBu
         }
     }
 
-    var _dec, _class;
-
-    var Banner = exports.Banner = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget), _dec(_class = function () {
-        function Banner(masterBudget) {
-            _classCallCheck(this, Banner);
-
-            this.income = null;
-            this.displayIncome = "";
-            this.masterBudget = masterBudget;
+    var MoneyValueConverter = exports.MoneyValueConverter = function () {
+        function MoneyValueConverter() {
+            _classCallCheck(this, MoneyValueConverter);
         }
 
-        Banner.prototype.sanitizeIncome = function sanitizeIncome() {
-            this.displayIncome = this.displayIncome.replace(/,/g, "");
-            this.displayIncome = this.displayIncome.replace(/\$/g, "");
-
-            this.income = parseInt(this.displayIncome);
-
-            this.displayIncome = '$' + this.income.toLocaleString();
+        MoneyValueConverter.prototype.toView = function toView(value) {
+            value = value.replace(/,/g, "");
+            return value.toLocaleString();
         };
 
-        return Banner;
-    }()) || _class);
+        return MoneyValueConverter;
+    }();
 });
 define('budget-breakdown-module/category-modules/child-care/child-care',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
     'use strict';
@@ -662,6 +686,29 @@ define('budget-breakdown-module/category-modules/medical/medical',['exports', 'a
         this.constants = constants;
     }) || _class);
 });
+define('budget-breakdown-module/category-modules/savings/savings',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Savings = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Savings = exports.Savings = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget, _constants.Constants), _dec(_class = function Savings(masterBudget, constants) {
+        _classCallCheck(this, Savings);
+
+        this.masterBudget = masterBudget;
+        this.constants = constants;
+    }) || _class);
+});
 define('budget-breakdown-module/category-modules/other/other',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
     'use strict';
 
@@ -693,29 +740,6 @@ define('budget-breakdown-module/category-modules/other/other',['exports', 'aurel
         return Other;
     }()) || _class);
 });
-define('budget-breakdown-module/category-modules/savings/savings',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Savings = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var Savings = exports.Savings = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget, _constants.Constants), _dec(_class = function Savings(masterBudget, constants) {
-        _classCallCheck(this, Savings);
-
-        this.masterBudget = masterBudget;
-        this.constants = constants;
-    }) || _class);
-});
 define('budget-breakdown-module/category-modules/taxes/taxes',['exports', 'aurelia-framework', 'masterBudget', 'constants'], function (exports, _aureliaFramework, _masterBudget, _constants) {
     'use strict';
 
@@ -739,32 +763,6 @@ define('budget-breakdown-module/category-modules/taxes/taxes',['exports', 'aurel
         this.constants = constants;
     }) || _class);
 });
-define('utilities/moneyValueConverter',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var MoneyValueConverter = exports.MoneyValueConverter = function () {
-        function MoneyValueConverter() {
-            _classCallCheck(this, MoneyValueConverter);
-        }
-
-        MoneyValueConverter.prototype.toView = function toView(value) {
-            value = value.replace(/,/g, "");
-            return value.toLocaleString();
-        };
-
-        return MoneyValueConverter;
-    }();
-});
 define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"css/styles.css\"></require><div id=\"app\"><div id=\"content\"><div id=\"intro\"><h1 style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><hr><router-view></router-view></div></div></template>"; });
 define('text!css/styles.css', ['module'], function(module) { module.exports = "/* Style for personal info or intro page*/\r\n#personalInfo {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for banner module table*/\r\n#banner-table {\r\n    background: #E4E4E4;\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for radio button lables in banner table*/\r\n#radio-label {\r\n    color: black;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    font-size: 16px;\r\n}\r\n\r\n/* Style for breakdown div*/\r\n#breakdown-div {\r\n    float:right;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Style for chart div*/\r\n#chart-div {\r\n    float:left;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Chart and breakdown table container*/\r\n#results-container {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n#collapse-table {\r\n    background: gray;\r\n}\r\n\r\nlabel {\r\n    display: inline-block;\r\n    width: 10em;\r\n    /* other CSS unchanged */\r\n}\r\n"; });
 define('text!budget-breakdown-module/breakdown.html', ['module'], function(module) { module.exports = "<template><div id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><compose view-model=\"./category-modules/child-care/child-care\"></compose><compose view-model=\"./category-modules/food/food\"></compose><compose view-model=\"./category-modules/housing/housing\"></compose><compose view-model=\"./category-modules/medical/medical\"></compose><compose view-model=\"./category-modules/other/other\"></compose><compose view-model=\"./category-modules/savings/savings\"></compose><compose view-model=\"./category-modules/taxes/taxes\"></compose></div></template>"; });
@@ -773,10 +771,10 @@ define('text!intro/intro.html', ['module'], function(module) { module.exports = 
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"results-banner-module/banner\"></compose><div id=\"results-container\" class=\"row\"><div id=\"chart-div\"><compose view-model=\"chart/chart\"></compose></div><div id=\"breakdown-div\"><compose view-model=\"budget-breakdown-module/breakdown\"></compose></div><div></div></div></template>"; });
 define('text!results-banner-module/banner.html', ['module'], function(module) { module.exports = "<template><table id=\"banner-table\" class=\"table\"><tr><td><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"displayIncome\" change.delegate=\"sanitizeIncome()\"></div></td><td><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div></td><td><div class=\"radio\"><label id=\"radio-label\">Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"masterBudget.numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"masterBudget.numberAdults\"></label></div></td><td><div class=\"radio\"><label id=\"radio-label\">Children in Household</label><br><label>1<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"masterBudget.numberChildren\"></label><label>2<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"masterBudget.numberChildren\"></label><label>3<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"masterBudget.numberChildren\"></label><label>4<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"masterBudget.numberChildren\"></label></div></td></tr></table></template>"; });
 define('text!budget-breakdown-module/category-modules/child-care/child-care.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOne\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseChildCare\" aria-expanded=\"true\" aria-controls=\"collapseChildCare\">Child Care</a></h5></div><div id=\"collapseChildCare\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingChildCare\"><div class=\"card-block\"><div repeat.for=\"constant of constants.childCare\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"text\" value.bind=\"masterBudgent.childCare[constant.value]\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/housing/housing.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingHousing\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseHousing\" aria-expanded=\"true\" aria-controls=\"collapseHousing\">Housing</a></h5></div><div id=\"collapseHousing\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingHousing\"><div class=\"card-block\"><div repeat.for=\"constant of constants.housing\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"text\" value.bind=\"masterBudget.housing[constant.value]\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/food/food.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingFood\"><h4 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFood\" aria-expanded=\"true\" aria-controls=\"collapseFood\">Food</a></h4></div><div id=\"collapseFood\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFood\"><div class=\"card-block\"><div repeat.for=\"constant of constants.food\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label for=\"food-input\">${constant.label}</label><input id=\"food-input\" type=\"text\" value.bind=\"masterBudgent.food[constant.value]\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/medical/medical.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingMedical\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseMedical\">Medical</a></h5></div><div id=\"collapseMedical\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingMedical\"><div class=\"card-block\"><div repeat.for=\"constant of constants.medical\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"text\" value.bind=\"masterBudgent.medical[constant.value]\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/housing/housing.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingHousing\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseHousing\" aria-expanded=\"true\" aria-controls=\"collapseHousing\">Housing</a></h5></div><div id=\"collapseHousing\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingHousing\"><div class=\"card-block\"><div repeat.for=\"constant of constants.housing\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"text\" value.bind=\"masterBudget.housing[constant.value]\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/other/other.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOther\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseOther\">Other</a></h5></div><div id=\"collapseOther\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOther\"><div class=\"card-block\"><div repeat.for=\"constant of constants.other\" class=\"form-group\"><label>${constant.label}</label><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><input type=\"text\" value.bind=\"masterBudgent.other[constant.value]\" class=\"form-control\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/savings/savings.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingSavings\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseSavings\" aria-expanded=\"true\" aria-controls=\"collapseSavings\">Savings</a></h5></div><div id=\"collapseSavings\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingSavings\"><div class=\"card-block\"><div repeat.for=\"constant of constants.savings\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"text\" value.bind=\"masterBudgent.savings[constant.value]\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/medical/medical.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingMedical\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseMedical\">Medical</a></h5></div><div id=\"collapseMedical\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingMedical\"><div class=\"card-block\"><div repeat.for=\"constant of constants.medical\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"text\" value.bind=\"masterBudgent.medical[constant.value]\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/taxes/taxes.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTaxes\"><h5 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTaxes\" aria-expanded=\"true\" aria-controls=\"collapseTaxes\">Taxes</a></h5></div><div id=\"collapseTaxes\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTaxes\"><div class=\"card-block\"><div repeat.for=\"constant of constants.taxes\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"text\" value.bind=\"masterBudgent.taxes[constant.value]\"></div></div></div></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map

@@ -1,8 +1,5 @@
 {
     "costByState": [
-        // 	            Child Care Center			        Family Child Care			                Average		
-        //  State	Infant	4 Year Old	 School-Age 	Infant	4-Year old	 School-Age 	Infant	4 Year Old	School-Age
-        //
         ["Alabama", 5637.0, 4871.0, 5308.0, 4801.0, 4935.0, 4761.0, 5219.0, 4903.0, 5034.5],
         ["Alaska", 10957.0, 7652.0, 6471.0, 8536.0, 10030.0, 5981.0, 9746.5, 8841.0, 6226.0],
         ["Arizona", 9437.0, 7497.0, 6361.0, 6857.0, 6429.0, 6187.0, 8147.0, 6963.0, 6274.0],

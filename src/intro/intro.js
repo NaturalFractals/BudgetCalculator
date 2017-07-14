@@ -36,13 +36,21 @@ export class Intro {
             });
         };
         await window.onload();
+        console.log('here');
+        let childCare = await this.httpClient.fetch('/api/child-care/get.json');
+        let childCareData = await childCare.json();
+        console.log(childCareData);
+        childCareData.costByState.forEach((stateData) => {
+            if(stateData[0] == self.masterBudget.stateLocation) {
+                console.log(stateData[8]);
+            }
+        })
     }
 
     //Get current county/location of user
     getCurrentLocation(jsonData) {
         var array = jsonData.results[4].formatted_address.split(",");
         this.masterBudget.location = array[0];
-        console.log(this.masterBudget.location);
     }
 
     //Routes the user to the results page after clicking budget button

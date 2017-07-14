@@ -1,6 +1,5 @@
 { 
     "costByAge": [
-        // driver's age | Average Cost per Year | Monthly
         [18, 6456, 538], 
         [21, 3620, 301], 
         [25, 2374, 197], 
@@ -17,7 +16,6 @@
     ],
 
     "costByState": [
-        // State	Repairs     Insurance	Gasoline	Total
         ["Alabama", 352, 793, 1237, 2381],
         ["Alaska", 341, 1077, 730, 2147],
         ["Arizona", 362, 963, 888, 2213],
