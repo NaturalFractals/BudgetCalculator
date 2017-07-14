@@ -3,7 +3,7 @@
         <!-- Input annual income-->
         <div class="form-group">
             <label for="">Annual Income:</label>
-            <input type="text" class="form-control" placeholder="50,000">
+            <input type="text" class="form-control" placeholder="50,000" value.bind="displayIncome" change.delegate="sanitizeIncome()">
         </div>
         <!-- Input user's location-->
         <div class="form-group">
