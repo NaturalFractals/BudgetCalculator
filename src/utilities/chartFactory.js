@@ -2,7 +2,7 @@ import * as HighCharts from "highcharts";
 
 export class ChartFactory {
   
-    static createChart(containerID) {
+    static createChart(containerID, tuples) {
         return Highcharts.chart(containerID, {
             chart: {
                 plotBackgroundColor: null,
@@ -11,7 +11,7 @@ export class ChartFactory {
                 type: 'pie'
             },
             title: {
-                text: 'Browser market shares January, 2015 to May, 2015'
+                text: 'Budget Calculator'
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -29,26 +29,20 @@ export class ChartFactory {
             series: [{
                 name: 'Brands',
                 colorByPoint: true,
-                data: [{
-                    name: 'Microsoft Internet Explorer',
-                    y: 56.33
-                }, {
-                    name: 'Chrome',
-                    y: 24.03,
-                }, {
-                    name: 'Firefox',
-                    y: 10.38
-                }, {
-                    name: 'Safari',
-                    y: 4.77
-                }, {
-                    name: 'Opera',
-                    y: 0.91
-                }, {
-                    name: 'Proprietary or Undetectable',
-                    y: 0.2
-                }]
+                data: tuples
             }]
         });//end Highcharts.chart()
+    }
+
+    //Create tuples for the pie chart
+    static createChartTuple(budgetCategories, percentage) {
+        var budgetArray = [];
+        for(var i = 0; i < budgetCategories.length; i++) {
+            var tempObject = {};
+            tempObject.name = budgetCategories[i];
+            tempObject.y = percentage[i];
+            budgetArray.push(tempObject);
+        }
+        return budgetArray;
     }
 }

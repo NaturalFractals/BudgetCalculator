@@ -13,19 +13,23 @@
             <input type="text" class="form-control">
         </div>
         <!-- Input number of adults in household-->
-        <div class="radio">
-            <label>Adults in Household</label><br>
-            <label>1<input type="radio" name="adultsInHousehold" model.bind="1" checked.bind="numberAdults"></label>
-            <label>2<input type="radio" name="adultsInHousehold" model.bind="2" checked.bind="numberAdults"></label>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-secondary">1</button>
+                <button type="button" class="btn btn-secondary">2</button>
+            </div>
         </div>
+        <br>
         <!-- Input number of children in household-->
-        <div class="radio">
-            <label>Children in Household</label><br>
-            <label class="custom-control custom-radio">1<input class="custom-control-input" type="radio" name="childrenInHouseHold" model.bind="1" checked.bind="numberChildren"></label>
-            <label class="custom-control custom-radio">2<input class="custom-control-input" type="radio" name="childrenInHouseHold" model.bind="2" checked.bind="numberChildren"></label>
-            <label class="custom-control custom-radio">3<input class="custom-control-input" type="radio" name="childrenInHouseHold" model.bind="3" checked.bind="numberChildren"></label>
-            <label class="custom-control custom-radio">4<input class="custom-control-input" type="radio" name="childrenInHouseHold" model.bind="4" checked.bind="numberChildren"></label>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-secondary">1</button>
+                <button type="button" class="btn btn-secondary">2</button>
+                <button type="button" class="btn btn-secondary">3</button>
+                <button type="button" class="btn btn-secondary">4</button>
+            </div>
         </div>
+        <br>
         <button id="budgetButton" class="btn-success" click.delegate="route()">Budget</button>
     </form>
 </template>
