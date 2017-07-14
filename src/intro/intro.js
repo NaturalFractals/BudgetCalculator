@@ -5,17 +5,11 @@ import { MasterBudget } from 'masterBudget';
 
 @inject(Router, HttpClient, MasterBudget)
 export class Intro {
-    numberChildren;
-    numberAdults;
-
     constructor(router, httpClient, masterBudget) {
         this.router = router;
         this.httpClient = httpClient;
         this.masterBudget = masterBudget;
         this.getLocation();
-
-        this.income = null;
-        this.displayIncome = "";
     }
 
     //Retrieves the user's current location.
@@ -38,9 +32,17 @@ export class Intro {
                 startPos = position;
                 let data = await self.httpClient.fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + startPos.coords.latitude + ',' + startPos.coords.longitude + '&key=AIzaSyBM9-m7L5132H_bDe3JUn9tlwblTARBRbQ');
                 let data2 = await data.json();
+                self.getCurrentLocation(data2);
             });
         };
         await window.onload();
+    }
+
+    //Get current county/location of user
+    getCurrentLocation(jsonData) {
+        var array = jsonData.results[4].formatted_address.split(",");
+        this.masterBudget.location = array[0];
+        console.log(this.masterBudget.location);
     }
 
     //Routes the user to the results page after clicking budget button
