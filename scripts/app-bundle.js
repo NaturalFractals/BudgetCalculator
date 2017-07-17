@@ -56,6 +56,10 @@ define('constants',['exports'], function (exports) {
     var Constants = exports.Constants = function Constants() {
         _classCallCheck(this, Constants);
 
+        this.foodCostPerChild = 155.7;
+
+        this.foodCostPerAdult = 158.7;
+
         this.childCare = [{
             'label': 'Private School'
         }, {
@@ -154,12 +158,13 @@ define('main',['exports', './environment'], function (exports, _environment) {
     });
   }
 });
-define('masterBudget',['exports'], function (exports) {
+define('masterBudget',['exports', 'budget-breakdown-module/category-modules/food/food', 'aurelia-framework'], function (exports, _food, _aureliaFramework) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    exports.MasterBudget = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -167,14 +172,16 @@ define('masterBudget',['exports'], function (exports) {
         }
     }
 
-    var MasterBudget = exports.MasterBudget = function MasterBudget() {
+    var _dec, _class;
+
+    var MasterBudget = exports.MasterBudget = (_dec = (0, _aureliaFramework.singleton)(), _dec(_class = function MasterBudget() {
         _classCallCheck(this, MasterBudget);
 
         this.totalMonthlyIncome = 0;
         this.numberChildren = 0;
         this.numberAdults = 0;
         this.stateLocation = 'Alabama';
-        this.foodCost = 0;
+        this.food = new _food.Food(this);
         this.otherCost = 0;
         this.housingCost = 0;
         this.carYearlyUpkeepCost = 0;
@@ -186,7 +193,7 @@ define('masterBudget',['exports'], function (exports) {
         this.sumOfAllCost = 0;
         this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes'];
         this.percentageByCategory = [];
-    };
+    }) || _class);
 });
 define('budget-breakdown-module/breakdown',["exports"], function (exports) {
     "use strict";
@@ -439,8 +446,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                         self.masterBudget.medicalCost = healthData[2];
                                     }
                                 });
-
-                                self.masterBudget.foodCost = 155 * this.masterBudget.numberChildren + 158.7 * this.masterBudget.numberAdults;
+                                this.masterBudget.food.calculateFoodCost();
 
                             case 35:
                             case 'end':
@@ -464,6 +470,14 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
 
         Intro.prototype.route = function route() {
             this.router.navigate("#/results");
+        };
+
+        Intro.prototype.test = function test() {
+            console.log(this.masterBudget.numberChildren);
+        };
+
+        Intro.prototype.test1 = function test1() {
+            console.log(this.masterBudget.numberAdults);
         };
 
         Intro.prototype.sanitizeIncome = function sanitizeIncome() {
@@ -711,10 +725,11 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
 
             this.masterBudget = masterBudget;
             this.constants = constants;
+            this.cost = this.calculateFoodCost();
         }
 
         Food.prototype.calculateFoodCost = function calculateFoodCost() {
-            this.masterBudget.foodCost = this.masterBudget.numberChildren * 155.70 + this.masterBudget.numberAdults * 158.70;
+            this.masterBudget.foodCost = this.masterBudget.numberChildren * this.constants.foodCostPerChild + this.masterBudget.numberAdults * this.constants.foodCostPerAdult;
         };
 
         Food.prototype.calculateAdvancedFoodCost = function calculateAdvancedFoodCost() {};
@@ -849,7 +864,7 @@ define('text!app.html', ['module'], function(module) { module.exports = "<templa
 define('text!css/styles.css', ['module'], function(module) { module.exports = "/* Style for personal info or intro page*/\r\n#personalInfo {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for banner module table*/\r\n#banner-table {\r\n    background: #E4E4E4;\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for radio button lables in banner table*/\r\n#radio-label {\r\n    color: black;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    font-size: 16px;\r\n}\r\n\r\n/* Style for breakdown div*/\r\n#breakdown-div {\r\n    float:right;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Style for chart div*/\r\n#chart-div {\r\n    float:left;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Chart and breakdown table container*/\r\n#results-container {\r\n    width: 75%;\r\n    margin: 0 auto;\r\n}\r\n\r\n#collapse-table {\r\n    background: gray;\r\n}\r\n\r\nlabel {\r\n    display: inline-block;\r\n    width: 10em;\r\n    /* other CSS unchanged */\r\n}\r\n"; });
 define('text!budget-breakdown-module/breakdown.html', ['module'], function(module) { module.exports = "<template><div id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><div style=\"width:15px;height:15px;background-color:#7cb5ec;display:inline;float:left\"></div><compose view-model=\"./category-modules/child-care/child-care\"></compose><div style=\"width:15px;height:15px;background-color:#434348;display:inline;float:left\"></div><compose view-model=\"./category-modules/food/food\"></compose><div style=\"width:15px;height:15px;background-color:#90ed7d;display:inline;float:left\"></div><compose view-model=\"./category-modules/housing/housing\"></compose><div style=\"width:15px;height:15px;background-color:#f7a35c;display:inline;float:left\"></div><compose view-model=\"./category-modules/medical/medical\"></compose><div style=\"width:15px;height:15px;background-color:#8085e9;display:inline;float:left\"></div><compose view-model=\"./category-modules/other/other\"></compose><div style=\"width:15px;height:15px;background-color:#f15c80;display:inline;float:left\"></div><compose view-model=\"./category-modules/savings/savings\"></compose><div style=\"width:15px;height:15px;background-color:#e4d354;display:inline;float:left\"></div><compose view-model=\"./category-modules/taxes/taxes\"></compose></div></template>"; });
 define('text!chart/chart.html', ['module'], function(module) { module.exports = "<template><require from=\"highcharts/css/highcharts.css\"></require><div id=\"chartContainer\" style=\"height:450px\"></div><button click.delegate=\"changeChart()\">Toggle Hide Something</button></template>"; });
-define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><require from=\"../utilities/moneyValueConverter\"></require><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"displayIncome\" change.delegate=\"sanitizeIncome()\"></div><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\" value.bind=\"masterBudget.location\"></div><div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\"><div class=\"btn-group mr-2\" role=\"group\" aria-label=\"First group\"><button value.bind=\"masterBudget.numberAdults\" type=\"button\" class=\"btn btn-secondary\">1</button> <button value.bind=\"masterBudget.numberAdults\" type=\"button\" class=\"btn btn-secondary\">2</button></div></div><br><div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\"><div class=\"radio-group\" data-toggle=\"buttons\"><label class=\"btn btn-primary active\"><input type=\"radio\" value.bind=\"1\" checked.bind=\"$parent.masterBudget.numberChildren\" name=\"options\" id=\"option1\"> 1</label><label class=\"btn btn-primary\"><input type=\"radio\" value.bind=\"2\" checked.bind=\"$parent.masterBudget.numberChildren\" name=\"options\" id=\"option2\"> 2</label><label class=\"btn btn-primary\"><input type=\"radio\" value.bind=\"3\" checked.bind=\"$parent.masterBudget.numberChildren\" name=\"options\" id=\"option3\"> 3</label></div></div><br><button id=\"budgetButton\" class=\"btn-success\" click.delegate=\"route()\">Budget</button></form></template>"; });
+define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><require from=\"../utilities/moneyValueConverter\"></require><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"displayIncome\" change.delegate=\"sanitizeIncome()\"></div><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\" value.bind=\"masterBudget.location\"></div><div class=\"btn-toolbar\" role=\"toolbar\" aria-label=\"Toolbar with button groups\"><div class=\"btn-group mr-2\" role=\"group\" aria-label=\"First group\"><label repeat.for=\"i of 2\" class=\"btn btn-primary active\" click.delegate=\"test1()\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i\" name=\"options\" id=\"option1\"> ${i + 1}</label></div></div><br><div class=\"btn-toolbar\" role=\"toolbar\"><div class=\"radio-group\" data-toggle=\"buttons\"><label repeat.for=\"i of 3\" class=\"btn btn-primary active\" click.delegate=\"test()\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i\" name=\"options\" id=\"option1\"> ${i + 1}</label></div></div><br><button id=\"budgetButton\" class=\"btn-success\" click.delegate=\"route()\">Budget</button></form></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"results-banner-module/banner\"></compose><div id=\"results-container\" class=\"row\"><div id=\"chart-div\"><compose view-model=\"chart/chart\"></compose></div><div id=\"breakdown-div\"><compose view-model=\"budget-breakdown-module/breakdown\"></compose></div><div></div></div></template>"; });
 define('text!results-banner-module/banner.html', ['module'], function(module) { module.exports = "<template><table id=\"banner-table\" class=\"table\"><tr><td><div class=\"form-group\"><label for=\"\">Annual Income:</label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"displayIncome\" change.delegate=\"sanitizeIncome()\"></div></td><td><div class=\"form-group\"><label for=\"\">Location:</label><input type=\"text\" class=\"form-control\"></div></td><td><div class=\"radio\"><label id=\"radio-label\">Adults in Household</label><br><label>1<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"1\" checked.bind=\"masterBudget.numberAdults\"></label><label>2<input type=\"radio\" name=\"adultsInHousehold\" model.bind=\"2\" checked.bind=\"masterBudget.numberAdults\"></label></div></td><td><div class=\"radio\"><label id=\"radio-label\">Children in Household</label><br><label>1<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"1\" checked.bind=\"masterBudget.numberChildren\"></label><label>2<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"2\" checked.bind=\"masterBudget.numberChildren\"></label><label>3<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"3\" checked.bind=\"masterBudget.numberChildren\"></label><label>4<input type=\"radio\" name=\"childrenInHouseHold\" model.bind=\"4\" checked.bind=\"masterBudget.numberChildren\"></label></div></td></tr></table></template>"; });
 define('text!budget-breakdown-module/category-modules/food/food.html', ['module'], function(module) { module.exports = "<template><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingFood\"><h4 class=\"mb-0\"><a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFood\" aria-expanded=\"true\" aria-controls=\"collapseFood\">Food</a></h4></div><div id=\"collapseFood\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFood\"><div class=\"card-block\"><div repeat.for=\"constant of constants.food\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label for=\"food-input\">${constant.label}</label><input id=\"food-input\" type=\"text\" value.bind=\"masterBudgent.food[constant.value]\"></div></div></div></div></div></template>"; });

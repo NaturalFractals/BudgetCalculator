@@ -1,10 +1,14 @@
+import {Food} from 'budget-breakdown-module/category-modules/food/food';
+import {singleton} from 'aurelia-framework';
+
+@singleton()
 export class MasterBudget {
     constructor() {
         this.totalMonthlyIncome = 0;
         this.numberChildren = 0;
         this.numberAdults = 0;
         this.stateLocation = 'Alabama';
-        this.foodCost = 0;
+        this.food = new Food(this);
         this.otherCost = 0;
         this.housingCost = 0;
         this.carYearlyUpkeepCost = 0;

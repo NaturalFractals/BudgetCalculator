@@ -15,22 +15,19 @@
         <!-- Input number of adults in household-->
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button value.bind="masterBudget.numberAdults" type="button" class="btn btn-secondary">1</button>
-                <button value.bind="masterBudget.numberAdults" type="button" class="btn btn-secondary">2</button>
+                <label repeat.for="i of 2"class="btn btn-primary active" click.delegate="test1()">
+                    <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i" name="options" id="option1"> 
+                    ${i + 1}
+                </label>
             </div>
         </div>
         <br>
         <!-- Input number of children in household-->
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-toolbar" role="toolbar">
             <div class="radio-group" data-toggle="buttons">
-                <label class="btn btn-primary active">
-                    <input type="radio" value.bind="1" checked.bind="$parent.masterBudget.numberChildren" name="options" id="option1"> 1
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" value.bind="2" checked.bind="$parent.masterBudget.numberChildren" name="options" id="option2"> 2
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" value.bind="3" checked.bind="$parent.masterBudget.numberChildren" name="options" id="option3"> 3
+                <label repeat.for="i of 3"class="btn btn-primary active" click.delegate="test()">
+                    <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i" name="options" id="option1"> 
+                    ${i + 1}
                 </label>
             </div>
         </div>

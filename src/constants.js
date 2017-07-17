@@ -1,5 +1,10 @@
 export class Constants {
     constructor() {
+        //Constant for children food cost
+        this.foodCostPerChild = 155.7;
+        //Constant for adult food cost
+        this.foodCostPerAdult = 158.7;
+
         //Constants for child care module
         this.childCare = [
             {
