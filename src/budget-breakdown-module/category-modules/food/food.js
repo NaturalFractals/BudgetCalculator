@@ -1,5 +1,7 @@
 export class Food {
     constructor(numberChildren, numberAdults, constants) {
+        this.includeInBudget = true;
+
         this.numberChildren = numberChildren;
         this.numberAdults = numberAdults;
         this.constants = constants;

@@ -1,5 +1,6 @@
 export class Other {
     constructor(totalMonthlyIncome, constants) {
+        this.includeInBudget = true;
         this.totalMonthlyIncome = totalMonthlyIncome;
         this.constants = constants;
         this.cost = 0;

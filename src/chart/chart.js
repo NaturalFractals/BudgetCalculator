@@ -13,6 +13,7 @@ export class Chart {
         console.log(this.masterBudget);
         var tuples = ChartFactory.createChartTuple(this.masterBudget);
         this.chart = ChartFactory.createChart('chartContainer', tuples);
+        this.masterBudget.chart = this.chart;
     }
 
     changeChart() {

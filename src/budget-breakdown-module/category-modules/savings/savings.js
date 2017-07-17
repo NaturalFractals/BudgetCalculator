@@ -1,4 +1,5 @@
 export class Savings {
+
     constructor() {
         this.cost = 0;
     }
