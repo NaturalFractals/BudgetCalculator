@@ -27,7 +27,7 @@ export class ChartFactory {
                 }
             },
             series: [{
-                name: 'Brands',
+                name: 'Percentage',
                 colorByPoint: true,
                 data: tuples
             }]
@@ -36,22 +36,26 @@ export class ChartFactory {
 
     //Create tuples for the pie chart
     static createChartTuple(masterBudget) {
-        console.log(masterBudget);
         var budgetArray = [];
-        for(var i = 0; i < masterBudget.budgetCategories.length - 1; i++) {
-            var tempObject = {};
-            tempObject.name = masterBudget.budgetCategories[i];
-            masterBudget.percentageByCategory[i] = masterBudget.categoryVariableArray[i] / masterBudget.totalMonthlyIncome;
-            tempObject.y = masterBudget.percentageByCategory[i];
-            masterBudget.sumOfAllCost += masterBudget.categoryVariableArray[i];
-            budgetArray.push(tempObject);
-        }
-        masterBudget.savingsCost = (masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost);
-        masterBudget.percentageByCategory[masterBudget.percentageByCategory.length - 1] = (masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost) / masterBudget.totalMonthlyIncome;
-        var savingsObject = {};
-        savingsObject.name = masterBudget.budgetCategories[masterBudget.budgetCategories.length - 1];
-        savingsObject.y = masterBudget.percentageByCategory[masterBudget.percentageByCategory.length - 1];
-        budgetArray.push(savingsObject);
+        masterBudget.sumOfAllCost = 0;
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[0], masterBudget.childCareCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[1], masterBudget.foodCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[2], masterBudget.housingCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[3], masterBudget.medicalCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[4], masterBudget.otherCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[5], masterBudget.taxesCost, masterBudget));
+        var cost = masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost;
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[6], cost, masterBudget));
         return budgetArray;
+    }
+
+    static tupleHelper(name, data, masterBudget) {
+        var tempObject = {};
+        tempObject.name = name;
+        tempObject.y = data;
+        console.log(data);
+        masterBudget.sumOfAllCost += data;
+        console.log(masterBudget.sumOfAllCost);
+        return tempObject;
     }
 }

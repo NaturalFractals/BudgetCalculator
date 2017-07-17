@@ -1,5 +1,5 @@
 <template>
-    <require from = "../utilities/moneyValueConverter"></require>
+    <require from="../utilities/moneyValueConverter"></require>
 
     <form id="personalInfo">
         <!-- Input annual income-->
@@ -15,18 +15,23 @@
         <!-- Input number of adults in household-->
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button type="button" class="btn btn-secondary">1</button>
-                <button type="button" class="btn btn-secondary">2</button>
+                <button value.bind="masterBudget.numberAdults" type="button" class="btn btn-secondary">1</button>
+                <button value.bind="masterBudget.numberAdults" type="button" class="btn btn-secondary">2</button>
             </div>
         </div>
         <br>
         <!-- Input number of children in household-->
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <div class="btn-group mr-2" role="group" aria-label="First group">
-                <button type="button" class="btn btn-secondary">1</button>
-                <button type="button" class="btn btn-secondary">2</button>
-                <button type="button" class="btn btn-secondary">3</button>
-                <button type="button" class="btn btn-secondary">4</button>
+            <div class="radio-group" data-toggle="buttons">
+                <label class="btn btn-primary active">
+                    <input type="radio" value.bind="1" checked.bind="$parent.masterBudget.numberChildren" name="options" id="option1"> 1
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" value.bind="2" checked.bind="$parent.masterBudget.numberChildren" name="options" id="option2"> 2
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" value.bind="3" checked.bind="$parent.masterBudget.numberChildren" name="options" id="option3"> 3
+                </label>
             </div>
         </div>
         <br>

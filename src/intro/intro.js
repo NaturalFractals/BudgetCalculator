@@ -68,6 +68,7 @@ export class Intro {
         homeInsuranceData.costByState.forEach((homeData) => {
             if(homeData[0] == self.masterBudget.stateLocation) {
                 self.masterBudget.housingCost = homeData[1];
+                console.log(self.masterBudget.housingCost);
             }
         });
 
@@ -79,6 +80,8 @@ export class Intro {
                 self.masterBudget.medicalCost = healthData[2];
             }
         })
+
+        self.masterBudget.foodCost = 155 * this.masterBudget.numberChildren + 158.7 * this.masterBudget.numberAdults;
     }
 
     //Get current county/location of user

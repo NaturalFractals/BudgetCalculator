@@ -7,7 +7,8 @@ export class MasterBudget {
         this.foodCost = 0;
         this.otherCost = 0;
         this.housingCost = 0;
-        this.carCost = 0;
+        this.carYearlyUpkeepCost = 0;
+        this.carMonthlyOwnershipCost = 0;
         this.childCareCost = 0;
         this.medicalCost = 0;
         this.savingsCost = 0;
