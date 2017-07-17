@@ -45,7 +45,7 @@ export class Intro {
         //Get average child care cost by state
         childCareData.costByState.forEach((stateData) => {
             if (stateData[0] == self.masterBudget.stateLocation) {
-                self.masterBudget.childCareCost = stateData[8];
+                self.masterBudget.childCare.cost = stateData[8];
             }
         })
 

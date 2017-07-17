@@ -1,7 +1,25 @@
 /* Style for personal info or intro page*/
 #personalInfo {
-    width: 75%;
+    width: 50%;
     margin: 0 auto;
+}
+
+/* Toolbar for number of adult radios*/
+#adults-toolbar {
+    margin: 0 auto;
+    width: 50%;
+}
+
+/* Toolbar for number of children radios*/
+#children-toolbar {
+    margin: 0 auto;
+    width: 60%;
+}
+
+/* Budget button on intro page */
+#budgetButton {
+    margin: 0 auto;
+    width: 50%
 }
 
 /* Style for banner module table*/

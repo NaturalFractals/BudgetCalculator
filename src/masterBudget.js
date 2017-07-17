@@ -3,6 +3,8 @@ import {Other} from 'budget-breakdown-module/category-modules/other/other';
 import {Housing} from 'budget-breakdown-module/category-modules/housing/housing';
 import {Medical} from 'budget-breakdown-module/category-modules/medical/medical';
 import {Taxes} from 'budget-breakdown-module/category-modules/taxes/taxes';
+import {Savings} from 'budget-breakdown-module/category-modules/savings/savings';
+import {ChildCare} from 'budget-breakdown-module/category-modules/child-care/child-care';
 import {singleton} from 'aurelia-framework';
 import {inject} from 'aurelia-framework';
 import {Constants} from 'constants';
@@ -31,10 +33,12 @@ export class MasterBudget {
 
         this.taxes = new Taxes();
 
+        this.savings = new Savings();
+
+        this.childCare = new ChildCare();
+
         this.carYearlyUpkeepCost = 0;
         this.carMonthlyOwnershipCost = 0;
-        this.childCareCost = 0;
-        this.savingsCost = 0;
         this.sumOfAllCost = 0;
         this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes'];
         this.percentageByCategory = [];
