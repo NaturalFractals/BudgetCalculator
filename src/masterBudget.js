@@ -16,5 +16,7 @@ export class MasterBudget {
         this.sumOfAllCost = 0;
         this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes'];
         this.percentageByCategory = [];
+
+        this.chart = null;
     }
 }

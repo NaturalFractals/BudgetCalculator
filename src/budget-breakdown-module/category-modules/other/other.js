@@ -5,6 +5,8 @@ import {Constants} from 'constants';
 @inject(MasterBudget, Constants)
 export class Other {
     constructor(masterBudget, constants) {
+        this.includeInBudget = true;
+
         this.masterBudget = masterBudget;
         this.constants = constants;
     }

@@ -1,11 +1,15 @@
 <template>
   <div class="card">
     <div class="card-header" role="tab" id="headingFood">
-      <h4 class="mb-0">
+      <h5 class="mb-0">
+        <div class="checkbox checkbox-food checkbox-inline">
+            <input id="checkbox2" type="checkbox" checked.bind="includeInBudget">
+            <label for="checkbox2"></label>
+        </div>
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseFood" aria-expanded="true" aria-controls="collapseFood">
           Food
         </a>
-      </h4>
+      </h5>
     </div>
 
     <div id="collapseFood" class="collapse" role="tabpanel" aria-labelledby="headingFood">
