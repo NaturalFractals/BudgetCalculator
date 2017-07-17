@@ -27,7 +27,7 @@ export class ChartFactory {
                 }
             },
             series: [{
-                name: 'Brands',
+                name: 'Percentage',
                 colorByPoint: true,
                 data: tuples
             }]
@@ -35,14 +35,27 @@ export class ChartFactory {
     }
 
     //Create tuples for the pie chart
-    static createChartTuple(budgetCategories, percentage) {
+    static createChartTuple(masterBudget) {
         var budgetArray = [];
-        for(var i = 0; i < budgetCategories.length; i++) {
-            var tempObject = {};
-            tempObject.name = budgetCategories[i];
-            tempObject.y = percentage[i];
-            budgetArray.push(tempObject);
-        }
+        masterBudget.sumOfAllCost = 0;
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[0], masterBudget.childCareCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[1], masterBudget.foodCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[2], masterBudget.housingCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[3], masterBudget.medicalCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[4], masterBudget.otherCost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[5], masterBudget.taxesCost, masterBudget));
+        var cost = masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost;
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[6], cost, masterBudget));
         return budgetArray;
+    }
+
+    static tupleHelper(name, data, masterBudget) {
+        var tempObject = {};
+        tempObject.name = name;
+        tempObject.y = data;
+        console.log(data);
+        masterBudget.sumOfAllCost += data;
+        console.log(masterBudget.sumOfAllCost);
+        return tempObject;
     }
 }
