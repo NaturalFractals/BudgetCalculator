@@ -44,7 +44,6 @@ export class ChartFactory {
             masterBudget.percentageByCategory[i] = masterBudget.categoryVariableArray[i] / masterBudget.totalMonthlyIncome;
             tempObject.y = masterBudget.percentageByCategory[i];
             masterBudget.sumOfAllCost += masterBudget.categoryVariableArray[i];
-            console.log(masterBudget.percentageByCategory[i]);
             budgetArray.push(tempObject);
         }
         masterBudget.savingsCost = (masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost);

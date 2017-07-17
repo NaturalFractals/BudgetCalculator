@@ -184,8 +184,7 @@ define('masterBudget',['exports'], function (exports) {
         this.taxesCost = 0;
         this.sumOfAllCost = 0;
         this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes'];
-        this.percentageByCategory = [0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.3];
-        this.categoryVariableArray = [this.childCareCost, this.foodCost, this.housingCost, this.medicalCost, this.otherCost, this.taxesCost, this.savingsCost];
+        this.percentageByCategory = [];
     };
 });
 define('budget-breakdown-module/breakdown',["exports"], function (exports) {
@@ -617,7 +616,6 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
                 masterBudget.percentageByCategory[i] = masterBudget.categoryVariableArray[i] / masterBudget.totalMonthlyIncome;
                 tempObject.y = masterBudget.percentageByCategory[i];
                 masterBudget.sumOfAllCost += masterBudget.categoryVariableArray[i];
-                console.log(masterBudget.percentageByCategory[i]);
                 budgetArray.push(tempObject);
             }
             masterBudget.savingsCost = masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost;
