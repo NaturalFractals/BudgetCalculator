@@ -1,6 +1,5 @@
 {
     "costByState": [
-        // state | monthly home insurance rate
         ["Alabama",	97],
         ["Alaska",	77],
         ["Arizona",	56],
