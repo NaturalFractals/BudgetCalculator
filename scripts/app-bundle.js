@@ -173,10 +173,19 @@ define('masterBudget',['exports'], function (exports) {
         this.totalMonthlyIncome = 0;
         this.numberChildren = 0;
         this.numberAdults = 0;
+        this.stateLocation = 'Alabama';
         this.foodCost = 0;
         this.otherCost = 0;
+        this.housingCost = 0;
+        this.carCost = 0;
+        this.childCareCost = 0;
+        this.medicalCost = 0;
+        this.savingsCost = 0;
+        this.taxesCost = 0;
+        this.sumOfAllCost = 0;
         this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes'];
         this.percentageByCategory = [0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.3];
+        this.categoryVariableArray = [this.childCareCost, this.foodCost, this.housingCost, this.medicalCost, this.otherCost, this.taxesCost, this.savingsCost];
     };
 });
 define('budget-breakdown-module/breakdown',["exports"], function (exports) {
@@ -221,7 +230,7 @@ define('chart/chart',['exports', 'aurelia-framework', '../utilities/chartFactory
         }
 
         Chart.prototype.attached = function attached() {
-            var tuples = _chartFactory.ChartFactory.createChartTuple(this.masterBudget.budgetCategories, this.masterBudget.percentageByCategory);
+            var tuples = _chartFactory.ChartFactory.createChartTuple(this.masterBudget);
             this.chart = _chartFactory.ChartFactory.createChart('chartContainer', tuples);
         };
 
@@ -233,7 +242,7 @@ define('chart/chart',['exports', 'aurelia-framework', '../utilities/chartFactory
         return Chart;
     }()) || _class);
 });
-define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia-fetch-client', 'masterBudget'], function (exports, _aureliaFramework, _aureliaRouter, _aureliaFetchClient, _masterBudget) {
+define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia-fetch-client', '../utilities/chartFactory', 'masterBudget'], function (exports, _aureliaFramework, _aureliaRouter, _aureliaFetchClient, _chartFactory, _masterBudget) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -390,7 +399,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
 
                                 carCostData.costByAge.forEach(function (ageData) {
                                     if (ageData[0] >= self.masterBudget.currentUserAge) {
-                                        selfmasterBudget.carMonthlyOwnershipCost = ageData[2];
+                                        self.masterBudget.carMonthlyOwnershipCost = ageData[2];
                                     }
                                 });
 
@@ -405,28 +414,30 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                             case 25:
                                 homeInsuranceData = _context3.sent;
 
-                                console.log(homeInsuranceData);
                                 homeInsuranceData.costByState.forEach(function (homeData) {
-                                    console.log(homeData[0]);
+                                    if (homeData[0] == self.masterBudget.stateLocation) {
+                                        self.masterBudget.housingCost = homeData[1];
+                                    }
                                 });
 
-                                _context3.next = 30;
+                                _context3.next = 29;
                                 return this.httpClient.fetch('api/healthcare-insurance/get.json');
 
-                            case 30:
+                            case 29:
                                 healthInsurance = _context3.sent;
-                                _context3.next = 33;
+                                _context3.next = 32;
                                 return healthInsurance.json();
 
-                            case 33:
+                            case 32:
                                 healthInsuranceData = _context3.sent;
 
-                                console.log(healthInsuranceData);
                                 healthInsuranceData.costByState.forEach(function (healthData) {
-                                    console.log(healthData[0]);
+                                    if (healthData[0] == self.masterBudget.stateLocation) {
+                                        self.masterBudget.medicalCost = healthData[2];
+                                    }
                                 });
 
-                            case 36:
+                            case 34:
                             case 'end':
                                 return _context3.stop();
                         }
@@ -597,14 +608,24 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
             });
         };
 
-        ChartFactory.createChartTuple = function createChartTuple(budgetCategories, percentage) {
+        ChartFactory.createChartTuple = function createChartTuple(masterBudget) {
+            console.log(masterBudget);
             var budgetArray = [];
-            for (var i = 0; i < budgetCategories.length; i++) {
+            for (var i = 0; i < masterBudget.budgetCategories.length - 1; i++) {
                 var tempObject = {};
-                tempObject.name = budgetCategories[i];
-                tempObject.y = percentage[i];
+                tempObject.name = masterBudget.budgetCategories[i];
+                masterBudget.percentageByCategory[i] = masterBudget.categoryVariableArray[i] / masterBudget.totalMonthlyIncome;
+                tempObject.y = masterBudget.percentageByCategory[i];
+                masterBudget.sumOfAllCost += masterBudget.categoryVariableArray[i];
+                console.log(masterBudget.percentageByCategory[i]);
                 budgetArray.push(tempObject);
             }
+            masterBudget.savingsCost = masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost;
+            masterBudget.percentageByCategory[masterBudget.percentageByCategory.length - 1] = (masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost) / masterBudget.totalMonthlyIncome;
+            var savingsObject = {};
+            savingsObject.name = masterBudget.budgetCategories[masterBudget.budgetCategories.length - 1];
+            savingsObject.y = masterBudget.percentageByCategory[masterBudget.percentageByCategory.length - 1];
+            budgetArray.push(savingsObject);
             return budgetArray;
         };
 

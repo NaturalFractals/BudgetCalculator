@@ -10,9 +10,8 @@ export class Chart {
     }
 
     attached() {
-        var tuples = ChartFactory.createChartTuple(this.masterBudget.budgetCategories, this.masterBudget.percentageByCategory);
+        var tuples = ChartFactory.createChartTuple(this.masterBudget);
         this.chart = ChartFactory.createChart('chartContainer', tuples);
-        //this.chart = ChartFactory.createChart('chartContainer');
     }
 
     changeChart() {

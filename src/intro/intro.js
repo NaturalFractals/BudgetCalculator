@@ -1,6 +1,7 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { HttpClient, json } from 'aurelia-fetch-client';
+import {ChartFactory} from '../utilities/chartFactory';
 import { MasterBudget } from 'masterBudget';
 
 @inject(Router, HttpClient, MasterBudget)
@@ -57,24 +58,26 @@ export class Intro {
         //Get average car cost for renting/buying
         carCostData.costByAge.forEach((ageData) =>{
             if(ageData[0] >= self.masterBudget.currentUserAge) {
-                selfmasterBudget.carMonthlyOwnershipCost = ageData[2];
+                self.masterBudget.carMonthlyOwnershipCost = ageData[2];
             }
         });
 
         //Get average home insurance cost
         let homeInsurance = await this.httpClient.fetch('/api/home-insurance/get.json');
         let homeInsuranceData = await homeInsurance.json();
-        console.log(homeInsuranceData);
         homeInsuranceData.costByState.forEach((homeData) => {
-            console.log(homeData[0]);
+            if(homeData[0] == self.masterBudget.stateLocation) {
+                self.masterBudget.housingCost = homeData[1];
+            }
         });
-        
+
         //Get average health insurance cost
         let healthInsurance = await this.httpClient.fetch('api/healthcare-insurance/get.json');
         let healthInsuranceData = await healthInsurance.json();
-        console.log(healthInsuranceData);
         healthInsuranceData.costByState.forEach((healthData) => {
-            console.log(healthData[0]);
+            if(healthData[0] == self.masterBudget.stateLocation) {
+                self.masterBudget.medicalCost = healthData[2];
+            }
         })
     }
 
