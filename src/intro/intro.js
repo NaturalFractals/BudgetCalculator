@@ -1,15 +1,17 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { HttpClient, json } from 'aurelia-fetch-client';
-import {ChartFactory} from '../utilities/chartFactory';
+import { ChartFactory } from '../utilities/chartFactory';
 import { MasterBudget } from 'masterBudget';
 
 @inject(Router, HttpClient, MasterBudget)
 export class Intro {
+
     constructor(router, httpClient, masterBudget) {
         this.router = router;
         this.httpClient = httpClient;
         this.masterBudget = masterBudget;
+        this.displayIncome = "";
         this.getLocation();
     }
 
@@ -17,7 +19,7 @@ export class Intro {
     //TODO: Move this method out of intro.js
     async getLocation() {
         var self = this;
-        
+
         // check for Geolocation support
         if (navigator.geolocation) {
             console.log('Geolocation is supported!');
@@ -42,7 +44,7 @@ export class Intro {
         let childCareData = await childCare.json();
         //Get average child care cost by state
         childCareData.costByState.forEach((stateData) => {
-            if(stateData[0] == self.masterBudget.stateLocation) {
+            if (stateData[0] == self.masterBudget.stateLocation) {
                 self.masterBudget.childCareCost = stateData[8];
             }
         })
@@ -51,13 +53,13 @@ export class Intro {
         let carCostData = await carCost.json();
         //Get average car cost for repairs, insurance, and gasoline
         carCostData.costByState.forEach((stateData) => {
-            if(stateData[0] === self.masterBudget.stateLocation) {
+            if (stateData[0] === self.masterBudget.stateLocation) {
                 self.masterBudget.carYearlyUpkeepCost = stateData[4];
             }
         });
         //Get average car cost for renting/buying
-        carCostData.costByAge.forEach((ageData) =>{
-            if(ageData[0] >= self.masterBudget.currentUserAge) {
+        carCostData.costByAge.forEach((ageData) => {
+            if (ageData[0] >= self.masterBudget.currentUserAge) {
                 self.masterBudget.carMonthlyOwnershipCost = ageData[2];
             }
         });
@@ -66,9 +68,8 @@ export class Intro {
         let homeInsurance = await this.httpClient.fetch('/api/home-insurance/get.json');
         let homeInsuranceData = await homeInsurance.json();
         homeInsuranceData.costByState.forEach((homeData) => {
-            if(homeData[0] == self.masterBudget.stateLocation) {
-                self.masterBudget.housingCost = homeData[1];
-                console.log(self.masterBudget.housingCost);
+            if (homeData[0] == self.masterBudget.stateLocation) {
+                self.masterBudget.housing.cost = homeData[1];
             }
         });
 
@@ -76,12 +77,10 @@ export class Intro {
         let healthInsurance = await this.httpClient.fetch('api/healthcare-insurance/get.json');
         let healthInsuranceData = await healthInsurance.json();
         healthInsuranceData.costByState.forEach((healthData) => {
-            if(healthData[0] == self.masterBudget.stateLocation) {
-                self.masterBudget.medicalCost = healthData[2];
+            if (healthData[0] == self.masterBudget.stateLocation) {
+                self.masterBudget.medical.cost = healthData[2];
             }
-        })
-
-        self.masterBudget.foodCost = 155 * this.masterBudget.numberChildren + 158.7 * this.masterBudget.numberAdults;
+        });
     }
 
     //Get current county/location of user
@@ -95,6 +94,15 @@ export class Intro {
         this.router.navigate("#/results");
     }
 
+    test() {
+        console.log(this.masterBudget.numberChildren);
+    }
+
+    test1() {
+        console.log(this.masterBudget.numberAdults);
+    }
+
+    //Sanitize the income input to U.S. dollar format
     sanitizeIncome() {
         this.displayIncome = this.displayIncome.replace(/,/g, "");
         this.displayIncome = this.displayIncome.replace(/\$/g, "");
@@ -102,5 +110,11 @@ export class Intro {
         this.income = parseInt(this.displayIncome);
 
         this.displayIncome = '$' + this.income.toLocaleString();
+    }
+
+    //Calculates the monthly income based on entered annual income
+    getMonthlyIncome() {
+        var income = parseInt(this.displayIncome);
+        this.masterBudget.totalMonthlyIncome = income / 12;
     }
 }

@@ -1,19 +1,18 @@
-import {inject} from 'aurelia-framework';
-import {MasterBudget} from 'masterBudget';
-import {Constants} from 'constants';
-
-@inject(MasterBudget, Constants)
 export class Food {
-    constructor(masterBudget, constants) {
+    constructor(numberChildren, numberAdults, constants) {
         this.includeInBudget = true;
 
-        this.masterBudget = masterBudget;
+        this.numberChildren = numberChildren;
+        this.numberAdults = numberAdults;
         this.constants = constants;
+        this.cost = 0;
     }
 
     //Calculate the basic food cost for the household
     calculateFoodCost() {
-        this.masterBudget.foodCost = this.masterBudget.numberChildren * 155.70 + this.masterBudget.numberAdults * 158.70;
+        console.log(this.constants);
+        return this.numberChildren * this.constants.foodCostPerChild + this.numberAdults * this.constants.foodCostPerAdult;
+    
     }
 
     //Calculate detailed food cost

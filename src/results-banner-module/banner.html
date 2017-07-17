@@ -5,32 +5,36 @@
                 <!-- Input annual income-->
                 <div class="form-group">
                     <label for="">Annual Income:</label>
-                    <input type="text" class="form-control" placeholder="50,000" value.bind="displayIncome" change.delegate="sanitizeIncome()">
+                    <input type="text" class="form-control" placeholder="50,000" value.bind="displayIncome" change.delegate="sanitizeIncome() getMonthlyIncome()">
                 </div>
             </td>
             <td>
                 <!-- Input user's location-->
                 <div class="form-group">
                     <label for="">Location:</label>
-                    <input type="text" class="form-control">
+                    <input type="text" value.bind="masterBudget.location" class="form-control">
                 </div>
             </td>
             <td>
                 <!-- Input number of adults in household-->
-                <div class="radio">
-                    <label id="radio-label">Adults in Household</label><br>
-                    <label>1<input type="radio" name="adultsInHousehold" model.bind="1" checked.bind="masterBudget.numberAdults"></label>
-                    <label>2<input type="radio" name="adultsInHousehold" model.bind="2" checked.bind="masterBudget.numberAdults"></label>
+                <div class="btn-toolbar" role="toolbar"><b>Adults in Household</b>
+                    <div class="radio-group" data-toggle="buttons">
+                        <label repeat.for="i of 2" class="btn btn-primary active" click.delegate="test1()">
+                        <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
+                        ${i + 1}
+                        </label>
+                    </div>
                 </div>
             </td>
             <td>
                 <!-- Input number of children in household-->
-                <div class="radio">
-                    <label id="radio-label">Children in Household</label><br>
-                    <label>1<input type="radio" name="childrenInHouseHold" model.bind="1" checked.bind="masterBudget.numberChildren"></label>
-                    <label>2<input type="radio" name="childrenInHouseHold" model.bind="2" checked.bind="masterBudget.numberChildren"></label>
-                    <label>3<input type="radio" name="childrenInHouseHold" model.bind="3" checked.bind="masterBudget.numberChildren"></label>
-                    <label>4<input type="radio" name="childrenInHouseHold" model.bind="4" checked.bind="masterBudget.numberChildren"></label>
+                <div class="btn-toolbar" role="toolbar"><b>Children in Household</b>
+                    <div class="radio-group" data-toggle="buttons">
+                        <label repeat.for="i of 4" class="btn btn-primary active" click.delegate="test()">
+                        <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i + 1" name="options"> 
+                         ${i + 1}
+                        </label>
+                    </div>
                 </div>
             </td>
         </tr>
