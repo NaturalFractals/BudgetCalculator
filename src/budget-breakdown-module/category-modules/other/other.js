@@ -1,16 +1,14 @@
-import {inject} from 'aurelia-framework';
-import {MasterBudget} from 'masterBudget';
-import {Constants} from 'constants';
-
-@inject(MasterBudget, Constants)
 export class Other {
-    constructor(masterBudget, constants) {
-        this.masterBudget = masterBudget;
+    constructor(totalMonthlyIncome, constants) {
+        this.totalMonthlyIncome = totalMonthlyIncome;
         this.constants = constants;
+        this.cost = 0;
+        console.log(this.totalMonthlyIncome);
+        console.log(this.cost);
     }
 
     //Calculates the basic cost of the other category
     getBasicOtherCost() {
-        this.masterBudget.otherCost = this.masterBudget.totalMonthlyIncome * 0.05;
+        return this.totalMonthlyIncome * this.constants.miscellaneousCost;
     }
 }

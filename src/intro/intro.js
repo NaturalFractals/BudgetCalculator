@@ -6,10 +6,12 @@ import { MasterBudget } from 'masterBudget';
 
 @inject(Router, HttpClient, MasterBudget)
 export class Intro {
+
     constructor(router, httpClient, masterBudget) {
         this.router = router;
         this.httpClient = httpClient;
         this.masterBudget = masterBudget;
+        this.displayIncome = "";
         this.getLocation();
     }
 
@@ -67,8 +69,7 @@ export class Intro {
         let homeInsuranceData = await homeInsurance.json();
         homeInsuranceData.costByState.forEach((homeData) => {
             if (homeData[0] == self.masterBudget.stateLocation) {
-                self.masterBudget.housingCost = homeData[1];
-                console.log(self.masterBudget.housingCost);
+                self.masterBudget.housing.cost = homeData[1];
             }
         });
 
@@ -77,10 +78,9 @@ export class Intro {
         let healthInsuranceData = await healthInsurance.json();
         healthInsuranceData.costByState.forEach((healthData) => {
             if (healthData[0] == self.masterBudget.stateLocation) {
-                self.masterBudget.medicalCost = healthData[2];
+                self.masterBudget.medical.cost = healthData[2];
             }
-        })
-        this.masterBudget.food.calculateFoodCost();
+        });
     }
 
     //Get current county/location of user
@@ -102,6 +102,7 @@ export class Intro {
         console.log(this.masterBudget.numberAdults);
     }
 
+    //Sanitize the income input to U.S. dollar format
     sanitizeIncome() {
         this.displayIncome = this.displayIncome.replace(/,/g, "");
         this.displayIncome = this.displayIncome.replace(/\$/g, "");
@@ -109,5 +110,11 @@ export class Intro {
         this.income = parseInt(this.displayIncome);
 
         this.displayIncome = '$' + this.income.toLocaleString();
+    }
+
+    //Calculates the monthly income based on entered annual income
+    getMonthlyIncome() {
+        var income = parseInt(this.displayIncome);
+        this.masterBudget.totalMonthlyIncome = income / 12;
     }
 }
