@@ -3,7 +3,7 @@
     <div class="card-header" role="tab" id="headingOther">
       <h5 class="mb-0">
         <div class="checkbox checkbox-other checkbox-inline">
-            <input id="checkbox5" type="checkbox" checked.bind="includeInBudget">
+            <input id="checkbox5" type="checkbox" checked.bind="includeInBudget" change.delegate="$parent.$parent.chartVM.currentViewModel.changeChart('Other')">
             <label for="checkbox5"></label>
         </div>
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseMedical" aria-expanded="true" aria-controls="collapseOther">
