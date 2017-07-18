@@ -1,13 +1,17 @@
 import {inject} from 'aurelia-framework';
 import {ChartFactory} from '../utilities/chartFactory';
 import {MasterBudget} from 'masterBudget';
+import {EventAggregator} from 'aurelia-event-aggregator'
 
-@inject(MasterBudget)
+@inject(MasterBudget, EventAggregator)
 export class Chart {
 
-    constructor(masterBudget) {
+    constructor(masterBudget, eventAggregator) {
         this.chart = null;
         this.masterBudget = masterBudget;
+        
+        // this.eventAggregator = eventAggregator;
+        eventAggregator.subscribe('toggle chart element', moduleName => {this.changeChart(moduleName)} );
     }
 
     attached() {

@@ -1,9 +1,10 @@
 import {inject} from 'aurelia-framework';
 import {Constants} from 'constants';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Constants)
+@inject(Constants, EventAggregator)
 export class Other {
-    constructor(constants) {
+    constructor(constants, eventAggregator) {
         this.includeInBudget = true;
         this.constants = constants
         this.cost = 0;
@@ -12,6 +13,11 @@ export class Other {
         this.gymCost = 0;
         this.entertainmentCost = 0;
         this.clothingCost = 0;
+        this.eventAggregator = eventAggregator;
+    }
+
+    toggleInclude() {
+        this.eventAggregator.publish('toggle chart element', 'Other');
     }
 
     //Calculates the basic cost of the other category
