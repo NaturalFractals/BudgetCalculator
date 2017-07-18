@@ -8,6 +8,7 @@ export class Housing {
         this.includeInBudget = true;
         this.constants = constants;
         this.cost = 0;
+        this.costPercentage = 0;
         this.monthlyRentCost = 0;
         this.homeInsuranceCost = 0;
         this.utilitiesCost = 0;

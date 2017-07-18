@@ -8,6 +8,7 @@ export class Taxes {
         this.includeInBudget = true;
         this.constants = constants;
         this.cost = 0;
+        this.costPercentage = 0;
         this.vehicleTaxCost = 0;
         this.housingTaxCost = 0;
     }

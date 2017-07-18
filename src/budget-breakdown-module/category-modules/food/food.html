@@ -1,20 +1,30 @@
 <template>
+  <require from="../../../utilities/currency"></require>
+  <require from="../../../utilities/percent"></require>
   <div class="card">
     <div class="card-header" role="tab" id="headingFood">
-      <h5 class="mb-0">
-        <div class="checkbox checkbox-food checkbox-inline">
+      <div class="col-md-4">
+        <h5 class="mb-0">
+          <div class="checkbox checkbox-food checkbox-inline">
             <input id="checkbox2" type="checkbox" checked.bind="includeInBudget" change.delegate="$parent.$parent.chartVM.currentViewModel.changeChart('Food')">
             <label for="checkbox2"></label>
-        </div>
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFood" aria-expanded="true" aria-controls="collapseFood">
+          </div>
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseFood" aria-expanded="true" aria-controls="collapseFood">
           Food
         </a>
-      </h5>
+        </h5>
+      </div>
+      <div class="col-md-4">
+        ${costPercentage | percent}
+      </div>
+      <div class="col-md-4">
+        ${cost | currency}
+      </div>
     </div>
-
+    <br><br><br>
     <div id="collapseFood" class="collapse" role="tabpanel" aria-labelledby="headingFood">
       <div class="card-block">
-        <div repeat.for="constant of constants.food" class="form-group"> 
+        <div repeat.for="constant of constants.food" class="form-group">
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label for="food-input">${constant.label}</label>
             <input type="text" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedFoodCost() $parent.$parent.$parent.chartVM.currentViewModel.redrawChart()">

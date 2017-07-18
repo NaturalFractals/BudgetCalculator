@@ -8,6 +8,7 @@ export class ChildCare {
         this.includeInBudget = true;
         this.constants = constants;
         this.cost = 0;
+        this.costPercentage = 0;
         this.privateSchoolCost = 0;
         this.daycareCost = 0;
     }

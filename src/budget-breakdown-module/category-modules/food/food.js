@@ -9,6 +9,7 @@ export class Food {
         this.groceries = 0;
         this.constants = constants;
         this.cost = 0;
+        this.costPercentage = 0;
         this.groceriesCost = 0;
         this.diningOutCost = 0;
         this.numberChildren = 0;

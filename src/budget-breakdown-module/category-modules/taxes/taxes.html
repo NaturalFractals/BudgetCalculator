@@ -1,6 +1,9 @@
-<template>      
+<template>       
+  <require from="../../../utilities/currency"></require>
+  <require from="../../../utilities/percent"></require>
   <div class="card">
     <div class="card-header" role="tab" id="headingTaxes">
+      <div class="col-md-4">
       <h5 class="mb-0">
         <div class="checkbox checkbox checkbox-taxes checkbox-inline">
             <input id="checkbox7" type="checkbox" checked.bind="includeInBudget" change.delegate="$parent.$parent.chartVM.currentViewModel.changeChart('Taxes')">
@@ -10,8 +13,15 @@
           Taxes
         </a>
       </h5>
+      </div>
+      <div class="col-md-4">
+        ${costPercentage | percent}
+      </div>
+      <div class="col-md-4">
+          ${cost | currency}
+      </div>
     </div>
-
+    <br><br><br>
     <div id="collapseTaxes" class="collapse" role="tabpanel" aria-labelledby="headingTaxes">
       <div class="card-block">
         <div repeat.for="constant of constants.taxes" class="form-group"> 
