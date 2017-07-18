@@ -11,7 +11,6 @@ export class Intro {
         this.router = router;
         this.httpClient = httpClient;
         this.masterBudget = masterBudget;
-        this.displayIncome = "";
         this.getLocation();
     }
 
@@ -45,7 +44,7 @@ export class Intro {
         //Get average child care cost by state
         childCareData.costByState.forEach((stateData) => {
             if (stateData[0] == self.masterBudget.stateLocation) {
-                self.masterBudget.childCareCost = stateData[8];
+                self.masterBudget.childCare.cost = stateData[8];
             }
         })
 
@@ -81,6 +80,8 @@ export class Intro {
                 self.masterBudget.medical.cost = healthData[2];
             }
         });
+
+        this.masterBudget.food.cost = this.masterBudget.food.calculateFoodCost(this.masterBudget.numberChildren, this.masterBudget.numberAdults);
     }
 
     //Get current county/location of user

@@ -1,13 +1,18 @@
 import {inject} from 'aurelia-framework';
-import {MasterBudget} from 'masterBudget';
 import {Constants} from 'constants';
 
-@inject(MasterBudget, Constants)
+@inject(Constants)
 export class ChildCare {
-    constructor(masterBudget, constants) {
+    constructor(constants) {
         this.includeInBudget = true;
+        this.constants = constants;
+        this.cost = 0;
+        this.privateSchoolCost = 0;
+        this.daycareCost = 0;
+    }
 
-        this.masterBudget = masterBudget;
-        this.constants = constants; 
+    //Calculates the cost of the advanced child care cost
+    calculateAdvancedChildCareCost(privateSchoolCost) {
+        this.cost = this.privateSchoolCost + this.daycareCost;
     }
 }

@@ -33,4 +33,10 @@ export class Chart {
         var visible = this.chart.series[0].data[dataIndex].visible ? false : true;
         this.chart.series[0].data[dataIndex].setVisible(visible);
     }
+    
+    redrawChart() {
+        var tuples = ChartFactory.createChartTuple(this.masterBudget);
+        this.chart = ChartFactory.createChart('chartContainer', tuples);
+        this.masterBudget.chart = this.chart;
+    }
 }

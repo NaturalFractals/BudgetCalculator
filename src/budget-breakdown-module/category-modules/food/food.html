@@ -17,7 +17,7 @@
         <div repeat.for="constant of constants.food" class="form-group"> 
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label for="food-input">${constant.label}</label>
-            <input id="food-input" type="text" value.bind="masterBudgent.food[constant.value]">
+            <input type="text" value.bind="$parent[constant.variable]">
           </div>
         </div>
       </div>

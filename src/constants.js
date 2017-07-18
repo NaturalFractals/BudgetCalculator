@@ -7,90 +7,111 @@ export class Constants {
         //Constant for miscellaneous cost
         this.miscellaneousCost = 0.05;
         //Constants for child care module
+
         this.childCare = [
             {
-                'label': 'Private School'
+                'label': 'Private School',
+                'variable': 'privateSchoolCost'
             },
             {
-                'label': 'Daycare'
+                'label': 'Daycare',
+                'variable': 'daycareCost'
             }
         ];
 
         //Constants for food module
         this.food = [
             {
-                'label': 'Groceries'
+                'label': 'Groceries',
+                'variable': 'groceriesCost'
             },
             {
-                'label': 'Dining Out'
+                'label': 'Dining Out',
+                'variable': 'diningOutCost'
             }
         ];
 
         //Constants for housing module
         this.housing = [
             {
-                'label': 'Monthly Rent'
+                'label': 'Monthly Rent',
+                'variable': 'monthlyRentCost'
             },
             {
-                'label': 'Home Insurance'
+                'label': 'Home Insurance',
+                'variable': 'homeInsuranceCost'
             },
             {
-                'label': 'Utilities Bill'
+                'label': 'Utilities Bill',
+                'variable': 'homeInsuranceCost'
             }
         ];
 
         //Constants for medical module
         this.medical = [
             {
-                'label': 'Health Insurance'
+                'label': 'Health Insurance',
+                'variable': 'healthInsuranceCost'
             },
             {
-                'label': 'Dental Work'
+                'label': 'Dental Work',
+                'variable': 'dentalCost'
             }
         ];
 
         //Constants for other module
         this.other = [
             {
-                'label': 'Cellphone'
+                'label': 'Cellphone',
+                'variable': 'cellPhoneCost'
             },
             {
-                'label': 'Recreation/Travel'
+                'label': 'Recreation/Travel',
+                'variable': 'recreationCost'
             },
             {
-                'label': 'Gym Membership'
+                'label': 'Gym Membership',
+                'variable': 'gymCost'
             },
             {
-                'label': 'Entertainment'
+                'label': 'Entertainment',
+                'variable': 'entertainmentCost'
             },
             {
-                'label': 'Clothing'
+                'label': 'Clothing',
+                'variable': 'clothingCost'
             }
         ];
 
         //Constants for savings module
         this.savings = [
             {
-                'label': 'Emergency Fund'
+                'label': 'Emergency Fund',
+                'variable': 'emergencyFundCost'
             },
             {
-                'label': 'Retirement'
+                'label': 'Retirement',
+                'variable': 'retirementCost'
             },
             {
-                'label': 'Investments'
+                'label': 'Investments',
+                'variable': 'investmentsCost'
             },
             {
-                'label': 'College Savings'
+                'label': 'College Savings',
+                'variable': 'collegeSavingsCost'
             }
         ];
         
         //Constants for taxes module
         this.taxes = [
             {
-                'label': 'Vehicle Taxes'
+                'label': 'Vehicle Taxes',
+                'variable': 'vehicleTaxCost'
             },
             {
-                'label': 'Housing Taxes'
+                'label': 'Housing Taxes',
+                'variable': 'housingTaxCost'
             }
         ];
     }

@@ -5,7 +5,7 @@
         <!-- Input annual income-->
         <div class="form-group">
             <label for="">Annual Income:</label>
-            <input type="text" class="form-control" placeholder="50,000" value.bind="displayIncome" change.delegate="sanitizeIncome() getMonthlyIncome()">
+            <input type="text" class="form-control" placeholder="50,000" value.bind="masterBudget.annualIncome" change.delegate="sanitizeIncome() getMonthlyIncome()">
         </div>
         <!-- Input user's location-->
         <div class="form-group">
@@ -13,8 +13,9 @@
             <input type="text" class="form-control" value.bind="masterBudget.location">
         </div>
         <!-- Input number of adults in household-->
-        <div class="btn-toolbar" role="toolbar">
-            <div class="radio-group" data-toggle="buttons">
+        <div class="btn-toolbar" role="toolbar" id="adults-toolbar">
+            <b>Adults in Household</b>
+            <div class="radio-group" data-toggle="buttons"> 
                 <label repeat.for="i of 2"class="btn btn-primary active" click.delegate="test1()">
                     <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
                     ${i + 1}
@@ -23,8 +24,9 @@
         </div>
         <br>
         <!-- Input number of children in household-->
-        <div class="btn-toolbar" role="toolbar">
-            <div class="radio-group" data-toggle="buttons">
+        <div class="btn-toolbar" role="toolbar" id="children-toolbar">
+            <b>Children in Household</b>
+            <div class="radio-group" data-toggle="buttons"> 
                 <label repeat.for="i of 4"class="btn btn-primary active" click.delegate="test()">
                     <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i + 1" name="options"> 
                     ${i + 1}
@@ -32,6 +34,8 @@
             </div>
         </div>
         <br>
-        <button id="budgetButton" class="btn-success" click.delegate="route()">Budget</button>
+        <div id="budgetButton">
+            <button class="btn btn-success" click.delegate="route()">Budget</button>
+        </div>
     </form>
 </template>
