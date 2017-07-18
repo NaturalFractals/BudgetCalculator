@@ -9,9 +9,9 @@ import {singleton} from 'aurelia-framework';
 import {inject} from 'aurelia-framework';
 import {Constants} from 'constants';
 
-@inject(Constants)
+@inject(Constants, Food, Other, Housing, Medical, Taxes, Savings, ChildCare)
 export class MasterBudget {
-    constructor(constants) {
+    constructor(constants, food, other, housing, medical, taxes, savings, childCare) {
         this.constants = constants;
         this.location = "";
         this.annualIncome = 0;
@@ -19,23 +19,15 @@ export class MasterBudget {
         this.numberChildren = 2;
         this.numberAdults = 1;
         this.stateLocation = 'Alabama';
-        this.food = new Food();
-        //TODO: Move this method call out of the this class
-        // this.food.cost = this.food.calculateFoodCost(this.numberChildren, this.numberAdults);
 
-        this.other = new Other(this.totalMonthlyIncome);
-        //TODO: Move this method call out of the this class
-        this.other.cost = this.other.getBasicOtherCost();
-
-        this.housing = new Housing();
-
-        this.medical = new Medical();
-
-        this.taxes = new Taxes();
-
-        this.savings = new Savings();
-
-        this.childCare = new ChildCare();
+        this.food = food;
+        this.food.calculateFoodCost(this.numberChildren, this.numberAdults); 
+        this.other = other;
+        this.housing = housing;
+        this.medical = medical;
+        this.taxes = taxes;
+        this.savings = savings;
+        this.childCare = childCare;
 
         this.carYearlyUpkeepCost = 0;
         this.carMonthlyOwnershipCost = 0;

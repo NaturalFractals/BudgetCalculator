@@ -3,7 +3,7 @@
     <div class="card-header" role="tab" id="headingSavings">
       <h5 class="mb-0">
         <div class="checkbox checkbox-savings checkbox-inline">
-            <input id="checkbox6" type="checkbox" checked.bind="includeInBudget">
+            <input id="checkbox6" type="checkbox" checked.bind="includeInBudget" change.delegate="$parent.$parent.chartVM.currentViewModel.changeChart('Savings')">
             <label for="checkbox6"></label>
         </div>
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseSavings" aria-expanded="true" aria-controls="collapseSavings">
@@ -17,7 +17,7 @@
         <div repeat.for="constant of constants.savings" class="form-group"> 
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label>${constant.label}</label>
-            <input type="text" value.bind="$parent[constant.variable]">
+            <input type="text" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedSavings() $parent.$parent.$parent.chartVM.currentViewModel.redrawChart()">
           </div>
         </div>
       </div>

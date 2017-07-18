@@ -1,7 +1,8 @@
-import {inject} from 'aurelia-framework';
+import {inject, singleton} from 'aurelia-framework';
 import {Constants} from 'constants';
 
 @inject(Constants)
+@singleton()
 export class Other {
     constructor(constants) {
         this.includeInBudget = true;

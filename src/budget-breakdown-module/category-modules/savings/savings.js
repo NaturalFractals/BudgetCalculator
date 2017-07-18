@@ -1,10 +1,12 @@
-import {inject} from 'aurelia-framework';
+import {inject, singleton} from 'aurelia-framework';
 import {Constants} from 'constants';
 
 @inject(Constants)
+@singleton()
 export class Savings {
 
     constructor(constants) {
+        this.includeInBudget = true;
         this.cost = 0;
         this.constants = constants;
         this.emergencyFundCost = 0;
@@ -15,6 +17,6 @@ export class Savings {
 
     //Calculates cost of savings
     calculateAdvancedSavings() {
-        this.cost = this.emergencyFundCost + this.retirementCost + this.investmentsCost + this.collegeSavingsCost;
+        this.cost = parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost);
     }
 }
