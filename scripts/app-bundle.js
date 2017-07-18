@@ -64,11 +64,17 @@ define('constants',['exports'], function (exports) {
 
 
         this.childCare = [{
-            'label': 'Private School',
+            'label': 'School Tuiton',
             'variable': 'privateSchoolCost'
         }, {
             'label': 'Daycare',
             'variable': 'daycareCost'
+        }, {
+            'label': 'School Expenses',
+            'variable': 'schoolExpenseCost'
+        }, {
+            'label': 'Child Support',
+            'variable': 'childSupportCost'
         }];
 
         this.food = [{
@@ -77,25 +83,80 @@ define('constants',['exports'], function (exports) {
         }, {
             'label': 'Dining Out',
             'variable': 'diningOutCost'
+        }, {
+            'label': 'Workday Coffee/Lunch',
+            'variable': 'workdayCost'
         }];
 
         this.housing = [{
-            'label': 'Monthly Rent',
+            'label': 'Cable',
             'variable': 'monthlyRentCost'
+        }, {
+            'label': 'Utilities',
+            'variable': 'homeInsuranceCost'
+        }, {
+            'label': 'Telephone',
+            'variable': 'homeTelephoneCost'
+        }, {
+            'label': 'Home Maintenance',
+            'variable': 'homeMaintenanceCost'
+        }];
+
+        this.housingUtilities = [{
+            'label': 'Gas',
+            'variable': 'utilityGasCost'
+        }, {
+            'label': 'Water',
+            'variable': 'utilityWaterCost'
+        }, {
+            'label': 'Electricity',
+            'variable': 'utilityElectricCost'
+        }];
+
+        this.housingRent = [{
+            'label': 'Mortgage Payment',
+            'variable': 'mortgageCost'
         }, {
             'label': 'Home Insurance',
             'variable': 'homeInsuranceCost'
         }, {
-            'label': 'Utilities Bill',
-            'variable': 'homeInsuranceCost'
+            'label': 'Home Improvements',
+            'variable': 'homeImprovementCost'
+        }];
+
+        this.housingLease = [{
+            'label': 'Rent',
+            'variable': 'rentCost'
+        }, {
+            'label': 'Renters Insurance',
+            'variable': 'rentInsuranceCost'
         }];
 
         this.medical = [{
             'label': 'Health Insurance',
             'variable': 'healthInsuranceCost'
         }, {
+            'label': 'Medication Cost',
+            'variable': 'medicationCost'
+        }, {
             'label': 'Dental Work',
             'variable': 'dentalCost'
+        }, {
+            'label': 'Other Medical Cost',
+            'variable': 'otherMedicalCost'
+        }];
+
+        this.transportation = [{
+            'label': 'Public Transportation Cost',
+            'variable': 'publicTransportationCost'
+        }, {
+            'label': 'Car',
+            'variable': 'hasCar'
+        }];
+
+        this.transportationCar = [{
+            'label': 'How Many Cars',
+            'variable': 'numberOfCars'
         }];
 
         this.other = [{
@@ -575,23 +636,6 @@ define('resources/index',["exports"], function (exports) {
   exports.configure = configure;
   function configure(config) {}
 });
-define('results/results',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Results = exports.Results = function Results() {
-        _classCallCheck(this, Results);
-    };
-});
 define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBudget', '../utilities/chartFactory'], function (exports, _aureliaFramework, _masterBudget, _chartFactory) {
     'use strict';
 
@@ -634,6 +678,23 @@ define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBu
 
         return Banner;
     }()) || _class);
+});
+define('results/results',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Results = exports.Results = function Results() {
+        _classCallCheck(this, Results);
+    };
 });
 define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _highcharts) {
     'use strict';
@@ -730,8 +791,8 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
         return ChartFactory;
     }();
 });
-define('utilities/moneyValueConverter',["exports"], function (exports) {
-    "use strict";
+define('utilities/currency',['exports'], function (exports) {
+    'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -743,18 +804,64 @@ define('utilities/moneyValueConverter',["exports"], function (exports) {
         }
     }
 
-    var MoneyValueConverter = exports.MoneyValueConverter = function () {
-        function MoneyValueConverter() {
-            _classCallCheck(this, MoneyValueConverter);
+    var CurrencyValueConverter = exports.CurrencyValueConverter = function () {
+        function CurrencyValueConverter() {
+            _classCallCheck(this, CurrencyValueConverter);
         }
 
-        MoneyValueConverter.prototype.toView = function toView(value) {
-            value = value.replace(/,/g, "");
-            return value.toLocaleString();
+        CurrencyValueConverter.prototype.toView = function toView(value) {
+            var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+            var locale = config.locale || 'en';
+            var props = {
+                style: 'currency',
+                currency: config.currency || 'USD',
+                currencyDisplay: config.displayBy || 'symbol'
+            };
+
+            return value.toLocaleString(locale, props);
         };
 
-        return MoneyValueConverter;
+        return CurrencyValueConverter;
     }();
+});
+define('utilities/percent',['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var PercentValueConverter = exports.PercentValueConverter = function () {
+    function PercentValueConverter() {
+      _classCallCheck(this, PercentValueConverter);
+    }
+
+    PercentValueConverter.prototype.toView = function toView(value) {
+      var divided = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 100;
+      var round = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+      if (!value) {
+        return value;
+      }
+
+      var divider = typeof value === 'string' ? Number(value) : value;
+
+      if (typeof divider !== 'number' || isNaN(divider)) {
+        return value;
+      }
+
+      return round ? Math.round(divider / divided * 100) : divider / divided * 100;
+    };
+
+    return PercentValueConverter;
+  }();
 });
 define('budget-breakdown-module/category-modules/child-care/child-care',['exports', 'aurelia-framework', 'aurelia-event-aggregator', 'constants'], function (exports, _aureliaFramework, _aureliaEventAggregator, _constants) {
     'use strict';
@@ -779,6 +886,7 @@ define('budget-breakdown-module/category-modules/child-care/child-care',['export
             this.includeInBudget = true;
             this.constants = constants;
             this.cost = 0;
+            this.costPercentage = 0;
             this.privateSchoolCost = 0;
             this.daycareCost = 0;
             this.eventAggregator = eventAggregator;
@@ -819,6 +927,7 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
             this.groceries = 0;
             this.constants = constants;
             this.cost = 0;
+            this.costPercentage = 0;
             this.groceriesCost = 0;
             this.diningOutCost = 0;
             this.eventAggregator = eventAggregator;
@@ -826,6 +935,8 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
 
         Food.prototype.toggleInclude = function toggleInclude() {
             this.eventAggregator.publish('toggle chart element', 'Food');
+            this.numberChildren = 0;
+            this.numberAdults = 1;
         };
 
         Food.prototype.calculateFoodCost = function calculateFoodCost(numberChildren, numberAdults) {
@@ -839,92 +950,6 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
         };
 
         return Food;
-    }()) || _class) || _class);
-});
-define('budget-breakdown-module/category-modules/housing/housing',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Housing = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _dec2, _class;
-
-    var Housing = exports.Housing = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
-        function Housing(constants, eventAggregator) {
-            _classCallCheck(this, Housing);
-
-            this.includeInBudget = true;
-            this.constants = constants;
-            this.cost = 0;
-            this.monthlyRentCost = 0;
-            this.homeInsuranceCost = 0;
-            this.utilitiesCost = 0;
-            this.eventAggregator = eventAggregator;
-        }
-
-        Housing.prototype.toggleInclude = function toggleInclude() {
-            this.eventAggregator.publish('toggle chart element', 'Housing');
-        };
-
-        Housing.prototype.calculateAdvancedCost = function calculateAdvancedCost() {
-            this.cost = this.monthlyRentCost + this.homeInsuranceCost + this.utilitiesCost;
-        };
-
-        return Housing;
-    }()) || _class) || _class);
-});
-define('budget-breakdown-module/category-modules/other/other',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Other = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _dec2, _class;
-
-    var Other = exports.Other = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
-        function Other(constants, eventAggregator) {
-            _classCallCheck(this, Other);
-
-            this.includeInBudget = true;
-            this.constants = constants;
-            this.cost = 0;
-            this.cellPhoneCost = 0;
-            this.recreationCost = 0;
-            this.gymCost = 0;
-            this.entertainmentCost = 0;
-            this.clothingCost = 0;
-            this.eventAggregator = eventAggregator;
-        }
-
-        Other.prototype.toggleInclude = function toggleInclude() {
-            this.eventAggregator.publish('toggle chart element', 'Other');
-        };
-
-        Other.prototype.getBasicOtherCost = function getBasicOtherCost() {
-            this.cost = this.totalMonthlyIncome * this.constants.miscellaneousCost;
-        };
-
-        Other.prototype.calculateAdvancedOtherCost = function calculateAdvancedOtherCost() {
-            this.cost = this.cellPhoneCost + this.recreationCost + this.gymCost + this.entertainmentCost + this.clothingCost;
-        };
-
-        return Other;
     }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/medical/medical',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
@@ -943,13 +968,14 @@ define('budget-breakdown-module/category-modules/medical/medical',['exports', 'a
 
     var _dec, _dec2, _class;
 
-    var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
-        function Medical(constants, eventAggregator) {
-            _classCallCheck(this, Medical);
+    var Housing = exports.Housing = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
+        function Housing(constants, eventAggregator) {
+            _classCallCheck(this, Housing);
 
             this.includeInBudget = true;
             this.constants = constants;
             this.cost = 0;
+            this.costPercentage = 0;
             this.healthInsuranceCost = 0;
             this.dentalCost = 0;
             this.eventAggregator = eventAggregator;
@@ -961,6 +987,89 @@ define('budget-breakdown-module/category-modules/medical/medical',['exports', 'a
 
         Medical.prototype.calculateAdvancedMedical = function calculateAdvancedMedical() {
             this.cost = this.dentalCost + this.healthInsuranceCost;
+        };
+
+        return Medical;
+    }()) || _class) || _class);
+});
+define('budget-breakdown-module/category-modules/housing/housing',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Housing = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _dec2, _class;
+
+    var Other = exports.Other = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
+        function Other(constants, eventAggregator) {
+            _classCallCheck(this, Other);
+
+            this.includeInBudget = true;
+            this.constants = constants;
+            this.cost = 0;
+            this.costPercentage = 0;
+            this.monthlyRentCost = 0;
+            this.homeInsuranceCost = 0;
+            this.utilitiesCost = 0;
+            this.eventAggregator = eventAggregator;
+        }
+
+        Housing.prototype.toggleInclude = function toggleInclude() {
+            this.eventAggregator.publish('toggle chart element', 'Housing');
+        };
+
+        Housing.prototype.calculateAdvancedCost = function calculateAdvancedCost() {
+            this.cost = parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost);
+        };
+
+        return Other;
+    }()) || _class) || _class);
+});
+define('budget-breakdown-module/category-modules/savings/savings',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Savings = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _dec2, _class;
+
+    var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
+        function Medical(constants, eventAggregator) {
+            _classCallCheck(this, Medical);
+
+            this.includeInBudget = true;
+            this.cost = 0;
+            this.costPercentage = 0;
+            this.constants = constants;
+            this.emergencyFundCost = 0;
+            this.retirementCost = 0;
+            this.investmentsCost = 0;
+            this.collegeSavingsCost = 0;
+            this.eventAggregator = eventAggregator;
+        }
+
+        Savings.prototype.toggleInclude = function toggleInclude() {
+            this.eventAggregator.publish('toggle chart element', 'Savings');
+        };
+
+        Savings.prototype.calculateAdvancedSavings = function calculateAdvancedSavings() {
+            this.cost = parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost);
         };
 
         return Medical;

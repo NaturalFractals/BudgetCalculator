@@ -9,6 +9,7 @@ export class Medical {
         this.includeInBudget = true;
         this.constants = constants;
         this.cost = 0;
+        this.costPercentage = 0;
         this.healthInsuranceCost = 0;
         this.dentalCost = 0;
         this.eventAggregator = eventAggregator;

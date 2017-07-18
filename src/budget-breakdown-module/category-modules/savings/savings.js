@@ -9,6 +9,7 @@ export class Savings {
     constructor(constants, eventAggregator) {
         this.includeInBudget = true;
         this.cost = 0;
+        this.costPercentage = 0;
         this.constants = constants;
         this.emergencyFundCost = 0;
         this.retirementCost = 0;

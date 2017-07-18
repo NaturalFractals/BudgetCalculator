@@ -9,6 +9,7 @@ export class Other {
         this.includeInBudget = true;
         this.constants = constants
         this.cost = 0;
+        this.costPercentage = 0;
         this.cellPhoneCost = 0;
         this.recreationCost = 0;
         this.gymCost = 0;
