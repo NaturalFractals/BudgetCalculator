@@ -18,12 +18,11 @@ export class MasterBudget {
         this.numberChildren = 2;
         this.numberAdults = 1;
         this.stateLocation = 'Alabama';
-
-        this.food = new Food(this.numberChildren, this.numberAdults, this.constants);
+        this.food = new Food();
         //TODO: Move this method call out of the this class
-        this.food.cost = this.food.calculateFoodCost();
+        //this.food.cost = this.food.calculateFoodCost();
 
-        this.other = new Other(this.totalMonthlyIncome, this.constants);
+        this.other = new Other(this.totalMonthlyIncome);
         //TODO: Move this method call out of the this class
         this.other.cost = this.other.getBasicOtherCost();
 

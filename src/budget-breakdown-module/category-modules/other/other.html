@@ -6,7 +6,7 @@
             <input id="checkbox5" type="checkbox" checked.bind="includeInBudget">
             <label for="checkbox5"></label>
         </div>
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseMedical" aria-expanded="true" aria-controls="collapseOther">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOther" aria-expanded="true" aria-controls="collapseOther">
           Other
         </a>
       </h5>
@@ -15,9 +15,9 @@
     <div id="collapseOther" class="collapse" role="tabpanel" aria-labelledby="headingOther">
       <div class="card-block">
         <div repeat.for="constant of constants.other" class="form-group"> 
-          <label>${constant.label}</label>
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-              <input type="text" value.bind="masterBudgent.other[constant.value]" class="form-control">
+              <label>${constant.label}</label>
+              <input type="text" value.bind="other[constant.variable]">
           </div>
         </div>
       </div>

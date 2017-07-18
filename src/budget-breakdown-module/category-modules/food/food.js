@@ -1,22 +1,24 @@
-export class Food {
-    constructor(numberChildren, numberAdults, constants) {
-        this.includeInBudget = true;
+import {inject} from 'aurelia-framework';
+import {Constants} from '../../../constants';
 
-        this.numberChildren = numberChildren;
-        this.numberAdults = numberAdults;
+@inject(Constants)
+export class Food {
+    constructor(constants) {
+        this.includeInBudget = true;
+        this.groceries = 0;
         this.constants = constants;
         this.cost = 0;
+        this.groceriesCost = 0;
+        this.diningOutCost = 0;
     }
 
     //Calculate the basic food cost for the household
-    calculateFoodCost() {
-        console.log(this.constants);
-        return this.numberChildren * this.constants.foodCostPerChild + this.numberAdults * this.constants.foodCostPerAdult;
-    
+    calculateFoodCost(numberChildren, numberAdults) {
+        return numberChildren * this.constants.foodCostPerChild + numberAdults * this.constants.foodCostPerAdult;
     }
 
     //Calculate detailed food cost
     calculateAdvancedFoodCost() {
-
+        return this.grocerciesCost + this.diningOutCost;
     }
 }

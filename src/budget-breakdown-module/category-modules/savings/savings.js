@@ -1,7 +1,16 @@
+import {inject} from 'aurelia-framework';
+import {Constants} from 'constants';
+
+@inject(Constants)
 export class Savings {
 
-    constructor() {
+    constructor(constants) {
         this.cost = 0;
+        this.constants = constants;
+        this.emergencyFundCost = 0;
+        this.retirementCost = 0;
+        this.investmentsCost = 0;
+        this.collegeSavingsCost = 0;
     }
 
     //Adds emergency fund to total savings cost

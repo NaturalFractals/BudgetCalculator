@@ -1,15 +1,17 @@
+import {inject} from 'aurelia-framework';
+import {Constants} from 'constants';
+
+@inject(Constants)
 export class Other {
-    constructor(totalMonthlyIncome, constants) {
+    constructor(constants) {
         this.includeInBudget = true;
-        this.totalMonthlyIncome = totalMonthlyIncome;
-        this.constants = constants;
+        this.constants = constants
         this.cost = 0;
-        console.log(this.totalMonthlyIncome);
-        console.log(this.cost);
+        this.cellPhoneCost = 0;
     }
 
     //Calculates the basic cost of the other category
     getBasicOtherCost() {
-        return this.totalMonthlyIncome * this.constants.miscellaneousCost;
+        return this.totalMonthlyIncome * Constants.miscellaneousCost;
     }
 }

@@ -1,13 +1,17 @@
+import {inject} from 'aurelia-framework';
+import {Constants} from 'constants';
+
+@inject(Constants)
 export class ChildCare {
-    constructor() {
+    constructor(constants) {
+        this.constants = constants;
         this.cost = 0;
+        this.privateSchoolCost = 0;
+        this.daycareCost = 0;
     }
 
-    calculatePrivateSchoolCost(privateSchoolCost) {
-        this.cost += privateSchoolCost; 
-    }
-
-    calculateDaycareCost(daycareCost) {
-        this.cost += daycareCost;
+    //Calculates the cost of the advanced child care cost
+    calculateAdvancedChildCareCost(privateSchoolCost) {
+        return this.privateSchoolCost + this.daycareCost;
     }
 }
