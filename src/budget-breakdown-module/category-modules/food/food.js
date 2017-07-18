@@ -18,8 +18,6 @@ export class Food {
 
     toggleInclude() {
         this.eventAggregator.publish('toggle chart element', 'Food');
-        this.numberChildren = 0;
-        this.numberAdults = 1;
     }
 
     //Calculate the basic food cost for the household
