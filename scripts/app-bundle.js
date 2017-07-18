@@ -197,7 +197,7 @@ define('masterBudget',['exports', 'budget-breakdown-module/category-modules/food
 
         var _dec, _class;
 
-        var MasterBudget = exports.MasterBudget = (_dec = (0, _aureliaFramework.inject)(_constants.Constants), _dec(_class = function MasterBudget(constants) {
+        var MasterBudget = exports.MasterBudget = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _food.Food, _other.Other, _housing.Housing, _medical.Medical, _taxes.Taxes, _savings.Savings, _childCare.ChildCare), _dec(_class = function MasterBudget(constants, food, other, housing, medical, taxes, savings, childCare) {
                 _classCallCheck(this, MasterBudget);
 
                 this.constants = constants;
@@ -207,22 +207,15 @@ define('masterBudget',['exports', 'budget-breakdown-module/category-modules/food
                 this.numberChildren = 2;
                 this.numberAdults = 1;
                 this.stateLocation = 'Alabama';
-                this.food = new _food.Food();
 
-
-                this.other = new _other.Other(this.totalMonthlyIncome);
-
-                this.other.cost = this.other.getBasicOtherCost();
-
-                this.housing = new _housing.Housing();
-
-                this.medical = new _medical.Medical();
-
-                this.taxes = new _taxes.Taxes();
-
-                this.savings = new _savings.Savings();
-
-                this.childCare = new _childCare.ChildCare();
+                this.food = food;
+                this.food.calculateFoodCost(this.numberChildren, this.numberAdults);
+                this.other = other;
+                this.housing = housing;
+                this.medical = medical;
+                this.taxes = taxes;
+                this.savings = savings;
+                this.childCare = childCare;
 
                 this.carYearlyUpkeepCost = 0;
                 this.carMonthlyOwnershipCost = 0;
@@ -281,7 +274,6 @@ define('chart/chart',['exports', 'aurelia-framework', '../utilities/chartFactory
         }
 
         Chart.prototype.attached = function attached() {
-            console.log(this.masterBudget);
             var tuples = _chartFactory.ChartFactory.createChartTuple(this.masterBudget);
             this.chart = _chartFactory.ChartFactory.createChart('chartContainer', tuples);
             this.masterBudget.chart = this.chart;
@@ -312,6 +304,7 @@ define('chart/chart',['exports', 'aurelia-framework', '../utilities/chartFactory
         };
 
         Chart.prototype.redrawChart = function redrawChart() {
+            console.log(this.masterBudget.savings);
             var tuples = _chartFactory.ChartFactory.createChartTuple(this.masterBudget);
             this.chart = _chartFactory.ChartFactory.createChart('chartContainer', tuples);
             this.masterBudget.chart = this.chart;
@@ -515,9 +508,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                     }
                                 });
 
-                                this.masterBudget.food.cost = this.masterBudget.food.calculateFoodCost(this.masterBudget.numberChildren, this.masterBudget.numberAdults);
-
-                            case 35:
+                            case 34:
                             case 'end':
                                 return _context3.stop();
                         }
@@ -550,12 +541,12 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
         };
 
         Intro.prototype.sanitizeIncome = function sanitizeIncome() {
-            this.displayIncome = this.displayIncome.replace(/,/g, "");
-            this.displayIncome = this.displayIncome.replace(/\$/g, "");
+            this.masterBudget.annualIncome = this.masterBudget.annualIncome.replace(/,/g, "");
+            this.masterBudget.annualIncome = this.masterBudget.annualIncome.replace(/\$/g, "");
 
-            this.income = parseInt(this.displayIncome);
+            this.income = parseInt(this.masterBudget.annualIncome);
 
-            this.displayIncome = '$' + this.income.toLocaleString();
+            this.masterBudget.annualIncome = '$' + this.income.toLocaleString();
         };
 
         Intro.prototype.getMonthlyIncome = function getMonthlyIncome() {
@@ -708,14 +699,14 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
         ChartFactory.createChartTuple = function createChartTuple(masterBudget) {
             var budgetArray = [];
             masterBudget.sumOfAllCost = 0;
+            console.log(masterBudget);
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[0], masterBudget.childCare.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[1], masterBudget.food.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[2], masterBudget.housing.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[3], masterBudget.medical.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[4], masterBudget.other.cost, masterBudget));
+            budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[6], masterBudget.savings.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[5], masterBudget.taxes.cost, masterBudget));
-            var cost = masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost;
-            budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[6], cost, masterBudget));
             return budgetArray;
         };
 
@@ -723,9 +714,7 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
             var tempObject = {};
             tempObject.name = name;
             tempObject.y = data;
-            console.log(data);
             masterBudget.sumOfAllCost += data;
-            console.log(masterBudget.sumOfAllCost);
             return tempObject;
         };
 
@@ -772,7 +761,7 @@ define('budget-breakdown-module/category-modules/child-care/child-care',['export
         }
     }
 
-    var _dec, _class;
+    var _dec, _dec2, _class;
 
     var ChildCare = exports.ChildCare = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec(_class = function () {
         function ChildCare(constants, eventAggregator) {
@@ -795,7 +784,7 @@ define('budget-breakdown-module/category-modules/child-care/child-care',['export
         };
 
         return ChildCare;
-    }()) || _class);
+    }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia-framework', '../../../constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
     'use strict';
@@ -811,7 +800,7 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
         }
     }
 
-    var _dec, _class;
+    var _dec, _dec2, _class;
 
     var Food = exports.Food = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec(_class = function () {
         function Food(constants, eventAggregator) {
@@ -831,15 +820,17 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
         };
 
         Food.prototype.calculateFoodCost = function calculateFoodCost(numberChildren, numberAdults) {
-            this.cost = numberChildren * this.constants.foodCostPerChild + numberAdults * this.constants.foodCostPerAdult;
+            this.numberChildren = numberChildren;
+            this.numberAdults = numberAdults;
+            this.cost = parseInt(numberChildren) * parseInt(this.constants.foodCostPerChild) + parseInt(numberAdults) * parseInt(this.constants.foodCostPerAdult);
         };
 
         Food.prototype.calculateAdvancedFoodCost = function calculateAdvancedFoodCost() {
-            this.cost = this.grocerciesCost + this.diningOutCost;
+            this.cost = parseInt(this.groceriesCost) + parseInt(this.diningOutCost);
         };
 
         return Food;
-    }()) || _class);
+    }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/housing/housing',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
     'use strict';
@@ -855,7 +846,7 @@ define('budget-breakdown-module/category-modules/housing/housing',['exports', 'a
         }
     }
 
-    var _dec, _class;
+    var _dec, _dec2, _class;
 
     var Housing = exports.Housing = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec(_class = function () {
         function Housing(constants, eventAggregator) {
@@ -879,7 +870,7 @@ define('budget-breakdown-module/category-modules/housing/housing',['exports', 'a
         };
 
         return Housing;
-    }()) || _class);
+    }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/other/other',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
     'use strict';
@@ -895,7 +886,7 @@ define('budget-breakdown-module/category-modules/other/other',['exports', 'aurel
         }
     }
 
-    var _dec, _class;
+    var _dec, _dec2, _class;
 
     var Other = exports.Other = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec(_class = function () {
         function Other(constants, eventAggregator) {
@@ -941,7 +932,7 @@ define('budget-breakdown-module/category-modules/medical/medical',['exports', 'a
         }
     }
 
-    var _dec, _class;
+    var _dec, _dec2, _class;
 
     var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec(_class = function () {
         function Medical(constants, eventAggregator) {
@@ -980,7 +971,7 @@ define('budget-breakdown-module/category-modules/taxes/taxes',['exports', 'aurel
         }
     }
 
-    var _dec, _class;
+    var _dec, _dec2, _class;
 
     var Taxes = exports.Taxes = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec(_class = function () {
         function Taxes(constants, eventAggregator) {
@@ -1019,7 +1010,7 @@ define('budget-breakdown-module/category-modules/savings/savings',['exports', 'a
         }
     }
 
-    var _dec, _class;
+    var _dec, _dec2, _class;
 
     var Savings = exports.Savings = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec(_class = function () {
         function Savings(constants, eventAggregator) {

@@ -25,7 +25,5 @@ export class Banner {
         var income = parseInt(this.displayIncome);
         this.masterBudget.totalMonthlyIncome = income / 12;
         console.log(this.masterBudget.totalMonthlyIncome);
-        // var tuples = ChartFactory.createChartTuple(this.masterBudget);
-        // this.chart = ChartFactory.createChart('chartContainer', tuples);
     }
 }

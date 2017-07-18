@@ -1,8 +1,9 @@
-import {inject} from 'aurelia-framework';
+import {inject, singleton} from 'aurelia-framework';
 import {Constants} from 'constants';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Constants, EventAggregator)
+@singleton()
 export class Savings {
 
     constructor(constants, eventAggregator) {
@@ -22,6 +23,6 @@ export class Savings {
 
     //Calculates cost of savings
     calculateAdvancedSavings() {
-        this.cost = this.emergencyFundCost + this.retirementCost + this.investmentsCost + this.collegeSavingsCost;
+        this.cost = parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost);
     }
 }

@@ -38,14 +38,14 @@ export class ChartFactory {
     static createChartTuple(masterBudget) {
         var budgetArray = [];
         masterBudget.sumOfAllCost = 0;
+        console.log(masterBudget);
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[0], masterBudget.childCare.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[1], masterBudget.food.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[2], masterBudget.housing.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[3], masterBudget.medical.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[4], masterBudget.other.cost, masterBudget));
+        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[6], masterBudget.savings.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[5], masterBudget.taxes.cost, masterBudget));
-        var cost = masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost;
-        budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[6], cost, masterBudget));
         return budgetArray;
     }
 
@@ -53,9 +53,7 @@ export class ChartFactory {
         var tempObject = {};
         tempObject.name = name;
         tempObject.y = data;
-        console.log(data);
         masterBudget.sumOfAllCost += data;
-        console.log(masterBudget.sumOfAllCost);
         return tempObject;
     }
 }

@@ -1,8 +1,9 @@
-import {inject} from 'aurelia-framework';
+import {inject, singleton} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import {Constants} from 'constants';
 
 @inject(Constants, EventAggregator)
+@singleton()
 export class ChildCare {
     constructor(constants, eventAggregator) {
         this.includeInBudget = true;
@@ -18,7 +19,7 @@ export class ChildCare {
     }
 
     //Calculates the cost of the advanced child care cost
-    calculateAdvancedChildCareCost(privateSchoolCost) {
+    calculateAdvancedChildCareCost() {
         this.cost = this.privateSchoolCost + this.daycareCost;
     }
 }

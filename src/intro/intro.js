@@ -80,8 +80,6 @@ export class Intro {
                 self.masterBudget.medical.cost = healthData[2];
             }
         });
-
-        this.masterBudget.food.cost = this.masterBudget.food.calculateFoodCost(this.masterBudget.numberChildren, this.masterBudget.numberAdults);
     }
 
     //Get current county/location of user
@@ -105,12 +103,12 @@ export class Intro {
 
     //Sanitize the income input to U.S. dollar format
     sanitizeIncome() {
-        this.displayIncome = this.displayIncome.replace(/,/g, "");
-        this.displayIncome = this.displayIncome.replace(/\$/g, "");
+        this.masterBudget.annualIncome = this.masterBudget.annualIncome.replace(/,/g, "");
+        this.masterBudget.annualIncome = this.masterBudget.annualIncome.replace(/\$/g, "");
 
-        this.income = parseInt(this.displayIncome);
+        this.income = parseInt(this.masterBudget.annualIncome);
 
-        this.displayIncome = '$' + this.income.toLocaleString();
+        this.masterBudget.annualIncome = '$' + this.income.toLocaleString();
     }
 
     //Calculates the monthly income based on entered annual income

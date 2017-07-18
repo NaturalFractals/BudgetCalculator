@@ -1,8 +1,9 @@
-import {inject} from 'aurelia-framework';
+import {inject, singleton} from 'aurelia-framework';
 import {Constants} from 'constants';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Constants, EventAggregator)
+@singleton()
 export class Housing {
     constructor(constants, eventAggregator){
         this.includeInBudget = true;

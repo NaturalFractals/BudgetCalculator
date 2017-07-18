@@ -17,7 +17,7 @@
         <div repeat.for="constant of constants.savings" class="form-group"> 
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label>${constant.label}</label>
-            <input type="text" value.bind="$parent[constant.variable]">
+            <input type="text" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedSavings() $parent.$parent.$parent.chartVM.currentViewModel.redrawChart()">
           </div>
         </div>
       </div>
