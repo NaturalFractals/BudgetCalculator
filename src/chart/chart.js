@@ -10,8 +10,8 @@ export class Chart {
         this.chart = null;
         this.masterBudget = masterBudget;
         
-        // this.eventAggregator = eventAggregator;
         eventAggregator.subscribe('toggle chart element', moduleName => {this.changeChart(moduleName)} );
+        eventAggregator.subscribe('update', update => {this.changeChart(update.moduleName, update.newValue)} );
     }
 
     attached() {
@@ -21,18 +21,7 @@ export class Chart {
     }
 
     changeChart(moduleName) {
-        var dataIndex;
-
-        switch (moduleName) {
-            case "Child Care":  dataIndex = 0; break;
-            case "Food":  dataIndex = 1; break;
-            case "Housing":        dataIndex = 2; break;
-            case "Medical":     dataIndex = 3; break;
-            case "Other":     dataIndex = 4; break;
-            case "Savings":       dataIndex = 5; break;
-            case "Taxes":       dataIndex = 6;
-        }
-
+        var dataIndex = this.getDataIndex(moduleName);
         var visible = this.chart.series[0].data[dataIndex].visible ? false : true;
         this.chart.series[0].data[dataIndex].setVisible(visible);
     }
@@ -42,5 +31,22 @@ export class Chart {
         var tuples = ChartFactory.createChartTuple(this.masterBudget);
         this.chart = ChartFactory.createChart('chartContainer', tuples);
         this.masterBudget.chart = this.chart;
+    }
+
+    getDataIndex(moduleName) {
+        switch (moduleName) {
+            case "Child Care":  return 0;
+            case "Food":        return 1;
+            case "Housing":     return 2;
+            case "Medical":     return 3;
+            case "Other":       return 4;
+            case "Savings":     return 5;
+            default:            return 6;
+        }
+    }
+
+    changedCost(moduleName, value) {
+        var newPoint = {name: moduleName, y: value};
+        this.chart.series[0].data[this.getDataIndex(moduleName)].update(newPoint, true, true);
     }
 }

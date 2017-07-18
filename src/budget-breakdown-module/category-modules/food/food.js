@@ -12,16 +12,11 @@ export class Food {
         this.cost = 0;
         this.groceriesCost = 0;
         this.diningOutCost = 0;
-<<<<<<< HEAD
         this.eventAggregator = eventAggregator;
     }
 
     toggleInclude() {
         this.eventAggregator.publish('toggle chart element', 'Food');
-=======
-        this.numberChildren = 0;
-        this.numberAdults = 1;
->>>>>>> 355ee9a98a4c442f6cf7cf239af5b87b33d0470f
     }
 
     //Calculate the basic food cost for the household
