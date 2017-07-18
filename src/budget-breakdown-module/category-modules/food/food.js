@@ -1,10 +1,11 @@
 import {inject, singleton} from 'aurelia-framework';
 import {Constants} from '../../../constants';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Constants) 
+@inject(Constants, EventAggregator)
 @singleton()
 export class Food {
-    constructor(constants) {
+    constructor(constants, eventAggregator) {
         this.includeInBudget = true;
         this.groceries = 0;
         this.constants = constants;
@@ -12,6 +13,11 @@ export class Food {
         this.costPercentage = 0;
         this.groceriesCost = 0;
         this.diningOutCost = 0;
+        this.eventAggregator = eventAggregator;
+    }
+
+    toggleInclude() {
+        this.eventAggregator.publish('toggle chart element', 'Food');
         this.numberChildren = 0;
         this.numberAdults = 1;
     }

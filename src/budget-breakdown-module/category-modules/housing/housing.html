@@ -6,7 +6,7 @@
       <div class="col-md-4">
         <h5 class="mb-0">
           <div class="checkbox checkbox-housing checkbox-inline">
-            <input id="checkbox3" type="checkbox" checked.bind="includeInBudget" change.delegate="$parent.$parent.chartVM.currentViewModel.changeChart('Housing')">
+            <input id="checkbox3" type="checkbox" checked.bind="includeInBudget" change.delegate="toggleInclude()">
             <label for="checkbox3"></label>
           </div>
           <a data-toggle="collapse" data-parent="#accordion" href="#collapseHousing" aria-expanded="true" aria-controls="collapseHousing">

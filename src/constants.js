@@ -10,12 +10,20 @@ export class Constants {
 
         this.childCare = [
             {
-                'label': 'Private School',
+                'label': 'School Tuiton',
                 'variable': 'privateSchoolCost'
             },
             {
                 'label': 'Daycare',
                 'variable': 'daycareCost'
+            },
+            {
+                'label': 'School Expenses',
+                'variable': 'schoolExpenseCost'
+            },
+            {
+                'label': 'Child Support',
+                'variable': 'childSupportCost'
             }
         ];
 
@@ -28,22 +36,74 @@ export class Constants {
             {
                 'label': 'Dining Out',
                 'variable': 'diningOutCost'
+            },
+            {
+                'label': 'Workday Coffee/Lunch',
+                'variable': 'workdayCost'
             }
         ];
 
         //Constants for housing module
         this.housing = [
             {
-                'label': 'Monthly Rent',
+                'label': 'Cable',
                 'variable': 'monthlyRentCost'
+            },
+            {
+                'label': 'Utilities',
+                'variable': 'homeInsuranceCost'
+            },
+            {
+                'label': 'Telephone',
+                'variable': 'homeTelephoneCost'
+            },
+            {
+                'label': 'Home Maintenance',
+                'variable': 'homeMaintenanceCost'
+            }
+        ];
+
+        //Constants for housing utilities
+        this.housingUtilities = [
+            {
+                'label': 'Gas',
+                'variable': 'utilityGasCost'
+            },
+            {
+                'label': 'Water',
+                'variable': 'utilityWaterCost'
+            },
+            {
+                'label': 'Electricity',
+                'variable': 'utilityElectricCost'
+            }
+        ];
+
+        //Constants for housing owners
+        this.housingRent = [
+            {
+                'label': 'Mortgage Payment',
+                'variable': 'mortgageCost'
             },
             {
                 'label': 'Home Insurance',
                 'variable': 'homeInsuranceCost'
             },
             {
-                'label': 'Utilities Bill',
-                'variable': 'homeInsuranceCost'
+                'label': 'Home Improvements',
+                'variable': 'homeImprovementCost'
+            }
+        ];
+
+        //Constants for housing rent
+        this.housingLease = [
+            {
+                'label': 'Rent',
+                'variable': 'rentCost'
+            },
+            {
+                'label': 'Renters Insurance',
+                'variable': 'rentInsuranceCost'
             }
         ];
 
@@ -54,8 +114,36 @@ export class Constants {
                 'variable': 'healthInsuranceCost'
             },
             {
+                'label': 'Medication Cost',
+                'variable': 'medicationCost'
+            },
+            {
                 'label': 'Dental Work',
                 'variable': 'dentalCost'
+            },
+            {
+                'label': 'Other Medical Cost',
+                'variable': 'otherMedicalCost'
+            }
+        ];
+
+        //Constants for Transportation
+        this.transportation = [
+            {
+                'label': 'Public Transportation Cost',
+                'variable': 'publicTransportationCost'
+            },
+            {
+                'label': 'Car',
+                'variable': 'hasCar'
+            }
+        ];
+
+        //Constants for Car Transportation
+        this.transportationCar = [
+            {
+                'label': 'How Many Cars',
+                'variable': 'numberOfCars'
             }
         ];
 
