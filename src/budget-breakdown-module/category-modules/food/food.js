@@ -14,11 +14,11 @@ export class Food {
 
     //Calculate the basic food cost for the household
     calculateFoodCost(numberChildren, numberAdults) {
-        return numberChildren * this.constants.foodCostPerChild + numberAdults * this.constants.foodCostPerAdult;
+        this.cost =  numberChildren * this.constants.foodCostPerChild + numberAdults * this.constants.foodCostPerAdult;
     }
 
     //Calculate detailed food cost
     calculateAdvancedFoodCost() {
-        return this.grocerciesCost + this.diningOutCost;
+        this.cost = this.grocerciesCost + this.diningOutCost;
     }
 }

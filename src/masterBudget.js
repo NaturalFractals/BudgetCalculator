@@ -14,13 +14,14 @@ export class MasterBudget {
     constructor(constants) {
         this.constants = constants;
         this.location = "";
+        this.annualIncome = 0;
         this.totalMonthlyIncome = 8000;
         this.numberChildren = 2;
         this.numberAdults = 1;
         this.stateLocation = 'Alabama';
         this.food = new Food();
         //TODO: Move this method call out of the this class
-        //this.food.cost = this.food.calculateFoodCost();
+        // this.food.cost = this.food.calculateFoodCost(this.numberChildren, this.numberAdults);
 
         this.other = new Other(this.totalMonthlyIncome);
         //TODO: Move this method call out of the this class

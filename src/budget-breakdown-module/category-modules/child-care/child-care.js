@@ -12,6 +12,6 @@ export class ChildCare {
 
     //Calculates the cost of the advanced child care cost
     calculateAdvancedChildCareCost(privateSchoolCost) {
-        return this.privateSchoolCost + this.daycareCost;
+        this.cost = this.privateSchoolCost + this.daycareCost;
     }
 }

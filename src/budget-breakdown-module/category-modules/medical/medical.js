@@ -10,4 +10,9 @@ export class Medical {
         this.healthInsuranceCost = 0;
         this.dentalCost = 0;
     }
+
+    //Calculates the advanced cost of the medical category
+    calculateAdvancedMedical() {
+        this.cost = this.dentalCost + this.healthInsuranceCost;
+    }
 }

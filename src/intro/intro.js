@@ -11,7 +11,6 @@ export class Intro {
         this.router = router;
         this.httpClient = httpClient;
         this.masterBudget = masterBudget;
-        this.displayIncome = "";
         this.getLocation();
     }
 
@@ -81,6 +80,8 @@ export class Intro {
                 self.masterBudget.medical.cost = healthData[2];
             }
         });
+
+        this.masterBudget.food.cost = this.masterBudget.food.calculateFoodCost(this.masterBudget.numberChildren, this.masterBudget.numberAdults);
     }
 
     //Get current county/location of user

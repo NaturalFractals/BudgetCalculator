@@ -17,7 +17,7 @@
         <div repeat.for="constant of constants.taxes" class="form-group"> 
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label>${constant.label}</label>
-            <input type="text" value.bind="taxes[constant.variable]" >
+            <input type="text" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedTaxCost()">
           </div>
         </div>
       </div>

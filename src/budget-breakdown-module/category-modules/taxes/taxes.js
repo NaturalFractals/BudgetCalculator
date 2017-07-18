@@ -13,6 +13,6 @@ export class Taxes {
 
     //Calculates cost of vehicle and housing tax entered by the user.
     calculateAdvancedTaxCost() {
-        return this.vehicleTaxCost + this.housingTaxCost;
+        this.cost =  parseInt(this.vehicleTaxCost) + parseInt(this.housingTaxCost);
     }
 }

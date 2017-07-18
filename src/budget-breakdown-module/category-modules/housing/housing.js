@@ -11,4 +11,9 @@ export class Housing {
         this.homeInsuranceCost = 0;
         this.utilitiesCost = 0;
     }
+
+    //Calculates advanced cost for housing
+    calculateAdvancedCost() {
+        this.cost = this.monthlyRentCost + this.homeInsuranceCost + this.utilitiesCost;
+    }
 }
