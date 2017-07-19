@@ -12,7 +12,8 @@ export class Housing {
         this.costPercentage = 0;
         this.monthlyRentCost = 0;
         this.homeInsuranceCost = 0;
-        this.utilitiesCost = 0;
+        this.homeMaintenanceCost = 0;
+        this.homeTelephoneCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
     }

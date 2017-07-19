@@ -13,6 +13,7 @@ export class Food {
         this.costPercentage = 0;
         this.groceriesCost = 0;
         this.diningOutCost = 0;
+        this.workdayCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
     }

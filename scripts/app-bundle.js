@@ -1137,7 +1137,9 @@ define('budget-breakdown-module/category-modules/medical/medical',['exports', 'a
             this.cost = 0;
             this.costPercentage = 0;
             this.healthInsuranceCost = 0;
+            this.medicationCost = 0;
             this.dentalCost = 0;
+            this.otherMedicalCost = 0;
             this.collapsed = true;
             this.eventAggregator = eventAggregator;
         }
@@ -1179,7 +1181,8 @@ define('budget-breakdown-module/category-modules/housing/housing',['exports', 'a
             this.costPercentage = 0;
             this.monthlyRentCost = 0;
             this.homeInsuranceCost = 0;
-            this.utilitiesCost = 0;
+            this.homeMaintenanceCost = 0;
+            this.homeTelephoneCost = 0;
             this.collapsed = true;
             this.eventAggregator = eventAggregator;
         }
@@ -1222,6 +1225,7 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
             this.costPercentage = 0;
             this.groceriesCost = 0;
             this.diningOutCost = 0;
+            this.workdayCost = 0;
             this.collapsed = true;
             this.eventAggregator = eventAggregator;
         }
@@ -1315,6 +1319,7 @@ define('budget-breakdown-module/category-modules/other/other',['exports', 'aurel
             this.gymCost = 0;
             this.entertainmentCost = 0;
             this.clothingCost = 0;
+            this.studentLoanCost = 0;
             this.collapsed = true;
             this.eventAggregator = eventAggregator;
         }
@@ -1400,6 +1405,7 @@ define('budget-breakdown-module/category-modules/transportation/transportation',
             this.cost = 0;
             this.costPercentage = 0;
             this.collapsed = true;
+            this.publicTransportationCost = 0;
             this.eventAggregator = eventAggregator;
         }
 
