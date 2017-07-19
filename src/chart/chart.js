@@ -41,7 +41,8 @@ export class Chart {
             case "Medical":     return 3;
             case "Other":       return 4;
             case "Savings":     return 5;
-            default:            return 6;
+            case "Taxes":      return 6;
+            default:            return 7;
         }
     }
 

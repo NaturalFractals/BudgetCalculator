@@ -163,6 +163,13 @@ label {
 .checkbox-taxes input[type="checkbox"]:checked + label::after {
   color: #fff; }
 
+.checkbox-transportation input[type="checkbox"]:checked + label::before {
+  background-color: #2b908f;
+  border-color: #2b908f; }
+.checkbox-transportation input[type="checkbox"]:checked + label::after {
+  color: #fff; }
+
+
   /*.checkbox {
   padding-left: 20px; }
   .checkbox label {
