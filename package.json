@@ -13,7 +13,6 @@
     "aurelia-fetch-client": "^1.1.2",
     "babel-polyfill": "^6.23.0",
     "bootstrap": "^3.3.7",
-    "bootstrap-material-design": "^0.5.10",
     "es6-promise": "^4.1.1",
     "highcharts": "^5.0.12",
     "ion-rangeslider": "^2.2.0",

@@ -12,7 +12,13 @@ export class Taxes {
         this.costPercentage = 0;
         this.vehicleTaxCost = 0;
         this.housingTaxCost = 0;
+        this.collapsed = true;
         this.eventAggregator = eventAggregator;
+    }
+
+    //Toggles the arrow of the collapse menu
+    toggle() {
+        this.collapsed = !this.collapsed
     }
 
     //Calculates cost of vehicle and housing tax entered by the user.

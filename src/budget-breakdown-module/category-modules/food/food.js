@@ -13,7 +13,13 @@ export class Food {
         this.costPercentage = 0;
         this.groceriesCost = 0;
         this.diningOutCost = 0;
+        this.collapsed = true;
         this.eventAggregator = eventAggregator;
+    }
+
+    //Toggles the arrow of the collapse menu
+    toggle() {
+        this.collapsed = !this.collapsed;
     }
 
     //Calculate the basic food cost for the household

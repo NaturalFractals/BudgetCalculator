@@ -167,16 +167,6 @@
               "css/bootstrap.css"
             ]
           },
-         {
-            "name": "bootstrap-material-design",
-            "path": "../node_modules/bootstrap-material-design/dist",
-            "main": "js/material.min",
-            "deps": ["jquery"],
-            "exports": "$",
-            "resources": [
-              "css/bootstrap-material-design.css"
-            ]
-          },
           {
             "name": "jquery-ui-dist",
             "path": "../node_modules/jquery-ui-dist",

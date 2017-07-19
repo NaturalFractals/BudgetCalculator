@@ -9,8 +9,8 @@
             <input id="checkbox4" type="checkbox" checked.bind="includeInBudget" change.delegate="eventAggregator.publish('toggle element', 'Medical')">
             <label for="checkbox4"></label>
           </div>
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapseMedical" aria-expanded="true" aria-controls="collapseMedical">
-          Medical
+          <a click.delegate="toggle()" data-toggle="collapse" data-parent="#accordion" href="#collapseMedical" aria-expanded="true" aria-controls="collapseMedical">
+          Medical <span class="${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}">
         </a>
         </h5>
       </div>

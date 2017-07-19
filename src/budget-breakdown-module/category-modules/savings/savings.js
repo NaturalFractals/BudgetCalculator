@@ -15,7 +15,13 @@ export class Savings {
         this.retirementCost = 0;
         this.investmentsCost = 0;
         this.collegeSavingsCost = 0;
+        this.collapsed = true;
         this.eventAggregator = eventAggregator;
+    }
+
+    //Toggles the arrow of the collapse menu
+    toggle() {
+        this.collapsed = !this.collapsed
     }
 
     //Calculates cost of savings

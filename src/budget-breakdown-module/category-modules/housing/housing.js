@@ -1,11 +1,11 @@
-import {inject, singleton} from 'aurelia-framework';
-import {Constants} from 'constants';
-import {EventAggregator} from 'aurelia-event-aggregator';
+import { inject, singleton } from 'aurelia-framework';
+import { Constants } from 'constants';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
 @inject(Constants, EventAggregator)
 @singleton()
 export class Housing {
-    constructor(constants, eventAggregator){
+    constructor(constants, eventAggregator) {
         this.includeInBudget = true;
         this.constants = constants;
         this.cost = 0;
@@ -13,7 +13,13 @@ export class Housing {
         this.monthlyRentCost = 0;
         this.homeInsuranceCost = 0;
         this.utilitiesCost = 0;
+        this.collapsed = true;
         this.eventAggregator = eventAggregator;
+    }
+
+    //Toggles the arrow of the collapse menu
+    toggle() {
+        this.collapsed = !this.collapsed
     }
 
     //Calculates advanced cost for housing

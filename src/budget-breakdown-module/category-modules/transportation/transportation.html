@@ -10,8 +10,8 @@
           <input id="checkbox8" type="checkbox" checked.bind="includeInBudget" change.delegate="eventAggregator.publish('toggle element', 'Transportation')">
           <label for="checkbox8"></label>
         </div>
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTransportation" aria-expanded="true" aria-controls="collapseTransportation">
-          Transportation
+        <a click.delegate="toggle()" data-toggle="collapse" data-parent="#accordion" href="#collapseTransportation" aria-expanded="true" aria-controls="collapseTransportation">
+          Transportation <span class="${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}">
         </a>
         </h5>
     </div>

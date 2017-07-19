@@ -15,7 +15,13 @@ export class Other {
         this.gymCost = 0;
         this.entertainmentCost = 0;
         this.clothingCost = 0;
+        this.collapsed = true;
         this.eventAggregator = eventAggregator;
+    }
+
+    //Toggles the arrow of the collapse menu
+    toggle() {
+        this.collapsed = !this.collapsed
     }
 
     //Calculates the basic cost of the other category

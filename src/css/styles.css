@@ -44,9 +44,13 @@
 
 /* Navigation bar above donut chart*/
 #navbar-years {
-      background:  #e1f5fe;
+    background:  #e1f5fe;
     margin-right: 21px;
     margin-left: 30px;
+}
+
+.arrows {
+  margin-left: 6px;
 }
 
 /* Style for goals templage*/
@@ -112,7 +116,7 @@
 
 /*  Style for collapse area*/
 .collapse {
-  background: #b9f0ae;
+  background: #e1f5ef;
 }
 
 /* Style for input-group in collapse*/

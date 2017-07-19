@@ -12,7 +12,13 @@ export class Medical {
         this.costPercentage = 0;
         this.healthInsuranceCost = 0;
         this.dentalCost = 0;
+        this.collapsed = true;
         this.eventAggregator = eventAggregator;
+    }
+
+    //Toggles the arrow of the collapse menu
+    toggle() {
+        this.collapsed = !this.collapsed
     }
 
     //Calculates the advanced cost of the medical category

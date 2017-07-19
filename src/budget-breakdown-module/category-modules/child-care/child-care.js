@@ -12,7 +12,15 @@ export class ChildCare {
         this.costPercentage = 0;
         this.privateSchoolCost = 0;
         this.daycareCost = 0;
+        this.schoolExpenseCost = 0;
+        this.childSupportCost = 0;
         this.eventAggregator = eventAggregator;
+        this.collapsed = true;
+    }
+
+    //Toggles the arrow of the collapse menu
+    toggle() {
+        this.collapsed = !this.collapsed
     }
 
     //Calculates the cost of the advanced child care cost
