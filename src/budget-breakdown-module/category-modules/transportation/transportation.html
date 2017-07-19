@@ -11,6 +11,13 @@
             <label for="checkbox1"></label>
           </div>
           <a data-toggle="collapse" data-parent="#accordion" href="#collapseChildCare" aria-expanded="true" aria-controls="collapseChildCare">
+      <h5 class="mb-0">
+        <div class="checkbox checkbox-child-care checkbox-inline">
+          <!--<input id="checkbox1" type="checkbox" checked.bind="includeInBudget" change.delegate="$parent.$parent.chartVM.currentViewModel.changeChart('Child Care')">-->
+          <input id="checkbox1" type="checkbox" checked.bind="includeInBudget" change.delegate="toggleInclude()">
+          <label for="checkbox1"></label>
+        </div>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseChildCare" aria-expanded="true" aria-controls="collapseChildCare">
           Child Care
         </a>
         </h5>

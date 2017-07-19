@@ -144,6 +144,22 @@ export class Constants {
             {
                 'label': 'How Many Cars',
                 'variable': 'numberOfCars'
+            },
+            {
+                'label': 'Payment',
+                'variable': 'carPaymentCost'
+            },
+            {
+                'label': 'Repairs',
+                'variable': 'carRepairCost'
+            },
+            {
+                'label': 'Insurance',
+                'variable': 'insuranceCost'
+            },
+            {
+                'label': 'Gasoline',
+                'variable': 'gasolineCost'
             }
         ];
 
@@ -168,6 +184,10 @@ export class Constants {
             {
                 'label': 'Clothing',
                 'variable': 'clothingCost'
+            },
+            {
+                'label': 'Student Loan Payments',
+                'variable': 'studentLoanCost'
             }
         ];
 
@@ -194,12 +214,28 @@ export class Constants {
         //Constants for taxes module
         this.taxes = [
             {
-                'label': 'Vehicle Taxes',
+                'label': 'State Taxes',
                 'variable': 'vehicleTaxCost'
             },
             {
-                'label': 'Housing Taxes',
-                'variable': 'housingTaxCost'
+                'label': 'Filing Status',
+                'variable': 'filingStatus'
+            }
+        ];
+
+        //Constants for filing status tax
+        this.taxesFiling = [
+            {
+                'label': 'Property Tax',
+                'variable': 'propertyTaxCost'
+            },
+            {
+                'label': 'Vehicle Tax',
+                'variable': 'vehicleTaxCost'
+            },
+            {
+                'label': 'Income Tax',
+                'variable': 'incomeTaxCost'
             }
         ];
     }
