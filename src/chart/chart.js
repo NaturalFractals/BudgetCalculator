@@ -10,8 +10,8 @@ export class Chart {
         this.chart = null;
         this.masterBudget = masterBudget;
         
-        eventAggregator.subscribe('toggle chart element', moduleName => {this.changeChart(moduleName)} );
-        eventAggregator.subscribe('update', update => {this.changeChart(update.moduleName, update.newValue)} );
+        eventAggregator.subscribe('toggle element', moduleName => {this.changeChart(moduleName)} );
+        eventAggregator.subscribe('update', update => {this.changedCost(update.name, update.value)} );
     }
 
     attached() {
@@ -24,13 +24,6 @@ export class Chart {
         var dataIndex = this.getDataIndex(moduleName);
         var visible = this.chart.series[0].data[dataIndex].visible ? false : true;
         this.chart.series[0].data[dataIndex].setVisible(visible);
-    }
-    
-    redrawChart() {
-        console.log(this.masterBudget.savings);
-        var tuples = ChartFactory.createChartTuple(this.masterBudget);
-        this.chart = ChartFactory.createChart('chartContainer', tuples);
-        this.masterBudget.chart = this.chart;
     }
 
     getDataIndex(moduleName) {

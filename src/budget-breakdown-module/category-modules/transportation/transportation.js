@@ -13,7 +13,4 @@ export class Transportation {
         this.eventAggregator = eventAggregator;
     }
 
-    toggleInclude() {
-        this.eventAggregator.publish('toggle chart element', 'Transportation');
-    }
 }

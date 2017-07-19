@@ -18,10 +18,6 @@ export class Other {
         this.eventAggregator = eventAggregator;
     }
 
-    toggleInclude() {
-        this.eventAggregator.publish('toggle chart element', 'Other');
-    }
-
     //Calculates the basic cost of the other category
     getBasicOtherCost() {
         this.cost = this.totalMonthlyIncome * this.constants.miscellaneousCost;
@@ -29,6 +25,6 @@ export class Other {
 
     //Calculates the advanced cost of other category
     calculateAdvancedOtherCost() {
-        this.cost = this.cellPhoneCost + this.recreationCost + this.gymCost + this.entertainmentCost + this.clothingCost;
+        this.cost = parseInt(this.cellPhoneCost) + parseInt(this.recreationCost) + parseInt(this.gymCost) + parseInt(this.entertainmentCost) + parseInt(this.clothingCost);
     }
 }

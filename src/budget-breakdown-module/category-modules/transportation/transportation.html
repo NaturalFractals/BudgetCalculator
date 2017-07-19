@@ -7,7 +7,7 @@
       <dv class="col-md-4">
       <h5 class="mb-0">
         <div class="checkbox checkbox-transportation checkbox-inline">
-          <input id="checkbox8" type="checkbox" checked.bind="includeInBudget" change.delegate="toggleInclude()">
+          <input id="checkbox8" type="checkbox" checked.bind="includeInBudget" change.delegate="eventAggregator.publish('toggle element', 'Transportation')">
           <label for="checkbox8"></label>
         </div>
         <a data-toggle="collapse" data-parent="#accordion" href="#collapseTransportation" aria-expanded="true" aria-controls="collapseTransportation">
@@ -28,7 +28,7 @@
       <div repeat.for="constant of constants.transportation" class="form-group">
         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
           <label>${constant.label}</label>
-          <input type="text" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedTransportation() $parent.$parent.$parent.chartVM.currentViewModel.redrawChart()">
+          <input type="number" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedTransportation() eventAggregator.publish('update', {name: 'Transportation', value: cost})">
         </div>
       </div>
     </div>

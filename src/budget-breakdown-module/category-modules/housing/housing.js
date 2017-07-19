@@ -16,10 +16,6 @@ export class Housing {
         this.eventAggregator = eventAggregator;
     }
 
-    toggleInclude() {
-        this.eventAggregator.publish('toggle chart element', 'Housing');
-    }
-
     //Calculates advanced cost for housing
     calculateAdvancedCost() {
         this.cost = parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost);

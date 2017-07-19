@@ -6,7 +6,7 @@
       <div class="col-md-4">
       <h5 class="mb-0">
         <div class="checkbox checkbox-medical checkbox-inline">
-            <input id="checkbox4" type="checkbox" checked.bind="includeInBudget" change.delegate="toggleInclude()">
+            <input id="checkbox4" type="checkbox" checked.bind="includeInBudget" change.delegate="eventAggregator.publish('toggle element', 'Medical')">
             <label for="checkbox4"></label>
           </div>
           <a data-toggle="collapse" data-parent="#accordion" href="#collapseMedical" aria-expanded="true" aria-controls="collapseMedical">
@@ -27,7 +27,7 @@
         <div repeat.for="constant of constants.medical" class="form-group">
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label>${constant.label}</label>
-            <input type="text" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedMedical() $parent.$parent.$parent.chartVM.currentViewModel.redrawChart()">
+            <input type="number" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedMedical() eventAggregator.publish('update', {name: 'Medical', value: cost})">
           </div>
         </div>
       </div>

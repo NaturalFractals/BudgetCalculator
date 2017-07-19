@@ -15,12 +15,8 @@ export class Medical {
         this.eventAggregator = eventAggregator;
     }
 
-    toggleInclude() {
-        this.eventAggregator.publish('toggle chart element', 'Medical');
-    }
-
     //Calculates the advanced cost of the medical category
     calculateAdvancedMedical() {
-        this.cost = this.dentalCost + this.healthInsuranceCost;
+        this.cost = parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost);
     }
 }

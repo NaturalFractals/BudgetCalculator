@@ -18,10 +18,6 @@ export class Savings {
         this.eventAggregator = eventAggregator;
     }
 
-    toggleInclude() {
-        this.eventAggregator.publish('toggle chart element', 'Savings');
-    }
-
     //Calculates cost of savings
     calculateAdvancedSavings() {
         this.cost = parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost);
