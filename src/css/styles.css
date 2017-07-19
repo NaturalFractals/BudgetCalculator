@@ -10,6 +10,13 @@
     width: 50%;
 }
 
+/*Intro page tempalte styles*/
+#intro-template {
+  background: url('src/css/turt.jpg');
+  padding-bottom: 800px;
+  padding-top: 50px;
+}
+
 /* Toolbar for number of children radios*/
 #children-toolbar {
     margin: 0 auto;
@@ -25,6 +32,8 @@
 /* Style for banner module table*/
 #banner-table {
     background: #E4E4E4;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    margin-bottom: 50px;
     width: 75%;
     margin: 0 auto;
 }
@@ -40,6 +49,14 @@
 /* Style for the accordian breakdown*/
 #accordion {
     background: #e1f5fe;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    margin-top: 60px;
+}
+
+/* Chart container styles*/
+#chartContainer {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  margin-top: 60px;
 }
 
 /*  Style for collapse area*/
