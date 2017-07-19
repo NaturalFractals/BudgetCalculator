@@ -3,7 +3,7 @@
   <require from="../../../utilities/percent"></require>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
   <div class="card">
-    <div class="card-header" role="tab" id="headingOne">
+    <div class="card-header" role="tab" id="headingTransportation">
       <dv class="col-md-4">
       <h5 class="mb-0">
         <div class="checkbox checkbox-child-care checkbox-inline">
@@ -24,12 +24,12 @@
     </div>
   </div>
   <br><br><br>
-  <div id="collapseChildCare" class="collapse" role="tabpanel" aria-labelledby="headingTransportation">
+  <div id="collapseTransportation" class="collapse" role="tabpanel" aria-labelledby="headingTransportation">
     <div class="card-block">
-      <div repeat.for="constant of constants.childCare" class="form-group">
+      <div repeat.for="constant of constants.transportation" class="form-group">
         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
           <label>${constant.label}</label>
-          <input type="text" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedChildCareCost() $parent.$parent.$parent.chartVM.currentViewModel.redrawChart()">
+          <input type="text" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedTransportation() $parent.$parent.$parent.chartVM.currentViewModel.redrawChart()">
         </div>
       </div>
     </div>
