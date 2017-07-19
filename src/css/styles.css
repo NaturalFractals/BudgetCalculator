@@ -83,6 +83,13 @@
     height: 400px;
 }
 
+/* Style for button div*/
+#button-div {
+    clear:both;
+    padding: 200px;
+    margin: 0 auto;
+}
+
 /* Chart and breakdown table container*/
 #results-container {
     width: 75%;

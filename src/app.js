@@ -17,6 +17,14 @@ export class App {
       {
         route: 'results', moduleId: 'results/results',
         name: 'results', title: 'Personal Budget', nav: true
+      },
+            {
+        route: 'goals', moduleId: 'goals/goals',
+        name: 'goals', title: 'Goals', nav: true
+      },
+            {
+        route: 'five-year', moduleId: 'five-year/five-year',
+        name: 'five-year', title: 'Five Year Plan', nav: true
       }
     ]);
   }
