@@ -9,15 +9,19 @@ export class Chart {
     constructor(masterBudget, eventAggregator) {
         this.chart = null;
         this.masterBudget = masterBudget;
-        
+        this.years = [2017, 2018, 2019, 2020, 2021];
         eventAggregator.subscribe('toggle element', moduleName => {this.changeChart(moduleName)} );
         eventAggregator.subscribe('update', update => {this.changedCost(update.name, update.value)} );
     }
 
     attached() {
         var tuples = ChartFactory.createChartTuple(this.masterBudget);
-        this.chart = ChartFactory.createDonutChart('chartContainer', tuples);
+        this.chart = ChartFactory.createDonutChart('goalsChartContainer', tuples);
         this.masterBudget.chart = this.chart;
+    }
+
+    drawChartForYear(year) {
+        
     }
 
     changeChart(moduleName) {

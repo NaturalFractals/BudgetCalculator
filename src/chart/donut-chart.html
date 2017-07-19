@@ -1,5 +1,14 @@
 <template>
     <require from="css/styles.css"></require>
+    <link rel="stylesheet" type="text/css" href="dist/css/bootstrap-material-design.css">
+    <link rel="stylesheet" type="text/css" href="dist/css/ripples.min.css">
     <require from="highcharts/css/highcharts.css"></require>
-    <div id="chartContainer" style="height:500px;"></div>
+    <nav class="navbar navbar-light teal">
+        <div class="container-fluid">
+            <ul repeat.for="year of years" class="nav navbar-nav">
+                <li><a click.delegate="drawChartForYear({year})">${year}</a></li>
+            </ul>
+        </div>
+            <div id="goalsChartContainer" style="height:500px;"></div>
+    </nav>
 </template>

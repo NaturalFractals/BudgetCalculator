@@ -4,15 +4,49 @@
     margin: 0 auto;
 }
 
+/* Style for Five Year Results Container*/
+#five-year-module-container {
+    width: 70%;
+    margin: 0 auto;
+}
+
 /* Toolbar for number of adult radios*/
 #adults-toolbar {
     margin: 0 auto;
     width: 50%;
 }
 
+/* Goals monthly or yearly toggle*/
 #amount-toggle {
     margin-top: 80px;
     margin-bottom: 40px;
+}
+
+/* Container for goals donut chart*/
+#goals-chart-div {
+    float:left;
+    width: 600px;
+    height: 400px;
+}
+
+/* Container for goals donut chart details (to the right of chart)*/
+#donut-details {
+    float:right;
+    width: 600px;
+    height: 400px;
+}
+
+/* Container for the donut details.*/
+#donut-details-div {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+    margin-top: 60px;
+}
+
+/* Navigation bar above donut chart*/
+#navbar-years {
+      background:  #e1f5fe;
+    margin-right: 21px;
+    margin-left: 30px;
 }
 
 /* Style for goals templage*/
@@ -24,9 +58,9 @@
 
 /*Intro page tempalte styles*/
 #intro-template {
-  background: url('src/css/turt.jpg');
-  padding-bottom: 800px;
-  padding-top: 50px;
+    background: url('src/css/roadmap.jpg');
+    padding-bottom: 800px;
+    padding-top: 50px;
 }
 
 /* Toolbar for number of children radios*/
@@ -69,6 +103,11 @@
 #chartContainer {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
   margin-top: 60px;
+}
+
+/* Chart container styles*/
+#goalsChartContainer {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 /*  Style for collapse area*/
