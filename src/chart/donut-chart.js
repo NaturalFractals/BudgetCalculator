@@ -16,7 +16,7 @@ export class Chart {
 
     attached() {
         var tuples = ChartFactory.createChartTuple(this.masterBudget);
-        this.chart = ChartFactory.createPieChart('chartContainer', tuples);
+        this.chart = ChartFactory.createDonutChart('chartContainer', tuples);
         this.masterBudget.chart = this.chart;
     }
 

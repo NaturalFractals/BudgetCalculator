@@ -10,6 +10,18 @@
     width: 50%;
 }
 
+#amount-toggle {
+    margin-top: 80px;
+    margin-bottom: 40px;
+}
+
+/* Style for goals templage*/
+#goal-template {
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
 /*Intro page tempalte styles*/
 #intro-template {
   background: url('src/css/turt.jpg');
