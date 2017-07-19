@@ -1,9 +1,32 @@
 <template>
     <require from="css/styles.css"></require>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <require from="./category-modules/child-care/child-care"></require>
+    <require from="./category-modules/food/food"></require>
+    <require from="./category-modules/housing/housing"></require>
+    <require from="./category-modules/medical/medical"></require>
+    <require from="./category-modules/other/other"></require>
+    <require from="./category-modules/savings/savings"></require>
+    <require from="./category-modules/taxes/taxes"></require>
+    <require from="./category-modules/transportation/transportation"></require>
 
-    <div id="accordion" class="row" role="tablist" aria-multiselectable="true">     
+    <!-- <table id="accordian">
+        <tr as-element="child-care"></tr>
+        <tr as-element="food"></tr>
+        <tr as-element="housing"></tr>
+        <tr as-element="medical"></tr>
+        <tr as-element="other"></tr>
+        <tr as-element="savings"></tr>
+        <tr as-element="taxes"></tr>
+        <tr as-element="transportation"></tr>
+    </table> -->
 
+
+
+
+
+     <div id="accordion" class="row" role="tablist" aria-multiselectable="true">
+        
         <compose view-model="./category-modules/child-care/child-care"></compose>
         <compose view-model="./category-modules/food/food"></compose>
         <compose view-model="./category-modules/housing/housing"></compose>
@@ -12,13 +35,6 @@
         <compose view-model="./category-modules/savings/savings"></compose>
         <compose view-model="./category-modules/taxes/taxes"></compose>
         <compose view-model="./category-modules/transportation/transportation"></compose>
+    </div> 
 
-        <!--<div style="width:15px; height:15px; background-color:#7cb5ec; display:inline; float:left;"></div><compose view-model="./category-modules/child-care/child-care"></compose>
-        <div style="width:15px; height:15px; background-color:#434348; display:inline; float:left;"></div><compose view-model="./category-modules/food/food"></compose>
-        <div style="width:15px; height:15px; background-color:#90ed7d; display:inline; float:left;"></div><compose view-model="./category-modules/housing/housing"></compose>
-        <div style="width:15px; height:15px; background-color:#f7a35c; display:inline; float:left;"></div><compose view-model="./category-modules/medical/medical"></compose>
-        <div style="width:15px; height:15px; background-color:#8085e9; display:inline; float:left;"></div><compose view-model="./category-modules/other/other"></compose>
-        <div style="width:15px; height:15px; background-color:#f15c80; display:inline; float:left;"></div><compose view-model="./category-modules/savings/savings"></compose>
-        <div style="width:15px; height:15px; background-color:#e4d354; display:inline; float:left;"></div><compose view-model="./category-modules/taxes/taxes"></compose>-->
-    </div>
 </template>

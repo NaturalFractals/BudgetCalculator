@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import 'bootstrap';
+import 'bootstrap-material-design';
 import 'jquery-ui-dist';
 import $ from 'jquery';
 
