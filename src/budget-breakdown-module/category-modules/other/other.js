@@ -15,6 +15,7 @@ export class Other {
         this.gymCost = 0;
         this.entertainmentCost = 0;
         this.clothingCost = 0;
+        this.studentLoanCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
     }

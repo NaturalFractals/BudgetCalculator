@@ -11,7 +11,9 @@ export class Medical {
         this.cost = 0;
         this.costPercentage = 0;
         this.healthInsuranceCost = 0;
+        this.medicationCost = 0;
         this.dentalCost = 0;
+        this.otherMedicalCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
     }

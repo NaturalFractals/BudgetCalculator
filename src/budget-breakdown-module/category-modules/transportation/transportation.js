@@ -11,6 +11,7 @@ export class Transportation {
         this.cost = 0;
         this.costPercentage = 0;
         this.collapsed = true;
+        this.publicTransportationCost = 0;
         this.eventAggregator = eventAggregator;
     }
 

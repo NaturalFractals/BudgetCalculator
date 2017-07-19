@@ -1186,7 +1186,8 @@ define('budget-breakdown-module/category-modules/housing/housing',['exports', 'a
             this.costPercentage = 0;
             this.monthlyRentCost = 0;
             this.homeInsuranceCost = 0;
-            this.utilitiesCost = 0;
+            this.homeMaintenanceCost = 0;
+            this.homeTelephoneCost = 0;
             this.collapsed = true;
             this.eventAggregator = eventAggregator;
         }
@@ -1400,6 +1401,7 @@ define('budget-breakdown-module/category-modules/transportation/transportation',
             this.cost = 0;
             this.costPercentage = 0;
             this.collapsed = true;
+            this.publicTransportationCost = 0;
             this.eventAggregator = eventAggregator;
         }
 
