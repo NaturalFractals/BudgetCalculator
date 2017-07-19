@@ -15,12 +15,8 @@ export class ChildCare {
         this.eventAggregator = eventAggregator;
     }
 
-    toggleInclude() {
-        this.eventAggregator.publish('toggle chart element', 'Child Care');
-    }
-    
     //Calculates the cost of the advanced child care cost
     calculateAdvancedChildCareCost() {
-        this.cost = this.privateSchoolCost + this.daycareCost;
+        this.cost = parseInt(this.privateSchoolCost) + parseInt(this.daycareCost);
     }
 }

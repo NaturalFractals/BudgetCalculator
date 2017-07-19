@@ -15,10 +15,6 @@ export class Taxes {
         this.eventAggregator = eventAggregator;
     }
 
-    toggleInclude() {
-        this.eventAggregator.publish('toggle chart element', 'Taxes');
-    }
-
     //Calculates cost of vehicle and housing tax entered by the user.
     calculateAdvancedTaxCost() {
         this.cost =  parseInt(this.vehicleTaxCost) + parseInt(this.housingTaxCost);
