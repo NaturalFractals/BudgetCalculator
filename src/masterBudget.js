@@ -5,13 +5,14 @@ import {Medical} from 'budget-breakdown-module/category-modules/medical/medical'
 import {Taxes} from 'budget-breakdown-module/category-modules/taxes/taxes';
 import {Savings} from 'budget-breakdown-module/category-modules/savings/savings';
 import {ChildCare} from 'budget-breakdown-module/category-modules/child-care/child-care';
+import {Transportation} from 'budget-breakdown-module/category-modules/transportation/transportation';
 import {singleton} from 'aurelia-framework';
 import {inject} from 'aurelia-framework';
 import {Constants} from 'constants';
 
-@inject(Constants, Food, Other, Housing, Medical, Taxes, Savings, ChildCare)
+@inject(Constants, Food, Other, Housing, Medical, Taxes, Savings, ChildCare, Transportation)
 export class MasterBudget {
-    constructor(constants, food, other, housing, medical, taxes, savings, childCare) {
+    constructor(constants, food, other, housing, medical, taxes, savings, childCare, transportation) {
         this.constants = constants;
         this.location = "";
         this.annualIncome = 0;
@@ -28,11 +29,12 @@ export class MasterBudget {
         this.taxes = taxes;
         this.savings = savings;
         this.childCare = childCare;
+        this.transportation = transportation;
 
         this.carYearlyUpkeepCost = 0;
         this.carMonthlyOwnershipCost = 0;
         this.sumOfAllCost = 0;
-        this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes'];
+        this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes', 'Transportation'];
         this.percentageByCategory = [];
 
         this.chart = null;
