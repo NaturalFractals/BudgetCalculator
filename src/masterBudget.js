@@ -31,8 +31,6 @@ export class MasterBudget {
         this.childCare = childCare;
         this.transportation = transportation;
 
-        this.carYearlyUpkeepCost = 0;
-        this.carMonthlyOwnershipCost = 0;
         this.sumOfAllCost = 0;
         this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes', 'Transportation'];
         this.percentageByCategory = [];

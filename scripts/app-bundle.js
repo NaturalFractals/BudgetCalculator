@@ -311,8 +311,6 @@ define('masterBudget',['exports', 'budget-breakdown-module/category-modules/food
                 this.childCare = childCare;
                 this.transportation = transportation;
 
-                this.carYearlyUpkeepCost = 0;
-                this.carMonthlyOwnershipCost = 0;
                 this.sumOfAllCost = 0;
                 this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes', 'Transportation'];
                 this.percentageByCategory = [];
@@ -810,25 +808,26 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
 
                                 carCostData.costByState.forEach(function (stateData) {
                                     if (stateData[0] === self.masterBudget.stateLocation) {
-                                        self.masterBudget.carYearlyUpkeepCost = stateData[4];
+                                        self.masterBudget.transportation.carYearlyUpkeepCost = stateData[4];
                                     }
                                 });
 
                                 carCostData.costByAge.forEach(function (ageData) {
                                     if (ageData[0] >= self.masterBudget.currentUserAge) {
-                                        self.masterBudget.carMonthlyOwnershipCost = ageData[2];
+                                        self.masterBudget.transportation.carMonthlyOwnershipCost = ageData[2];
                                     }
                                 });
+                                console.log(this.masterBudget.transportation);
 
-                                _context3.next = 22;
+                                _context3.next = 23;
                                 return this.httpClient.fetch('/api/home-insurance/get.json');
 
-                            case 22:
+                            case 23:
                                 homeInsurance = _context3.sent;
-                                _context3.next = 25;
+                                _context3.next = 26;
                                 return homeInsurance.json();
 
-                            case 25:
+                            case 26:
                                 homeInsuranceData = _context3.sent;
 
                                 homeInsuranceData.costByState.forEach(function (homeData) {
@@ -837,15 +836,15 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                     }
                                 });
 
-                                _context3.next = 29;
+                                _context3.next = 30;
                                 return this.httpClient.fetch('api/healthcare-insurance/get.json');
 
-                            case 29:
+                            case 30:
                                 healthInsurance = _context3.sent;
-                                _context3.next = 32;
+                                _context3.next = 33;
                                 return healthInsurance.json();
 
-                            case 32:
+                            case 33:
                                 healthInsuranceData = _context3.sent;
 
                                 healthInsuranceData.costByState.forEach(function (healthData) {
@@ -854,7 +853,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                     }
                                 });
 
-                            case 34:
+                            case 35:
                             case 'end':
                                 return _context3.stop();
                         }
@@ -1097,6 +1096,7 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[3], masterBudget.medical.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[4], masterBudget.other.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[5], masterBudget.savings.cost, masterBudget));
+            masterBudget.transportation.calculateAverageTransportationCost();
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[6], masterBudget.taxes.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[7], masterBudget.transportation.cost, masterBudget));
 
@@ -1569,9 +1569,16 @@ define('budget-breakdown-module/category-modules/transportation/transportation',
             this.collapsed = true;
             this.publicTransportationCost = 0;
             this.publicTransportationInflation = 1.0329;
+            this.carYearlyUpkeepCost = 0;
+            this.carMonthlyOwnershipCost = 0;
             this.eventAggregator = eventAggregator;
             this.isMonthly = true;
         }
+
+        Transportation.prototype.calculateAverageTransportationCost = function calculateAverageTransportationCost() {
+            this.cost = parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost);
+            console.log(this);
+        };
 
         Transportation.prototype.toggle = function toggle() {
             this.collapsed = !this.collapsed;

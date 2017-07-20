@@ -13,8 +13,16 @@ export class Transportation {
         this.collapsed = true;
         this.publicTransportationCost = 0;
         this.publicTransportationInflation = 1.0329;
+        this.carYearlyUpkeepCost = 0;
+        this.carMonthlyOwnershipCost = 0;
         this.eventAggregator = eventAggregator;
         this.isMonthly = true;
+    }
+
+    //Calculates the average transportation for the basic calc page.
+    calculateAverageTransportationCost() {
+        this.cost = parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost);
+        console.log(this);
     }
 
     //Toggles the arrow of the collapse menu
@@ -24,6 +32,5 @@ export class Transportation {
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
-        
     }
 }
