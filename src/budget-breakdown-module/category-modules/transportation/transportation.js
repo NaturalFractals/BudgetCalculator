@@ -20,13 +20,10 @@ export class Transportation {
     toggle() {
         this.collapsed = !this.collapsed
     }
-<<<<<<< HEAD
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
         
     }
 
-=======
->>>>>>> 1d6f603079ddcef5100782f7982feef1faad340e
 }
