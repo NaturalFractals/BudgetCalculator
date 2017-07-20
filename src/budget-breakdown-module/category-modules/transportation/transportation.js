@@ -22,7 +22,6 @@ export class Transportation {
     //Calculates the average transportation for the basic calc page.
     calculateAverageTransportationCost() {
         this.cost = parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost);
-        console.log(this);
     }
 
     //Toggles the arrow of the collapse menu

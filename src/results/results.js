@@ -16,4 +16,9 @@ export class Results {
     routeFiveYearPlan() {
         this.router.navigate("#/five-year")
     }
+
+    //Routes the user to the auto budget page
+    routeAutoBudget() {
+        this.router.navigate("#/auto-budget")
+    }
 }
