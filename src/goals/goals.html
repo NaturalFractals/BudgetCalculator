@@ -1,28 +1,46 @@
 <template>
     <require from="css/styles.css"></require>
+    <!-- Progress bar to keep track of amount needed for goal-->
+    <div class="progress">
+        <div class="progress-bar" style="width: 60%"></div>
+    </div>
     <div id="goal-template">
+        <!-- Title for goals page-->
         <div>
             <h2>How much will you need to reach your Goal?</h2>
             <h4>Start with a goal to help your realize the savings needed to reach this goal</h4>
         </div>
-        <div id="dropdown-select">
-            <select name="goal-dropdown">
-            <option value="">Buy a House</option>
-            <option value="">Pay of Debt</option>
-            <option value="">Save for Retirement</option>
-            <option value="">Buy a Car</option>
-            <option value="">Vacation</option>
-            <option value="">Home Improvements</option>
-            <option value="">Save for Emergency</option>
-            <option value="">Gifts</option>
-        </select>
+
+        <!-- Dropdown group for selecting goals-->
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Your Goal</button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item">Buy a House</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item">Pay of Debt</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item">Save for Retirement</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item">Buy a Car</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item">Vacation</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item">Save for Emergency</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item">Home Improvements</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Gifts</a>
+            </div>
         </div>
-        <div id="amount-toggle" class="btn-group" data-toggle="buttons">
+
+        <!-- Select the type of amount to enter-->
+        <div id="amount-toggle" class="form-group btn-group" data-toggle="buttons">
             <label class="btn-primary">
             <input type="radio">Enter in Total Amount</label>
             <label class="btn-primary">
             <input type="radio">Enter in Monthly Amount</label>
         </div>
+        <!-- Input cost of the goal-->
         <div>
             <input type="number"></input>
         </div>
