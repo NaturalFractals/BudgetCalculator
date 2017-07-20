@@ -57,6 +57,8 @@ export class DonutDetails {
         var date = new Date();
         var year = date.getFullYear();
         for(var i = 0; i < currentYear - year; i++) {
+            this.masterBudget.childCare.privateSchoolCost *= this.masterBudget.childCare.privateSchoolInflation;
+            this.masterBudget.childCare.daycareUpdatedCost *= this.masterBudget.childCare.daycareInflation;
             this.masterBudget.food.groceriesUpdatedCost *= this.masterBudget.food.groceriesInflation;
             this.masterBudget.food.diningOutUpdatedCost *= this.masterBudget.food.diningOutInflation;
         }

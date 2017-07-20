@@ -20,6 +20,7 @@ export class Housing {
         this.homeTelephoneInflation = 0.9915;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
+        this.isMonthly = true;
     }
 
     //Toggles the arrow of the collapse menu
@@ -30,5 +31,10 @@ export class Housing {
     //Calculates advanced cost for housing
     calculateAdvancedCost() {
         this.cost = parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost);
+    }
+
+    toggleHorizon() {
+        this.isMonthly = !this.isMonthly;
+        
     }
 }

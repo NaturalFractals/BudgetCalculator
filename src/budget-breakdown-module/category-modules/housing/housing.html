@@ -9,7 +9,8 @@
             <input id="checkbox3" type="checkbox" checked.bind="includeInBudget" change.delegate="eventAggregator.publish('toggle element', 'Housing')">
             <label for="checkbox3"></label>
           </div>
-          <a click.delegate="toggle()" data-toggle="collapse" data-parent="#accordion" href="#collapseHousing" aria-expanded="true" aria-controls="collapseHousing">
+          <a click.delegate="toggle()" data-toggle="collapse" data-parent="#accordion" href="#collapseHousing" aria-expanded="true"
+            aria-controls="collapseHousing">
           Housing <span class="${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}">
         </a>
         </h5>
@@ -24,6 +25,12 @@
     <br><br><br>
     <div id="collapseHousing" class="collapse" role="tabpanel" aria-labelledby="headingHousing">
       <div class="card-block">
+
+        <div class="btn-group btn-group-raised" data-toggle="buttons" click.delegate="toggleHorizon()">
+          <label class="btn ${isMonthly ? 'btn-primary' : 'btn-secondary'}">Monthly</label>
+          <label class="btn ${!isMonthly ? 'btn-primary' : 'btn-secondary'}">Yearly</label>
+        </div>
+
         <div repeat.for="constant of constants.housing" class="form-group">
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label>${constant.label}</label>

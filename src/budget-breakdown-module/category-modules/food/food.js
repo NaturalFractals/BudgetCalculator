@@ -18,6 +18,7 @@ export class Food {
         this.workdayCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
+        this.isMonthly = true;
     }
 
     //Toggles the arrow of the collapse menu
@@ -35,5 +36,10 @@ export class Food {
     //Calculate detailed food cost
     calculateAdvancedFoodCost() {
         this.cost = parseInt(this.groceriesCost) + parseInt(this.diningOutCost);
+    }
+
+    toggleHorizon() {
+        this.isMonthly = !this.isMonthly;
+        
     }
 }

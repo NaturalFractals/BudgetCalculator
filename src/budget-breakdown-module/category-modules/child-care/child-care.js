@@ -31,4 +31,9 @@ export class ChildCare {
     calculateAdvancedChildCareCost() {
         this.cost = parseInt(this.privateSchoolCost) + parseInt(this.daycareCost);
     }
+
+    toggleHorizon() {
+        this.isMonthly = !this.isMonthly;
+        
+    }
 }

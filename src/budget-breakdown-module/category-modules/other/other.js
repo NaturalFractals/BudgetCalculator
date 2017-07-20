@@ -18,6 +18,7 @@ export class Other {
         this.studentLoanCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
+        this.isMonthly = true;
     }
 
     //Toggles the arrow of the collapse menu
@@ -33,5 +34,10 @@ export class Other {
     //Calculates the advanced cost of other category
     calculateAdvancedOtherCost() {
         this.cost = parseInt(this.cellPhoneCost) + parseInt(this.recreationCost) + parseInt(this.gymCost) + parseInt(this.entertainmentCost) + parseInt(this.clothingCost);
+    }
+
+    toggleHorizon() {
+        this.isMonthly = !this.isMonthly;
+        
     }
 }

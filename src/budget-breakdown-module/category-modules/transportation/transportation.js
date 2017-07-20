@@ -14,10 +14,16 @@ export class Transportation {
         this.publicTransportationCost = 0;
         this.publicTransportationInflation = 1.0329;
         this.eventAggregator = eventAggregator;
+        this.isMonthly = true;
     }
 
     //Toggles the arrow of the collapse menu
     toggle() {
         this.collapsed = !this.collapsed
+    }
+
+    toggleHorizon() {
+        this.isMonthly = !this.isMonthly;
+        
     }
 }
