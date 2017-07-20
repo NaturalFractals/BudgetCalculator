@@ -12,7 +12,9 @@ export class Food {
         this.cost = 0;
         this.costPercentage = 0;
         this.groceriesCost = 0;
+        this.groceriesInflation = 1.0295;
         this.diningOutCost = 0;
+        this.diningOutInflation = 1.0304;
         this.workdayCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;

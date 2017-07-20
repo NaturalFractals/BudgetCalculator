@@ -3,15 +3,15 @@
         <tr>
             <td>
                 <!-- Input annual income-->
-                <div class="form-group">
-                    <label for="">Annual Income:</label>
+                <div >
+                    <label id="breakdown-header-label" for=""><b>Annual Income:</b></label>
                     <input type="text" class="form-control" placeholder="50,000" value.bind="masterBudget.annualIncome" change.delegate="sanitizeIncome() getMonthlyIncome()">
                 </div>
             </td>
             <td>
                 <!-- Input user's location-->
-                <div class="form-group">
-                    <label for="">Location:</label>
+                <div>
+                    <label id="breakdown-header-label" for=""><b>Location:</b></label>
                     <input type="text" value.bind="masterBudget.location" class="form-control">
                 </div>
             </td>
@@ -19,7 +19,7 @@
                 <!-- Input number of adults in household-->
                 <div id="breakdown-buttons" class="btn-toolbar" role="toolbar"><b>Adults in Household</b>
                     <div class="radio-group" data-toggle="buttons">
-                        <label repeat.for="i of 2" class="btn btn-primary active">
+                        <label id="breakdown-buttons-label" repeat.for="i of 2" class="btn btn-sm btn-primary active">
                         <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
                         ${i + 1}
                         </label>
@@ -30,7 +30,7 @@
                 <!-- Input number of children in household-->
                 <div id="breakdown-buttons" class="btn-toolbar" role="toolbar"><b>Children in Household</b>
                     <div class="radio-group" data-toggle="buttons">
-                        <label repeat.for="i of 5" class="btn btn-primary active">
+                        <label id="breakdown-buttons-label" repeat.for="i of 5" class="btn btn-sm btn-primary active">
                         <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i" name="options"> 
                          ${i}
                         </label>

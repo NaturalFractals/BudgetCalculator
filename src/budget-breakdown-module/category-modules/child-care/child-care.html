@@ -21,14 +21,13 @@
     <div class="col-md-4">
       ${cost | currency}
     </div>
-  </div>
   <br><br><br>
   <div id="collapseChildCare" class="collapse" role="tabpanel" aria-labelledby="headingChildCare">
     <div class="card-block">
 
       <div class="btn-group btn-group-raised" data-toggle="buttons" click.delegate="toggleHorizon()">
-        <label class="btn ${isMonthly ? 'btn-primary' : 'btn-secondary'}">Monthly</label>
-        <label class="btn ${!isMonthly ? 'btn-primary' : 'btn-secondary'}">Yearly</label>
+        <label class="btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}">Monthly</label>
+        <label class="btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}">Yearly</label>
       </div> 
 
       <div repeat.for="constant of constants.childCare" class="form-group">
@@ -39,5 +38,5 @@
       </div>
     </div>
   </div>
-  </div>
+    </div>
 </template>

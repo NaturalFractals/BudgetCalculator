@@ -16,7 +16,7 @@
         <div class="btn-toolbar" role="toolbar" id="adults-toolbar">
             <b>Adults in Household</b>
             <div class="radio-group" data-toggle="buttons">
-                <label repeat.for="i of 2" class="btn btn-primary active" click.delegate="test1()">
+                <label repeat.for="i of 2" class="btn btn-primary active">
                     <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
                     ${i + 1}
                 </label>
@@ -27,7 +27,7 @@
         <div class="btn-toolbar" role="toolbar" id="children-toolbar">
             <b>Children in Household</b>
             <div class="radio-group" data-toggle="buttons">
-                <label repeat.for="i of 4" class="btn btn-primary active" click.delegate="test()">
+                <label repeat.for="i of 4" class="btn btn-primary active">
                     <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i + 1" name="options"> 
                     ${i + 1}
                 </label>

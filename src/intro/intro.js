@@ -53,15 +53,16 @@ export class Intro {
         //Get average car cost for repairs, insurance, and gasoline
         carCostData.costByState.forEach((stateData) => {
             if (stateData[0] === self.masterBudget.stateLocation) {
-                self.masterBudget.carYearlyUpkeepCost = stateData[4];
+                self.masterBudget.transportation.carYearlyUpkeepCost = stateData[4];
             }
         });
         //Get average car cost for renting/buying
         carCostData.costByAge.forEach((ageData) => {
             if (ageData[0] >= self.masterBudget.currentUserAge) {
-                self.masterBudget.carMonthlyOwnershipCost = ageData[2];
+                self.masterBudget.transportation.carMonthlyOwnershipCost = ageData[2];
             }
         });
+        console.log(this.masterBudget.transportation);
 
         //Get average home insurance cost
         let homeInsurance = await this.httpClient.fetch('/api/home-insurance/get.json');
@@ -92,15 +93,7 @@ export class Intro {
     route() {
         this.router.navigate("#/results");
     }
-
-    test() {
-        console.log(this.masterBudget.numberChildren);
-    }
-
-    test1() {
-        console.log(this.masterBudget.numberAdults);
-    }
-
+    
     //Sanitize the income input to U.S. dollar format
     sanitizeIncome() {
         this.masterBudget.annualIncome = this.masterBudget.annualIncome.replace(/,/g, "");
