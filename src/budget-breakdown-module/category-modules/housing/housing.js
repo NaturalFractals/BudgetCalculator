@@ -11,9 +11,13 @@ export class Housing {
         this.cost = 0;
         this.costPercentage = 0;
         this.monthlyRentCost = 0;
+        this.monthlyRentInflation = 1.0269;
         this.homeInsuranceCost = 0;
+        this.homeInsuranceInflation = 1.0170;
         this.homeMaintenanceCost = 0;
+        this.homeMaintenanceInflation  = 1.0229;
         this.homeTelephoneCost = 0;
+        this.homeTelephoneInflation = 0.9915;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
     }

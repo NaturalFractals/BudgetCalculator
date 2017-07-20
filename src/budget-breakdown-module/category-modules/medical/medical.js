@@ -11,6 +11,7 @@ export class Medical {
         this.cost = 0;
         this.costPercentage = 0;
         this.healthInsuranceCost = 0;
+        this.healthInflation = 1.0379;
         this.medicationCost = 0;
         this.dentalCost = 0;
         this.otherMedicalCost = 0;

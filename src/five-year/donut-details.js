@@ -52,4 +52,13 @@ export class DonutDetails {
                 break;
         }
     }
+
+    calculateInflationData() {
+        var date = new Date();
+        var year = date.getFullYear();
+        for(var i = 0; i < currentYear - year; i++) {
+            this.masterBudget.food.groceriesUpdatedCost *= this.masterBudget.food.groceriesInflation;
+            this.masterBudget.food.diningOutUpdatedCost *= this.masterBudget.food.diningOutInflation;
+        }
+    }
 }

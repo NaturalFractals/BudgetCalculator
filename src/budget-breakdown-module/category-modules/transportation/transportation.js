@@ -12,6 +12,7 @@ export class Transportation {
         this.costPercentage = 0;
         this.collapsed = true;
         this.publicTransportationCost = 0;
+        this.publicTransportationInflation = 1.0329;
         this.eventAggregator = eventAggregator;
     }
 
