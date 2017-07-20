@@ -17,7 +17,7 @@
             </td>
             <td>
                 <!-- Input number of adults in household-->
-                <div class="btn-toolbar" role="toolbar"><b>Adults in Household</b>
+                <div id="breakdown-buttons" class="btn-toolbar" role="toolbar"><b>Adults in Household</b>
                     <div class="radio-group" data-toggle="buttons">
                         <label repeat.for="i of 2" class="btn btn-primary active">
                         <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
@@ -28,11 +28,11 @@
             </td>
             <td>
                 <!-- Input number of children in household-->
-                <div class="btn-toolbar" role="toolbar"><b>Children in Household</b>
+                <div id="breakdown-buttons" class="btn-toolbar" role="toolbar"><b>Children in Household</b>
                     <div class="radio-group" data-toggle="buttons">
-                        <label repeat.for="i of 4" class="btn btn-primary active">
-                        <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i + 1" name="options"> 
-                         ${i + 1}
+                        <label repeat.for="i of 5" class="btn btn-primary active">
+                        <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i" name="options"> 
+                         ${i}
                         </label>
                     </div>
                 </div>

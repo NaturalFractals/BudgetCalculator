@@ -12,7 +12,7 @@ export class ChartFactory {
                 }
             },
             title: {
-                text: 'Contents of Highsoft\'s weekly fruit delivery'
+                text: 'Yearly Budget'
             },
             subtitle: {
                 text: '3D donut in Highcharts'
@@ -25,17 +25,7 @@ export class ChartFactory {
             },
             series: [{
                 name: 'Delivered amount',
-                data: [
-                    ['Bananas', 8],
-                    ['Kiwi', 3],
-                    ['Mixed nuts', 1],
-                    ['Oranges', 6],
-                    ['Apples', 8],
-                    ['Pears', 4],
-                    ['Clementines', 4],
-                    ['Reddish (bag)', 1],
-                    ['Grapes (bunch)', 1]
-                ]
+                data: tuples
             }]
         })
     }

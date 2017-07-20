@@ -10,6 +10,7 @@ export class Chart {
         this.chart = null;
         this.masterBudget = masterBudget;
         this.years = [2017, 2018, 2019, 2020, 2021];
+        this.currentYear = 2017;
         eventAggregator.subscribe('toggle element', moduleName => {this.changeChart(moduleName)} );
         eventAggregator.subscribe('update', update => {this.changedCost(update.name, update.value)} );
     }
@@ -20,8 +21,10 @@ export class Chart {
         this.masterBudget.chart = this.chart;
     }
 
-    drawChartForYear(year) {
-        
+    drawChartForYear(year, currentYear) {
+        //Redraw the chart based on year object
+        this.currentYear = year.year;
+        console.log(this.currentYear);
     }
 
     changeChart(moduleName) {

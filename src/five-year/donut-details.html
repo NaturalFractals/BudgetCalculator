@@ -1,8 +1,17 @@
 <template>
+    <require from="../utilities/currency"></require>
+    <require from="../utilities/percent"></require>
+    <nav class="navbar navbar-light teal">
+        <div class="container-fluid">
+            <ul repeat.for="category of masterBudget.budgetCategories" class="nav navbar-nav">
+                <li class="${category === currentCategory ? 'active': ''}"><a click.delegate="changeNavigationTab(category, currentCategory)">${category}</a></li>
+            </ul>
+        </div>
+    </nav>
     <div id="donut-details-div">
-        <h4> Your monthly ${currentExpense} for ${currentYear} is ${currentExpenseYearCost} </h4>
+        <h4> With a monthly income of ${currentExpense | currency} for ${currentYear} is ${currentExpenseYearCost | currency} </h4>
         <div>
-            <h3>Top ways to save</h3>
+            <h3>Top ways to save:</h3>
             <p>1) Cancel Club Memberships</p>
             <p>2) Reduce or eliminate cable bill</p>
             <p>3) Carpool/Reduce Transportation cost</p>

@@ -1,12 +1,12 @@
 <template>
     <require from="css/styles.css"></require>
     <require from="highcharts/css/highcharts.css"></require>
-    <nav class="navbar navbar-light teal">
+    <nav data-spy="scroll" class="navbar navbar-light teal">
         <div class="container-fluid">
             <ul repeat.for="year of years" class="nav navbar-nav">
-                <li><a click.delegate="drawChartForYear({year})">${year}</a></li>
+                <li class="${currentYear === year ? 'active' : ''}"><a click.delegate="drawChartForYear({year})">${year}</a></li>
             </ul>
         </div>
-            <div id="goalsChartContainer" style="height:500px;"></div>
+        <div id="goalsChartContainer" style="height:500px;"></div>
     </nav>
 </template>
