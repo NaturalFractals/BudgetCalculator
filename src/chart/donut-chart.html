@@ -1,12 +1,14 @@
 <template>
     <require from="css/styles.css"></require>
     <require from="highcharts/css/highcharts.css"></require>
+    <!-- Nav bar for five year chart-->
     <nav data-spy="scroll" class="navbar navbar-light teal">
         <div class="container-fluid">
             <ul repeat.for="year of years" class="nav navbar-nav">
                 <li class="${currentYear === year ? 'active' : ''}"><a click.delegate="drawChartForYear({year})">${year}</a></li>
             </ul>
         </div>
+        <!-- Five year donut chart-->
         <div id="goalsChartContainer" style="height:500px;"></div>
     </nav>
 </template>

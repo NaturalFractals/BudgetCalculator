@@ -22,7 +22,7 @@ export class Chart {
     }
 
     drawChartForYear(year, currentYear) {
-        //Redraw the chart based on year object
+        
         this.currentYear = year.year;
         console.log(this.currentYear);
     }

@@ -10,6 +10,11 @@
     margin: 0 auto;
 }
 
+/* Style for five year container info*/
+#five-year-info-container {
+    clear: both;
+}
+
 /* Toolbar for number of adult radios*/
 #adults-toolbar {
     margin: 0 auto;
@@ -39,6 +44,21 @@
 /* Container for the donut details.*/
 #donut-details-div {
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Card info one div*/
+#card-info-one-div {
+box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Card info two div*/
+#card-info-two-div {
+box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Card info three div*/
+#card-info-three-div {
+box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 /* Navigation bar above donut chart*/

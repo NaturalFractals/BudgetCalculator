@@ -19,5 +19,4 @@ export class Transportation {
     toggle() {
         this.collapsed = !this.collapsed
     }
-
 }
