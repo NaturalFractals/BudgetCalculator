@@ -24,6 +24,5 @@ export class Banner {
     getMonthlyIncome() {
         var income = parseInt(this.displayIncome);
         this.masterBudget.totalMonthlyIncome = income / 12;
-        console.log(this.masterBudget.totalMonthlyIncome);
     }
 }

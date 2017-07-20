@@ -93,15 +93,7 @@ export class Intro {
     route() {
         this.router.navigate("#/results");
     }
-
-    test() {
-        console.log(this.masterBudget.numberChildren);
-    }
-
-    test1() {
-        console.log(this.masterBudget.numberAdults);
-    }
-
+    
     //Sanitize the income input to U.S. dollar format
     sanitizeIncome() {
         this.masterBudget.annualIncome = this.masterBudget.annualIncome.replace(/,/g, "");
