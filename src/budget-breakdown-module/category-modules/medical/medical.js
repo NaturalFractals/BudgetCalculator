@@ -16,6 +16,7 @@ export class Medical {
         this.otherMedicalCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
+        this.isMonthly = true;
     }
 
     //Toggles the arrow of the collapse menu
@@ -26,5 +27,10 @@ export class Medical {
     //Calculates the advanced cost of the medical category
     calculateAdvancedMedical() {
         this.cost = parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost);
+    }
+
+    toggleHorizon() {
+        this.isMonthly = !this.isMonthly;
+        
     }
 }

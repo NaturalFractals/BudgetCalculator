@@ -4,8 +4,8 @@
   <div class="card">
     <div class="card-header" role="tab" id="headingOther">
       <div class="col-md-4">
-      <h5 class="mb-0">
-        <div class="checkbox checkbox-other checkbox-inline">
+        <h5 class="mb-0">
+          <div class="checkbox checkbox-other checkbox-inline">
             <input id="checkbox5" type="checkbox" checked.bind="includeInBudget" change.delegate="eventAggregator.publish('toggle element', 'Other')">
             <label for="checkbox5"></label>
           </div>
@@ -24,6 +24,12 @@
     <br><br><br>
     <div id="collapseOther" class="collapse" role="tabpanel" aria-labelledby="headingOther">
       <div class="card-block">
+
+        <div class="btn-group btn-group-raised" data-toggle="buttons" click.delegate="toggleHorizon()">
+          <label class="btn ${isMonthly ? 'btn-primary' : 'btn-secondary'}">Monthly</label>
+          <label class="btn ${!isMonthly ? 'btn-primary' : 'btn-secondary'}">Yearly</label>
+        </div>
+
         <div repeat.for="constant of constants.other" class="form-group">
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label>${constant.label}</label>

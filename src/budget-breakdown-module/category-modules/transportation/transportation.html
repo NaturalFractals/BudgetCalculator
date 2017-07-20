@@ -5,12 +5,13 @@
   <div class="card">
     <div class="card-header" role="tab" id="headingTransportation">
       <dv class="col-md-4">
-      <h5 class="mb-0">
-        <div class="checkbox checkbox-transportation checkbox-inline">
-          <input id="checkbox8" type="checkbox" checked.bind="includeInBudget" change.delegate="eventAggregator.publish('toggle element', 'Transportation')">
-          <label for="checkbox8"></label>
-        </div>
-        <a click.delegate="toggle()" data-toggle="collapse" data-parent="#accordion" href="#collapseTransportation" aria-expanded="true" aria-controls="collapseTransportation">
+        <h5 class="mb-0">
+          <div class="checkbox checkbox-transportation checkbox-inline">
+            <input id="checkbox8" type="checkbox" checked.bind="includeInBudget" change.delegate="eventAggregator.publish('toggle element', 'Transportation')">
+            <label for="checkbox8"></label>
+          </div>
+          <a click.delegate="toggle()" data-toggle="collapse" data-parent="#accordion" href="#collapseTransportation" aria-expanded="true"
+            aria-controls="collapseTransportation">
           Transportation <span class="${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}">
         </a>
         </h5>
@@ -25,6 +26,12 @@
   <br><br><br>
   <div id="collapseTransportation" class="collapse" role="tabpanel" aria-labelledby="headingTransportation">
     <div class="card-block">
+
+      <div class="btn-group btn-group-raised" data-toggle="buttons" click.delegate="toggleHorizon()">
+        <label class="btn ${isMonthly ? 'btn-primary' : 'btn-secondary'}">Monthly</label>
+        <label class="btn ${!isMonthly ? 'btn-primary' : 'btn-secondary'}">Yearly</label>
+      </div>
+
       <div repeat.for="constant of constants.transportation" class="form-group">
         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
           <label>${constant.label}</label>

@@ -17,6 +17,7 @@ export class Savings {
         this.collegeSavingsCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
+        this.isMonthly = true;
     }
 
     //Toggles the arrow of the collapse menu
@@ -27,5 +28,10 @@ export class Savings {
     //Calculates cost of savings
     calculateAdvancedSavings() {
         this.cost = parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost);
+    }
+
+    toggleHorizon() {
+        this.isMonthly = !this.isMonthly;
+        
     }
 }

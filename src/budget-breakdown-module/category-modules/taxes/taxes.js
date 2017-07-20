@@ -14,6 +14,7 @@ export class Taxes {
         this.housingTaxCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
+        this.isMonthly = true;
     }
 
     //Toggles the arrow of the collapse menu
@@ -24,5 +25,10 @@ export class Taxes {
     //Calculates cost of vehicle and housing tax entered by the user.
     calculateAdvancedTaxCost() {
         this.cost =  parseInt(this.vehicleTaxCost) + parseInt(this.housingTaxCost);
+    }
+
+    toggleHorizon() {
+        this.isMonthly = !this.isMonthly;
+        
     }
 }

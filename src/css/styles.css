@@ -204,7 +204,7 @@ label {
     .checkbox input[type="checkbox"]:checked + label::after {
       font-family: 'FontAwesome';
       content: "\f00c"; 
-      padding-top: 3px;}
+      padding-top: 1px;}
     .checkbox input[type="checkbox"]:disabled + label {
       opacity: 0.65; }
       .checkbox input[type="checkbox"]:disabled + label::before {

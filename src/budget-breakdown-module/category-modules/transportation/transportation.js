@@ -13,11 +13,17 @@ export class Transportation {
         this.collapsed = true;
         this.publicTransportationCost = 0;
         this.eventAggregator = eventAggregator;
+        this.isMonthly = true;
     }
 
     //Toggles the arrow of the collapse menu
     toggle() {
         this.collapsed = !this.collapsed
+    }
+
+    toggleHorizon() {
+        this.isMonthly = !this.isMonthly;
+        
     }
 
 }
