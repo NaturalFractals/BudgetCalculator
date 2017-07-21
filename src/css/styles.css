@@ -21,6 +21,17 @@
     width: 40%;
 }
 
+.list-group {
+    text-align: center;
+}
+
+.badge {
+    color:green;
+    background:blanchedalmond;
+    padding: 8px;
+    text-align: center;
+}
+
 /* Goals monthly or yearly toggle*/
 #amount-toggle {
     margin-top: 80px;

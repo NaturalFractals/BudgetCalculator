@@ -1,45 +1,44 @@
 <template>
     <require from="css/styles.css"></require>
-    <div id="intro-template">
-    <form id="personalInfo">
-        <!-- Input annual income-->
-        <div class="form-group">
-            <label for=""><b>Annual Income:</b></label>
-            <input type="text" class="form-control" placeholder="50,000" value.bind="masterBudget.annualIncome" change.delegate="sanitizeIncome() getMonthlyIncome()">
-        </div>
-        <!-- Input user's location-->
-        <div class="form-group">
-            <label for=""><b>Location:</b></label>
-            <input type="text" class="form-control" value.bind="masterBudget.location">
-        </div>
-        <!-- Input number of adults in household-->
-        <div class="btn-toolbar" role="toolbar" id="adults-toolbar">
-            <b>Adults in Household</b>
-            <div class="radio-group" data-toggle="buttons">
-                <label id="adult-intro-button" repeat.for="i of 2" class="btn btn-primary active">
+    <div class="view overlay hm-blue-light" id="intro-template">
+        <div class="mask pattern-8 flex-center">
+            <form id="personalInfo">
+                <!-- Input annual income-->
+                <div class="form-group">
+                    <label for=""><b>Annual Income:</b></label>
+                    <input type="text" class="form-control" placeholder="50,000" value.bind="masterBudget.annualIncome" change.delegate="sanitizeIncome() getMonthlyIncome()">
+                </div>
+                <!-- Input user's location-->
+                <div class="form-group">
+                    <label for=""><b>Location:</b></label>
+                    <input type="text" class="form-control" value.bind="masterBudget.location">
+                </div>
+                <!-- Input number of adults in household-->
+                <div class="btn-toolbar" role="toolbar" id="adults-toolbar">
+                    <b>Adults in Household</b>
+                    <div class="radio-group" data-toggle="buttons">
+                        <label id="adult-intro-button" repeat.for="i of 2" class="btn btn-primary active">
                     <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
                     ${i + 1}
                 </label>
-            </div>
-        </div>
-        <br>
-        <!-- Input number of children in household-->
-        <div class="btn-toolbar" role="toolbar" id="children-toolbar">
-            <b>Children in Household</b>
-            <div class="radio-group" data-toggle="buttons">
-                <label id="children-intro-button" repeat.for="i of 5" class="btn btn-primary active">
+                    </div>
+                </div>
+                <br>
+                <!-- Input number of children in household-->
+                <div class="btn-toolbar" role="toolbar" id="children-toolbar">
+                    <b>Children in Household</b>
+                    <div class="radio-group" data-toggle="buttons">
+                        <label id="children-intro-button" repeat.for="i of 5" class="btn btn-primary active">
                     <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i + 1" name="options"> 
                     ${i}
                 </label>
-            </div>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <button id="budgetButton" class="active btn btn-success" click.delegate="route() getMonthlyIncome()">Budget</button>
+                </div>
+            </form>
         </div>
-        <br>
-        <div>
-            <button id="budgetButton" class="active btn btn-success" click.delegate="route()">Budget</button>
-        </div>
-    </form>
     </div>
-    <div>
-        <img src="turt.jpg" id="intro-img">
-    <div>
 </template>

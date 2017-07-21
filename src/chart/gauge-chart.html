@@ -2,31 +2,32 @@
     <div>
         <div class="z-depth-5 col-md-4" >
             <h2>Choose One</h2>
-            <div id="choice-container" style="border: 2px solid #2BBBAD;" class="z-depth-5content-options" dragstart.trigger="drag($event)" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
-                <ul>
-                    <li draggable="true" repeat.for="constant of neutralArray">${constant}</li>
+            <div id="choice-container" style="border: 2px solid #2BBBAD;" class="card z-depth-5content-options" dragstart.trigger="drag($event)" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
+                <ul class="list-group">
+                    <li class="list-group-item" draggable="true" repeat.for="constant of neutralArray"><span class="badge">${constant}</psan></li>
                 </ul>
             </div>
         </div>
         <div class="col-md-4">
             <h2>Cut</h2>
-            <div id="cut-container" style="border: 2px solid #2BBBAD;" class="z-depth-5 content-cut" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)" drop.trigger="drop($event)">
-                <ul>
-                    <li draggable="true" repeat.for="cut of cutArray">${cut}</li>
+            <div id="cut-container" style="border: 2px solid #2BBBAD;" class="card z-depth-5 content-cut" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)" drop.trigger="drop($event)">
+                <ul class="list-group">
+                    <li class="list-group-item" draggable="true" repeat.for="cut of cutArray"><span class="badge badge-info">${cut}</span></li>
                 </ul>
             </div>
         </div>
         <div class="z-depth-5 col-md-4">
             <h2>Reduce</h2>
-            <div id="reduce-container"  style="border: 2px solid #2BBBAD;" class="z-depth-5 content-reduce" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)">
-                <ul>
-                    <li draggable="true" repeat.for="reduce of reduceArray">${reduce}</li>
+            <div id="reduce-container"  style="border: 2px solid #2BBBAD;" class="view overlay hm-blues card z-depth-5 content-reduce" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)">
+                <ul class="list-group">
+                    <li class="list-group-item" draggable="true" repeat.for="reduce of reduceArray"><span class="badge badge-info">${reduce}</span></li>
                 </ul>
             </div>
         </div>
     </div>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <div>
-        <button class="btn btn-success">Auto-Budget</button>
-    </div>
+    <button class=" col-md-4 btn btn-success" style="margin-left:500px;" click.delegate="autoBudget()">Auto-Budget</button>
+    <br><br><br><br>
+    <div class="card col-md-6" id="gaugeChartContainer" style="height:300px; width:500px;margin-left: 140px;"></div>
+    <div class="card col-md-6" id="gaugeChartContainer2" style="height:300px; width:500px; margin-left: 440px;"></div>
 </template>

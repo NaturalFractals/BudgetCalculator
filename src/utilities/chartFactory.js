@@ -1,6 +1,47 @@
 import * as HighCharts from "highcharts";
 
 export class ChartFactory {
+    //Create half donut chart
+    static createHalfDonutChart(containerID, tuples) {
+        return Highcharts.chart(containerID, {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 0,
+                plotShadow: false
+            },
+            title: {
+                text: 'Browser<br>shares<br>2015',
+                align: 'center',
+                verticalAlign: 'middle',
+                y: 40
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    dataLabels: {
+                        enabled: true,
+                        distance: -50,
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'white'
+                        }
+                    },
+                    startAngle: -90,
+                    endAngle: 90,
+                    center: ['50%', '75%']
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Budget',
+                innerSize: '50%',
+                data: tuples
+            }]
+        });
+    }
+    
     //Creates a donut chart 
     static createDonutChart(containerID, tuples) {
         return Highcharts.chart(containerID, {
@@ -86,7 +127,7 @@ export class ChartFactory {
         var tempObject = {};
         tempObject.name = name;
         tempObject.y = data;
-        masterBudget.sumOfAllCost += data;
+        masterBudget.sumOfAllCost += parseInt(data);
         return tempObject;
     }
 }
