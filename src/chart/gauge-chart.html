@@ -1,28 +1,32 @@
 <template>
     <div>
-        <div class="col-md-4" style="border: 1px solid black;" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)">
+        <div class="z-depth-5 col-md-4" >
             <h2>Choose One</h2>
-            <div id="choice-container" class="content-options" dragstart.trigger="drag($event)">
+            <div id="choice-container" style="border: 2px solid #2BBBAD;" class="z-depth-5content-options" dragstart.trigger="drag($event)" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
                 <ul>
-                    <li draggable="true" repeat.for="constant of constants.autoBudgetFields" click.delegate="move(constant.class, constant.variable)">${constant.label}</li>
+                    <li draggable="true" repeat.for="constant of neutralArray">${constant}</li>
                 </ul>
             </div>
         </div>
-        <div class="col-md-4" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)" style="border: 1px solid black;">
+        <div class="col-md-4">
             <h2>Cut</h2>
-            <div id="cut-container" class="content-cut" drop.trigger="drop($event)">
+            <div id="cut-container" style="border: 2px solid #2BBBAD;" class="z-depth-5 content-cut" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)" drop.trigger="drop($event)">
                 <ul>
                     <li draggable="true" repeat.for="cut of cutArray">${cut}</li>
                 </ul>
             </div>
         </div>
-        <div class="col-md-4" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)" style="border: 1px solid black;">
+        <div class="z-depth-5 col-md-4">
             <h2>Reduce</h2>
-            <div id="reduce-container" class="content-reduce" drop.trigger="drop($event)">
+            <div id="reduce-container"  style="border: 2px solid #2BBBAD;" class="z-depth-5 content-reduce" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)">
                 <ul>
                     <li draggable="true" repeat.for="reduce of reduceArray">${reduce}</li>
                 </ul>
             </div>
         </div>
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div>
+        <button class="btn btn-success">Auto-Budget</button>
     </div>
 </template>
