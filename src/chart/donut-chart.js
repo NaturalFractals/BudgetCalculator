@@ -22,7 +22,6 @@ export class Chart {
     }
 
     drawChartForYear(year, currentYear) {
-        
         this.currentYear = year.year;
         console.log(this.currentYear);
     }

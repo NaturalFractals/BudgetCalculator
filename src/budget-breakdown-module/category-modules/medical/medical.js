@@ -27,7 +27,7 @@ export class Medical {
 
     //Calculates the advanced cost of the medical category
     calculateAdvancedMedical() {
-        this.cost = parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost);
+        this.cost = parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost) + parseInt(this.medicationCost)  + parseInt(this.otherMedicalCost);
     }
 
     toggleHorizon() {

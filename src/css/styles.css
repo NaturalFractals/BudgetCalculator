@@ -18,7 +18,7 @@
 /* Toolbar for number of adult radios*/
 #adults-toolbar {
     margin: 0 auto;
-    width: 50%;
+    width: 40%;
 }
 
 /* Goals monthly or yearly toggle*/
@@ -81,21 +81,31 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
 /*Intro page tempalte styles*/
 #intro-template {
-    background: url('src/css/roadmap.jpg');
     padding-bottom: 800px;
     padding-top: 50px;
+}
+
+/* Buttons for children on intro*/
+#children-intro-button {
+    color:white;
+}
+
+/* Buttons for adults on intro*/
+#adult-intro-button {
+    color:white;
 }
 
 /* Toolbar for number of children radios*/
 #children-toolbar {
     margin: 0 auto;
-    width: 60%;
+    width: 80%;
 }
 
 /* Budget button on intro page */
 #budgetButton {
     margin: 0 auto;
-    width: 50%
+    width: 50%;
+    color: white;
 }
 
 /* Style for banner module table*/
@@ -161,6 +171,16 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
     clear:both;
     padding: 200px;
     margin: 0 auto;
+}
+
+/* Goals button on results page*/
+#goals-button {
+  color:white;
+}
+
+/* Five year button on results page*/
+#five-year-button {
+  color: white;
 }
 
 /* Buttons for breakdown banner*/

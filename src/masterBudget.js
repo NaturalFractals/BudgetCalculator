@@ -1,14 +1,14 @@
-import {Food} from 'budget-breakdown-module/category-modules/food/food';
-import {Other} from 'budget-breakdown-module/category-modules/other/other';
-import {Housing} from 'budget-breakdown-module/category-modules/housing/housing';
-import {Medical} from 'budget-breakdown-module/category-modules/medical/medical';
-import {Taxes} from 'budget-breakdown-module/category-modules/taxes/taxes';
-import {Savings} from 'budget-breakdown-module/category-modules/savings/savings';
-import {ChildCare} from 'budget-breakdown-module/category-modules/child-care/child-care';
-import {Transportation} from 'budget-breakdown-module/category-modules/transportation/transportation';
-import {singleton} from 'aurelia-framework';
-import {inject} from 'aurelia-framework';
-import {Constants} from 'constants';
+import { Food } from 'budget-breakdown-module/category-modules/food/food';
+import { Other } from 'budget-breakdown-module/category-modules/other/other';
+import { Housing } from 'budget-breakdown-module/category-modules/housing/housing';
+import { Medical } from 'budget-breakdown-module/category-modules/medical/medical';
+import { Taxes } from 'budget-breakdown-module/category-modules/taxes/taxes';
+import { Savings } from 'budget-breakdown-module/category-modules/savings/savings';
+import { ChildCare } from 'budget-breakdown-module/category-modules/child-care/child-care';
+import { Transportation } from 'budget-breakdown-module/category-modules/transportation/transportation';
+import { singleton } from 'aurelia-framework';
+import { inject } from 'aurelia-framework';
+import { Constants } from 'constants';
 
 @inject(Constants, Food, Other, Housing, Medical, Taxes, Savings, ChildCare, Transportation)
 export class MasterBudget {
@@ -22,7 +22,7 @@ export class MasterBudget {
         this.stateLocation = 'Alabama';
 
         this.food = food;
-        this.food.calculateFoodCost(this.numberChildren, this.numberAdults); 
+        this.food.calculateFoodCost(this.numberChildren, this.numberAdults);
         this.other = other;
         this.housing = housing;
         this.medical = medical;

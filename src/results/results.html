@@ -10,8 +10,9 @@
             <compose view-model="budget-breakdown-module/breakdown"></compose>
         </div>
         <div id="button-div">
-            <button class="btn btn-lg btn-primary" click.delegate="routeGoals()">Goals</button>
-            <button class="btn btn-lg btn-primary" click.delegate="routeFiveYearPlan()">Five Year Plan</button>
+            <button id="goals-button" class="btn active btn-lg btn-primary" click.delegate="routeGoals()">Goals</button>
+            <button id="five-year-button" class="active btn btn-lg btn-primary" click.delegate="routeFiveYearPlan()">Five Year Plan</button>
+            <button id="auto-budget-button" class="active btn btn-lg btn-primary" click.delegate="routeAutoBudget()">Auto Budget</button>
         </div>
     <div>
 </template>

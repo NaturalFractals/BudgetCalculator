@@ -93,7 +93,7 @@ export class Intro {
     route() {
         this.router.navigate("#/results");
     }
-    
+
     //Sanitize the income input to U.S. dollar format
     sanitizeIncome() {
         this.masterBudget.annualIncome = this.masterBudget.annualIncome.replace(/,/g, "");

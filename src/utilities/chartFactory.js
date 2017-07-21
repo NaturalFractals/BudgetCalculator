@@ -1,7 +1,6 @@
 import * as HighCharts from "highcharts";
 
 export class ChartFactory {
-
     //Creates a donut chart 
     static createDonutChart(containerID, tuples) {
         return Highcharts.chart(containerID, {

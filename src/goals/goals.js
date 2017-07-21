@@ -4,7 +4,7 @@ export class Goals {
     constructor() {
         this.goalsList = [];
         this.months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-
+        
         this.selectedName = null;
         this.selectedMonth = "January"
         this.selectedYear = null;
