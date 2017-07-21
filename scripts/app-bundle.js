@@ -803,11 +803,16 @@ define('five-year/donut-details',['exports', 'aurelia-framework', 'masterBudget'
         DonutDetails.prototype.calculateInflationData = function calculateInflationData() {
             var date = new Date();
             var year = date.getFullYear();
+            var tempMasterBudget = this.masterBudget;
             for (var i = 0; i < currentYear - year; i++) {
-                this.masterBudget.childCare.privateSchoolCost *= this.masterBudget.childCare.privateSchoolInflation;
-                this.masterBudget.childCare.daycareUpdatedCost *= this.masterBudget.childCare.daycareInflation;
-                this.masterBudget.food.groceriesUpdatedCost *= this.masterBudget.food.groceriesInflation;
-                this.masterBudget.food.diningOutUpdatedCost *= this.masterBudget.food.diningOutInflation;
+                tempMasterBudget.childCare.privateSchoolCost *= this.masterBudget.childCare.privateSchoolInflation;
+                tempMasterBudget.childCare.daycareCost *= this.masterBudget.childCare.daycareInflation;
+                tempMasterBudget.food.groceriesCost *= this.masterBudget.food.groceriesInflation;
+                tempMasterBudget.food.diningOutCost *= this.masterBudget.food.diningOutInflation;
+                tempMasterBudget.other.recreationCost *= this.masterBudget.other.recreationInflation;
+                tempMasterBudget.other.gymCost *= this.masterBudget.other.gymInflation;
+                tempMasterBudget.other.entertainmentCost *= this.masterBudget.entertainmentInflation;
+                tempMasterBudget.other.cellPhoneCost *= this.masterBudget.cellPhoneInflation;
             }
         };
 
