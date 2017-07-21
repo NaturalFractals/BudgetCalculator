@@ -27,6 +27,18 @@
     margin-bottom: 40px;
 }
 
+/* Reduce container for drag and drop*/
+#reduce-container {
+    width: 400px;
+    height: 600px;
+}
+
+/* Cut containter for drag and drop*/
+#cut-container {
+    width: 400px;
+    height: 600px;
+}
+
 /* Container for goals donut chart*/
 #goals-chart-div {
     float:left;

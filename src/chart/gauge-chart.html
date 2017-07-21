@@ -1,13 +1,28 @@
 <template>
     <div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="border: 1px solid black;" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)">
             <h2>Choose One</h2>
+            <div id="choice-container" class="content-options" dragstart.trigger="drag($event)">
+                <ul>
+                    <li draggable="true" repeat.for="constant of constants.autoBudgetFields" click.delegate="move(constant.class, constant.variable)">${constant.label}</li>
+                </ul>
+            </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)" style="border: 1px solid black;">
             <h2>Cut</h2>
+            <div id="cut-container" class="content-cut" drop.trigger="drop($event)">
+                <ul>
+                    <li draggable="true" repeat.for="cut of cutArray">${cut}</li>
+                </ul>
+            </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" drop.trigger="drop($event)" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)" style="border: 1px solid black;">
             <h2>Reduce</h2>
+            <div id="reduce-container" class="content-reduce" drop.trigger="drop($event)">
+                <ul>
+                    <li draggable="true" repeat.for="reduce of reduceArray">${reduce}</li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
