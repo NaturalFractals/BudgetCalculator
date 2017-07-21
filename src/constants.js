@@ -6,8 +6,67 @@ export class Constants {
         this.foodCostPerAdult = 158.7;
         //Constant for miscellaneous cost
         this.miscellaneousCost = 0.05;
-        //Constants for child care module
 
+        //Field for the autobudget class
+        this.autoBudgetFields = [
+            {
+                'label': 'Tuition',
+                'class': 'savings',
+                'variable': 'collegeSavingsCost'
+            },
+            {
+                'label': 'Cable',
+                'class': 'housing',
+                'variable': 'monthlyCableCost'
+            },
+            {
+                'label': 'Telephone',
+                'class': 'housing',
+                'variable': 'homeTelephoneCost'
+            },
+            {
+                'label': 'Eating Out',
+                'class': 'food',
+                'variable': 'diningOutCost'
+            },
+            {
+                'label': 'Workday Coffee/Lunch',
+                'class': 'food',
+                'variable': 'workdayCost'
+            },
+            {
+                'label': 'Recreation/Travel',
+                'class': 'other',
+                'variable': 'recreationCost'
+            },
+            {
+                'label': 'Vacation',
+                'class': 'other',
+                'variable': 'recreationCost'
+            },
+            {
+                'label': 'Cell Phone Cost',
+                'class': 'other',
+                'variable': 'cellPhoneCost'
+            },
+            {
+                'label': 'Clothing',
+                'class': 'other',
+                'variable': 'clothingCost'
+            },
+            {
+                'label': 'Savings',
+                'class': 'savings',
+                'variable': 'emergencyFundCost'
+            },
+            {
+                'label': 'Gym Membership',
+                'class': 'other',
+                'variable': 'gymCost'
+            }
+        ]
+
+        //Constants for child care module
         this.childCare = [
             {
                 'label': 'School Tuiton',
@@ -47,7 +106,7 @@ export class Constants {
         this.housing = [
             {
                 'label': 'Cable',
-                'variable': 'monthlyRentCost'
+                'variable': 'monthlyCableCost'
             },
             {
                 'label': 'Utilities',

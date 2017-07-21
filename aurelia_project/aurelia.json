@@ -193,6 +193,11 @@
             "resources": [
               "css/highcharts.css"
             ]
+          },
+          {
+            "name": "highcharts-more",
+            "path": "../node_modules/highcharts-more",
+            "main": "more"
           }
         ]
       }
