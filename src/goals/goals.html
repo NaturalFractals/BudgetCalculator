@@ -91,10 +91,12 @@
                 <td>${goal.cost}</td>
                 <td>${goal.month}</td>
                 <td>${goal.year}</td>
-                <td><button class="btn btn-raised btn-danger" click.delegate="goalsList.splice($index, 1)">Remove Goal</button></td>
+                <td><button class="btn btn-raised btn-danger" click.delegate="removeGoal($index)">Remove Goal</button></td>
             </tr>
         </tbody>
     </table>
+
+
 
 
 </template>

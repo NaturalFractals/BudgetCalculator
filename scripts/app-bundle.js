@@ -383,6 +383,23 @@ define('auto-budget/auto-budget',["exports"], function (exports) {
         _classCallCheck(this, AutoBudget);
     };
 });
+define('budget-breakdown-module/breakdown',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Breakdown = exports.Breakdown = function Breakdown() {
+        _classCallCheck(this, Breakdown);
+    };
+});
 define('chart/chart',['exports', 'aurelia-framework', '../utilities/chartFactory', 'masterBudget', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _chartFactory, _masterBudget, _aureliaEventAggregator) {
     'use strict';
 
@@ -592,23 +609,6 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
         return GaugeChart;
     }()) || _class);
 });
-define('budget-breakdown-module/breakdown',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Breakdown = exports.Breakdown = function Breakdown() {
-        _classCallCheck(this, Breakdown);
-    };
-});
 define('five-year/card-info-one',["exports"], function (exports) {
     "use strict";
 
@@ -779,6 +779,42 @@ define('goals/goal',["exports"], function (exports) {
         this.cost = cost;
         this.month = month;
         this.year = year;
+
+        var monthNum = null;
+        switch (this.month) {
+            case "January":
+                monthNum = 0;break;
+            case "February":
+                monthNum = 1;break;
+            case "March":
+                monthNum = 2;break;
+            case "April":
+                monthNum = 3;break;
+            case "May":
+                monthNum = 4;break;
+            case "June":
+                monthNum = 5;break;
+            case "July":
+                monthNum = 6;break;
+            case "August":
+                monthNum = 7;break;
+            case "September":
+                monthNum = 8;break;
+            case "October":
+                monthNum = 9;break;
+            case "November":
+                monthNum = 10;break;
+            case "December":
+                monthNum = 11;break;
+        }
+
+        var currYear = new Date().getFullYear();
+        var currMonth = new Date().getMonth();
+
+        var monthsBetween = null;
+        if (currYear === this.year) monthsBetween = monthNum - currMonth;else monthsBetween = 11 - currMonth + 12 * (this.year - currYear - 1) + monthNum;
+
+        this.monthlyCost = parseInt(this.cost / monthsBetween);
     };
 });
 define('goals/goals',["exports", "goals/goal"], function (exports, _goal) {
@@ -806,20 +842,118 @@ define('goals/goals',["exports", "goals/goal"], function (exports, _goal) {
             this.selectedMonth = "January";
             this.selectedYear = null;
             this.selectedCost = null;
+
+            this.monthlySavings = 0;
         }
 
         Goals.prototype.addGoal = function addGoal() {
             var goal = new _goal.Goal(this.selectedName, parseInt(this.selectedCost), this.selectedMonth, parseInt(this.selectedYear));
+            this.monthlySavings += goal.monthlyCost;
             this.goalsList.push(goal);
 
             this.selectedName = null;
             this.selectedMonth = "January";
             this.selectedYear = null;
             this.selectedCost = null;
+            console.log(this.goalsList);
+        };
+
+        Goals.prototype.removeGoal = function removeGoal(index) {
+            this.monthlySavings -= goalsList(index);
+            this.goalsList.splice(index, 1);
         };
 
         return Goals;
     }();
+});
+define('resources/index',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.configure = configure;
+  function configure(config) {}
+});
+define('results/results',['exports', 'aurelia-framework', 'aurelia-router'], function (exports, _aureliaFramework, _aureliaRouter) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Results = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Results = exports.Results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router), _dec(_class = function () {
+        function Results(router) {
+            _classCallCheck(this, Results);
+
+            this.router = router;
+        }
+
+        Results.prototype.routeGoals = function routeGoals() {
+            this.router.navigate("#/goals");
+        };
+
+        Results.prototype.routeFiveYearPlan = function routeFiveYearPlan() {
+            this.router.navigate("#/five-year");
+        };
+
+        Results.prototype.routeAutoBudget = function routeAutoBudget() {
+            this.router.navigate("#/auto-budget");
+        };
+
+        return Results;
+    }()) || _class);
+});
+define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBudget', '../utilities/chartFactory'], function (exports, _aureliaFramework, _masterBudget, _chartFactory) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Banner = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Banner = exports.Banner = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget), _dec(_class = function () {
+        function Banner(masterBudget) {
+            _classCallCheck(this, Banner);
+
+            this.income = null;
+            this.displayIncome = "";
+            this.masterBudget = masterBudget;
+        }
+
+        Banner.prototype.sanitizeIncome = function sanitizeIncome() {
+            this.displayIncome = this.displayIncome.replace(/,/g, "");
+            this.displayIncome = this.displayIncome.replace(/\$/g, "");
+
+            this.income = parseInt(this.displayIncome);
+
+            this.displayIncome = '$' + this.income.toLocaleString();
+        };
+
+        Banner.prototype.getMonthlyIncome = function getMonthlyIncome() {
+            var income = parseInt(this.displayIncome);
+            this.masterBudget.totalMonthlyIncome = income / 12;
+        };
+
+        return Banner;
+    }()) || _class);
 });
 define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia-fetch-client', '../utilities/chartFactory', 'masterBudget'], function (exports, _aureliaFramework, _aureliaRouter, _aureliaFetchClient, _chartFactory, _masterBudget) {
     'use strict';
@@ -1056,95 +1190,6 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
         };
 
         return Intro;
-    }()) || _class);
-});
-define('resources/index',["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.configure = configure;
-  function configure(config) {}
-});
-define('results/results',['exports', 'aurelia-framework', 'aurelia-router'], function (exports, _aureliaFramework, _aureliaRouter) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Results = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var Results = exports.Results = (_dec = (0, _aureliaFramework.inject)(_aureliaRouter.Router), _dec(_class = function () {
-        function Results(router) {
-            _classCallCheck(this, Results);
-
-            this.router = router;
-        }
-
-        Results.prototype.routeGoals = function routeGoals() {
-            this.router.navigate("#/goals");
-        };
-
-        Results.prototype.routeFiveYearPlan = function routeFiveYearPlan() {
-            this.router.navigate("#/five-year");
-        };
-
-        Results.prototype.routeAutoBudget = function routeAutoBudget() {
-            this.router.navigate("#/auto-budget");
-        };
-
-        return Results;
-    }()) || _class);
-});
-define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBudget', '../utilities/chartFactory'], function (exports, _aureliaFramework, _masterBudget, _chartFactory) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Banner = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _class;
-
-    var Banner = exports.Banner = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget), _dec(_class = function () {
-        function Banner(masterBudget) {
-            _classCallCheck(this, Banner);
-
-            this.income = null;
-            this.displayIncome = "";
-            this.masterBudget = masterBudget;
-        }
-
-        Banner.prototype.sanitizeIncome = function sanitizeIncome() {
-            this.displayIncome = this.displayIncome.replace(/,/g, "");
-            this.displayIncome = this.displayIncome.replace(/\$/g, "");
-
-            this.income = parseInt(this.displayIncome);
-
-            this.displayIncome = '$' + this.income.toLocaleString();
-        };
-
-        Banner.prototype.getMonthlyIncome = function getMonthlyIncome() {
-            var income = parseInt(this.displayIncome);
-            this.masterBudget.totalMonthlyIncome = income / 12;
-        };
-
-        return Banner;
     }()) || _class);
 });
 define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _highcharts) {
@@ -1396,58 +1441,6 @@ define('budget-breakdown-module/category-modules/child-care/child-care',['export
         return ChildCare;
     }()) || _class) || _class);
 });
-define('budget-breakdown-module/category-modules/housing/housing',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Housing = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _dec2, _class;
-
-    var Housing = exports.Housing = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
-        function Housing(constants, eventAggregator) {
-            _classCallCheck(this, Housing);
-
-            this.includeInBudget = true;
-            this.constants = constants;
-            this.cost = 0;
-            this.costPercentage = 0;
-            this.monthlyRentCost = 0;
-            this.monthlyRentInflation = 1.0269;
-            this.homeInsuranceCost = 0;
-            this.homeInsuranceInflation = 1.0170;
-            this.homeMaintenanceCost = 0;
-            this.homeMaintenanceInflation = 1.0229;
-            this.homeTelephoneCost = 0;
-            this.homeTelephoneInflation = 0.9915;
-            this.collapsed = true;
-            this.eventAggregator = eventAggregator;
-            this.isMonthly = true;
-        }
-
-        Housing.prototype.toggle = function toggle() {
-            this.collapsed = !this.collapsed;
-        };
-
-        Housing.prototype.calculateAdvancedCost = function calculateAdvancedCost() {
-            this.cost = parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost);
-        };
-
-        Housing.prototype.toggleHorizon = function toggleHorizon() {
-            this.isMonthly = !this.isMonthly;
-        };
-
-        return Housing;
-    }()) || _class) || _class);
-});
 define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia-framework', '../../../constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
     'use strict';
 
@@ -1551,6 +1544,58 @@ define('budget-breakdown-module/category-modules/medical/medical',['exports', 'a
         };
 
         return Medical;
+    }()) || _class) || _class);
+});
+define('budget-breakdown-module/category-modules/housing/housing',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Housing = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _dec2, _class;
+
+    var Housing = exports.Housing = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
+        function Housing(constants, eventAggregator) {
+            _classCallCheck(this, Housing);
+
+            this.includeInBudget = true;
+            this.constants = constants;
+            this.cost = 0;
+            this.costPercentage = 0;
+            this.monthlyRentCost = 0;
+            this.monthlyRentInflation = 1.0269;
+            this.homeInsuranceCost = 0;
+            this.homeInsuranceInflation = 1.0170;
+            this.homeMaintenanceCost = 0;
+            this.homeMaintenanceInflation = 1.0229;
+            this.homeTelephoneCost = 0;
+            this.homeTelephoneInflation = 0.9915;
+            this.collapsed = true;
+            this.eventAggregator = eventAggregator;
+            this.isMonthly = true;
+        }
+
+        Housing.prototype.toggle = function toggle() {
+            this.collapsed = !this.collapsed;
+        };
+
+        Housing.prototype.calculateAdvancedCost = function calculateAdvancedCost() {
+            this.cost = parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost);
+        };
+
+        Housing.prototype.toggleHorizon = function toggleHorizon() {
+            this.isMonthly = !this.isMonthly;
+        };
+
+        return Housing;
     }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/other/other',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
@@ -1761,7 +1806,7 @@ define('text!five-year/card-info-three.html', ['module'], function(module) { mod
 define('text!five-year/card-info-two.html', ['module'], function(module) { module.exports = "<template><div id=\"card-info-one-div\">advice</div></template>"; });
 define('text!five-year/donut-details.html', ['module'], function(module) { module.exports = "<template><require from=\"../utilities/currency\"></require><require from=\"../utilities/percent\"></require><nav class=\"navbar navbar-light teal\"><div class=\"container-fluid\"><ul repeat.for=\"category of masterBudget.budgetCategories\" class=\"nav navbar-nav\"><li class=\"${category === currentCategory ? 'active': ''}\"><a click.delegate=\"changeNavigationTab(category, currentCategory)\">${category}</a></li></ul></div></nav><div id=\"donut-details-div\"><h4>With a monthly income of ${currentExpense | currency} for ${currentYear} is ${currentExpenseYearCost | currency}</h4><div><h3>Top ways to save:</h3><p>1) Cancel Club Memberships</p><p>2) Reduce or eliminate cable bill</p><p>3) Carpool/Reduce Transportation cost</p></div></div></template>"; });
 define('text!five-year/five-year.html', ['module'], function(module) { module.exports = "<template><div id=\"five-year-module-container\"><div id=\"goals-chart-div\"><compose view-model=\"chart/donut-chart\" view-model.ref=\"chartVM\"></compose></div><div id=\"donut-details\"><compose view-model=\"./donut-details\"></compose></div></div></template>"; });
-define('text!goals/goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"progress\"><div class=\"progress-bar\" style=\"width:30%\"></div></div><div id=\"goal-template\"><div><h2>How much will you need to reach your Goal?</h2><h4>Start with a goal to help your realize the savings needed to reach this goal</h4></div></div><table class=\"table table-striped table-hover\"><thead><tr><th>Goal</th><th>Cost</th><th>Purchase Month</th><th>Purchase Year</th><th></th></tr></thead><tbody><tr><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"text\" class=\"form-control\" id=\"inputGoal\" placeholder=\"Boat\" value.bind=\"selectedName\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputCost\" placeholder=\"8000\" value.bind=\"selectedCost\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><select id=\"inputMonth\" class=\"form-control\" value.bind=\"selectedMonth\"><option repeat.for=\"month of months\" value.bind=\"month\">${month}</option></select></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputYear\" placeholder=\"2019\" value.bind=\"selectedYear\"></div></div></td><td><button class=\"btn btn-raised btn-info\" click.delegate=\"addGoal()\">Add Goal</button></td></tr><tr repeat.for=\"goal of goalsList\"><td>${goal.name}</td><td>${goal.cost}</td><td>${goal.month}</td><td>${goal.year}</td><td><button class=\"btn btn-raised btn-danger\" click.delegate=\"goalsList.splice($index, 1)\">Remove Goal</button></td></tr></tbody></table></template>"; });
+define('text!goals/goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"progress\"><div class=\"progress-bar\" style=\"width:30%\"></div></div><div id=\"goal-template\"><div><h2>How much will you need to reach your Goal?</h2><h4>Start with a goal to help your realize the savings needed to reach this goal</h4></div></div><table class=\"table table-striped table-hover\"><thead><tr><th>Goal</th><th>Cost</th><th>Purchase Month</th><th>Purchase Year</th><th></th></tr></thead><tbody><tr><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"text\" class=\"form-control\" id=\"inputGoal\" placeholder=\"Boat\" value.bind=\"selectedName\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputCost\" placeholder=\"8000\" value.bind=\"selectedCost\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><select id=\"inputMonth\" class=\"form-control\" value.bind=\"selectedMonth\"><option repeat.for=\"month of months\" value.bind=\"month\">${month}</option></select></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputYear\" placeholder=\"2019\" value.bind=\"selectedYear\"></div></div></td><td><button class=\"btn btn-raised btn-info\" click.delegate=\"addGoal()\">Add Goal</button></td></tr><tr repeat.for=\"goal of goalsList\"><td>${goal.name}</td><td>${goal.cost}</td><td>${goal.month}</td><td>${goal.year}</td><td><button class=\"btn btn-raised btn-danger\" click.delegate=\"removeGoal($index)\">Remove Goal</button></td></tr></tbody></table></template>"; });
 define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div id=\"intro-template\"><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome()\"></div><div class=\"form-group\"><label for=\"\"><b>Location:</b></label><input type=\"text\" class=\"form-control\" value.bind=\"masterBudget.location\"></div><div class=\"btn-toolbar\" role=\"toolbar\" id=\"adults-toolbar\"><b>Adults in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"adult-intro-button\" repeat.for=\"i of 2\" class=\"btn btn-primary active\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div><br><div class=\"btn-toolbar\" role=\"toolbar\" id=\"children-toolbar\"><b>Children in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"children-intro-button\" repeat.for=\"i of 5\" class=\"btn btn-primary active\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i + 1\" name=\"options\"> ${i}</label></div></div><br><div><button id=\"budgetButton\" class=\"active btn btn-success\" click.delegate=\"route()\">Budget</button></div></form></div><div><img src=\"turt.jpg\" id=\"intro-img\"><div></div></div></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"results-banner-module/banner\"></compose><div id=\"results-container\" class=\"row\"><div id=\"chart-div\"><compose view-model=\"chart/chart\" view-model.ref=\"chartVM\"></compose></div><div id=\"breakdown-div\"><compose view-model=\"budget-breakdown-module/breakdown\"></compose></div><div id=\"button-div\"><button id=\"goals-button\" class=\"btn active btn-lg btn-primary\" click.delegate=\"routeGoals()\">Goals</button> <button id=\"five-year-button\" class=\"active btn btn-lg btn-primary\" click.delegate=\"routeFiveYearPlan()\">Five Year Plan</button> <button id=\"auto-budget-button\" class=\"active btn btn-lg btn-primary\" click.delegate=\"routeAutoBudget()\">Auto Budget</button></div><div></div></div></template>"; });
 define('text!results-banner-module/banner.html', ['module'], function(module) { module.exports = "<template><table id=\"banner-table\" class=\"table\"><tr><td><div><label id=\"breakdown-header-label\" for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome()\"></div></td><td><div><label id=\"breakdown-header-label\" for=\"\"><b>Location:</b></label><input type=\"text\" value.bind=\"masterBudget.location\" class=\"form-control\"></div></td><td><div id=\"breakdown-buttons\" class=\"btn-toolbar\" role=\"toolbar\"><b>Adults in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"breakdown-buttons-label\" repeat.for=\"i of 2\" class=\"btn btn-sm btn-primary active\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div></td><td><div id=\"breakdown-buttons\" class=\"btn-toolbar\" role=\"toolbar\"><b>Children in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"breakdown-buttons-label\" repeat.for=\"i of 5\" class=\"btn btn-sm btn-primary active\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i\" name=\"options\"> ${i}</label></div></div></td></tr></table></template>"; });
@@ -1771,6 +1816,6 @@ define('text!budget-breakdown-module/category-modules/housing/housing.html', ['m
 define('text!budget-breakdown-module/category-modules/other/other.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOther\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-other checkbox-inline\"><input id=\"checkbox5\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Other')\"><label for=\"checkbox5\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOther\" aria-expanded=\"true\" aria-controls=\"collapseOther\">Other <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseOther\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOther\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.other\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedOtherCost() eventAggregator.publish('update', {name: 'Other', value: cost})\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/medical/medical.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingMedical\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-medical checkbox-inline\"><input id=\"checkbox4\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Medical')\"><label for=\"checkbox4\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseMedical\">Medical <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseMedical\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingMedical\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.medical\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedMedical() eventAggregator.publish('update', {name: 'Medical', value: cost})\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/savings/savings.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingSavings\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-savings checkbox-inline\"><input id=\"checkbox6\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Savings')\"><label for=\"checkbox6\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseSavings\" aria-expanded=\"true\" aria-controls=\"collapseSavings\">Savings <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4 mb-0\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseSavings\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingSavings\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.savings\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedSavings() eventAggregator.publish('update', {name: 'Savings', value: cost})\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/taxes/taxes.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTaxes\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox checkbox-taxes checkbox-inline\"><input id=\"checkbox7\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Taxes')\"><label for=\"checkbox7\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTaxes\" aria-expanded=\"true\" aria-controls=\"collapseTaxes\">Taxes <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseTaxes\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTaxes\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.taxes\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedTaxCost() eventAggregator.publish('update', {name: 'Taxes', value: cost})\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/transportation/transportation.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTransportation\"><dv class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-transportation checkbox-inline\"><input id=\"checkbox8\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Transportation')\"><label for=\"checkbox8\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTransportation\" aria-expanded=\"true\" aria-controls=\"collapseTransportation\">Transportation <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></dv></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div><br><br><br><div id=\"collapseTransportation\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTransportation\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.transportation\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedTransportation() eventAggregator.publish('update', {name: 'Transportation', value: cost})\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/taxes/taxes.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTaxes\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox checkbox-taxes checkbox-inline\"><input id=\"checkbox7\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Taxes')\"><label for=\"checkbox7\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTaxes\" aria-expanded=\"true\" aria-controls=\"collapseTaxes\">Taxes <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseTaxes\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTaxes\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.taxes\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedTaxCost() eventAggregator.publish('update', {name: 'Taxes', value: cost})\"></div></div></div></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map
