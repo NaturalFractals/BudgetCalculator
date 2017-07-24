@@ -19,6 +19,7 @@ export class GaugeChart {
 
     attached() {
         var tuples = this.createChartTuple(this.masterBudget);
+        this.autoBudget();
         this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
         this.chart2 = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
     }
@@ -89,16 +90,18 @@ export class GaugeChart {
         var percentReduction = 0.9;
         var tempMasterBudget = this.masterBudget;
         console.log(this.masterBudget);
+        console.log(tempMasterBudget.sumOfAllCost);
+        console.log(tempMasterBudget.totalMonthlyIncome);
         while(tempMasterBudget.sumOfAllCost < tempMasterBudget.totalMonthlyIncome) {
-            tempMasterBudget.other.recreationCost *= percentReduction;
-            tempMasterBudget.other.gymCost *= percentReduction;
-            tempMasterBudget.other.clothingCost *= percentReduction;
-            tempMasterBudget.housing.diningOutCost *= percentReduction;
+            tempMasterBudget.other.recreationCost = parseInt(tempMasterBudget.other.recreationCost) * parseInt(percentReduction);
+            tempMasterBudget.other.gymCost = parseInt(tempMasterBudget.other.gymCost) * parseInt(percentReduction);
+            tempMasterBudget.other.clothingCost = parseInt(tempMasterBudget.other.clothingCost) * parseInt(percentReduction);
+            tempMasterBudget.housing.diningOutCost = parseInt(tempMasterBudget.housing.diningOutCost) * parseInt(percentReduction);
             console.log(tempMasterBudget);
             tempMasterBudget.other.calculateAdvancedOtherCost();
-            tempMasterBudget.housing.calculateAdvancedHousingCost();
         }
         var tuples = this.createChartTuple(this.masterBudget);
+        console.log(tuples);
         this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
         this.chart2 = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
     }
@@ -120,7 +123,7 @@ export class GaugeChart {
         totalObject.y = total;
         var remainingObject = [];
         remainingObject.name = 'Savings';
-        remainingObject.y = masterBudget.monthlyIncome - total;
+        remainingObject.y = masterBudget.totalMonthlyIncome - total;
         budgetArray.push(totalObject);
         budgetArray.push(remainingObject);
         return budgetArray;

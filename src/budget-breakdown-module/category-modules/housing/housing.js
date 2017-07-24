@@ -18,6 +18,7 @@ export class Housing {
         this.homeMaintenanceInflation  = 1.0229;
         this.homeTelephoneCost = 0;
         this.homeTelephoneInflation = 0.9915;
+        this.utilitiesCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
         this.isMonthly = true;
