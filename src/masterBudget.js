@@ -16,7 +16,7 @@ export class MasterBudget {
         this.constants = constants;
         this.location = "";
         this.annualIncome = 0;
-        this.totalMonthlyIncome = 5000;
+        this.totalMonthlyIncome = 10000;
         this.numberChildren = 2;
         this.numberAdults = 1;
         this.stateLocation = 'Alabama';
@@ -36,5 +36,9 @@ export class MasterBudget {
         this.percentageByCategory = [];
 
         this.chart = null;
+    }
+
+    sumAllCost() {
+
     }
 }

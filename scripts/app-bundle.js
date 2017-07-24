@@ -323,48 +323,54 @@ define('main',['exports', './environment'], function (exports, _environment) {
   }
 });
 define('masterBudget',['exports', 'budget-breakdown-module/category-modules/food/food', 'budget-breakdown-module/category-modules/other/other', 'budget-breakdown-module/category-modules/housing/housing', 'budget-breakdown-module/category-modules/medical/medical', 'budget-breakdown-module/category-modules/taxes/taxes', 'budget-breakdown-module/category-modules/savings/savings', 'budget-breakdown-module/category-modules/child-care/child-care', 'budget-breakdown-module/category-modules/transportation/transportation', 'aurelia-framework', 'constants'], function (exports, _food, _other, _housing, _medical, _taxes, _savings, _childCare, _transportation, _aureliaFramework, _constants) {
-        'use strict';
+    'use strict';
 
-        Object.defineProperty(exports, "__esModule", {
-                value: true
-        });
-        exports.MasterBudget = undefined;
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.MasterBudget = undefined;
 
-        function _classCallCheck(instance, Constructor) {
-                if (!(instance instanceof Constructor)) {
-                        throw new TypeError("Cannot call a class as a function");
-                }
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var MasterBudget = exports.MasterBudget = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _food.Food, _other.Other, _housing.Housing, _medical.Medical, _taxes.Taxes, _savings.Savings, _childCare.ChildCare, _transportation.Transportation), _dec(_class = function () {
+        function MasterBudget(constants, food, other, housing, medical, taxes, savings, childCare, transportation) {
+            _classCallCheck(this, MasterBudget);
+
+            this.constants = constants;
+            this.location = "";
+            this.annualIncome = 0;
+            this.totalMonthlyIncome = 10000;
+            this.numberChildren = 2;
+            this.numberAdults = 1;
+            this.stateLocation = 'Alabama';
+
+            this.food = food;
+            this.food.calculateFoodCost(this.numberChildren, this.numberAdults);
+            this.other = other;
+            this.housing = housing;
+            this.medical = medical;
+            this.taxes = taxes;
+            this.savings = savings;
+            this.childCare = childCare;
+            this.transportation = transportation;
+
+            this.sumOfAllCost = 0;
+            this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes', 'Transportation'];
+            this.percentageByCategory = [];
+
+            this.chart = null;
         }
 
-        var _dec, _class;
+        MasterBudget.prototype.sumAllCost = function sumAllCost() {};
 
-        var MasterBudget = exports.MasterBudget = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _food.Food, _other.Other, _housing.Housing, _medical.Medical, _taxes.Taxes, _savings.Savings, _childCare.ChildCare, _transportation.Transportation), _dec(_class = function MasterBudget(constants, food, other, housing, medical, taxes, savings, childCare, transportation) {
-                _classCallCheck(this, MasterBudget);
-
-                this.constants = constants;
-                this.location = "";
-                this.annualIncome = 0;
-                this.totalMonthlyIncome = 5000;
-                this.numberChildren = 2;
-                this.numberAdults = 1;
-                this.stateLocation = 'Alabama';
-
-                this.food = food;
-                this.food.calculateFoodCost(this.numberChildren, this.numberAdults);
-                this.other = other;
-                this.housing = housing;
-                this.medical = medical;
-                this.taxes = taxes;
-                this.savings = savings;
-                this.childCare = childCare;
-                this.transportation = transportation;
-
-                this.sumOfAllCost = 0;
-                this.budgetCategories = ['Child Care', 'Food', 'Housing', 'Medical', 'Other', 'Savings', 'Taxes', 'Transportation'];
-                this.percentageByCategory = [];
-
-                this.chart = null;
-        }) || _class);
+        return MasterBudget;
+    }()) || _class);
 });
 define('auto-budget/auto-budget',["exports"], function (exports) {
     "use strict";
@@ -576,7 +582,6 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
 
             this.masterBudget = masterBudget;
             this.constants = constants;
-            console.log(constants);
             this.chart = null;
             this.chart2 = null;
             this.neutralArray = [];
@@ -620,20 +625,20 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
                 if (this.reduceArray.indexOf(data) < 0) this.reduceArray.push(data);
                 var indexToRemove = this.neutralArray.indexOf(data);
                 if (indexToRemove > -1) this.neutralArray.splice(indexToRemove, 1);
-                var indexToRemove = this.cutArray.indexOf(data);
-                if (indexToRemove > -1) this.cutArray.splice(indexToRemove, 1);
+                var indexToRemove2 = this.cutArray.indexOf(data);
+                if (indexToRemove2 > -1) this.cutArray.splice(indexToRemove, 1);
             } else if (ev.target.id === 'cut-container') {
                 if (this.cutArray.indexOf(data) < 0) this.cutArray.push(data);
-                var indexToRemove = this.neutralArray.indexOf(data);
-                if (indexToRemove > -1) this.neutralArray.splice(indexToRemove, 1);
-                var indexToRemove2 = this.reduceArray.indexOf(data);
-                if (indexToRemove2 > -1) this.reduceArray.splice(indexToRemove, 1);
+                var _indexToRemove = this.neutralArray.indexOf(data);
+                if (_indexToRemove > -1) this.neutralArray.splice(_indexToRemove, 1);
+                var _indexToRemove2 = this.reduceArray.indexOf(data);
+                if (_indexToRemove2 > -1) this.reduceArray.splice(_indexToRemove, 1);
             } else {
                 if (this.neutralArray.indexOf(data) < 0) this.neutralArray.push(data);
-                var indexToRemove = this.reduceArray.indexOf(data);
-                if (indexToRemove > -1) this.reduceArray.splice(indexToRemove, 1);
-                var indexToRemove2 = this.cutArray.indexOf(data);
-                if (indexToRemove2 > -1) this.cutArray.splice(indexToRemove2, 1);
+                var _indexToRemove3 = this.reduceArray.indexOf(data);
+                if (_indexToRemove3 > -1) this.reduceArray.splice(_indexToRemove3, 1);
+                var _indexToRemove4 = this.cutArray.indexOf(data);
+                if (_indexToRemove4 > -1) this.cutArray.splice(_indexToRemove4, 1);
             }
         };
 
@@ -645,15 +650,18 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
             console.log(this.masterBudget);
             console.log(tempMasterBudget.sumOfAllCost);
             console.log(tempMasterBudget.totalMonthlyIncome);
+            var count = 0;
             while (tempMasterBudget.sumOfAllCost < tempMasterBudget.totalMonthlyIncome) {
                 tempMasterBudget.other.recreationCost = parseInt(tempMasterBudget.other.recreationCost) * parseInt(percentReduction);
                 tempMasterBudget.other.gymCost = parseInt(tempMasterBudget.other.gymCost) * parseInt(percentReduction);
                 tempMasterBudget.other.clothingCost = parseInt(tempMasterBudget.other.clothingCost) * parseInt(percentReduction);
                 tempMasterBudget.housing.diningOutCost = parseInt(tempMasterBudget.housing.diningOutCost) * parseInt(percentReduction);
-                console.log(tempMasterBudget);
                 tempMasterBudget.other.calculateAdvancedOtherCost();
+                if (count > 3) break;
+                console.log(tempMasterBudget.sumOfAllCost);
+                count++;
             }
-            var tuples = this.createChartTuple(this.masterBudget);
+            var tuples = this.createChartTuple(tempMasterBudget);
             console.log(tuples);
             this.chart = _chartFactory.ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
             this.chart2 = _chartFactory.ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
@@ -669,15 +677,15 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
             var budgetArray = [];
             masterBudget.sumOfAllCost = 0;
             masterBudget.sumOfAllCost += parseInt(masterBudget.food.cost) + parseInt(masterBudget.childCare.cost) + parseInt(masterBudget.housing.cost) + parseInt(masterBudget.medical.cost) + parseInt(masterBudget.savings.cost) + parseInt(masterBudget.taxes.cost) + parseInt(masterBudget.transportation.cost);
-            var total = masterBudget.sumOfAllCost;
             var totalObject = {};
             totalObject.name = 'Total Expenses';
-            totalObject.y = total;
+            totalObject.y = masterBudget.sumOfAllCost;
             var remainingObject = [];
             remainingObject.name = 'Savings';
-            remainingObject.y = masterBudget.totalMonthlyIncome - total;
+            remainingObject.y = masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost;
             budgetArray.push(totalObject);
             budgetArray.push(remainingObject);
+            console.log(budgetArray);
             return budgetArray;
         };
 
@@ -897,8 +905,8 @@ define('goals/goal',["exports"], function (exports) {
         this.monthlyCost = parseInt(this.cost / monthsBetween);
     };
 });
-define('goals/goals',["exports", "goals/goal"], function (exports, _goal) {
-    "use strict";
+define('goals/goals',['exports', 'goals/goal', 'aurelia-framework', 'masterBudget'], function (exports, _goal, _aureliaFramework, _masterBudget) {
+    'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -911,16 +919,20 @@ define('goals/goals',["exports", "goals/goal"], function (exports, _goal) {
         }
     }
 
-    var Goals = exports.Goals = function () {
-        function Goals() {
+    var _dec, _class;
+
+    var Goals = exports.Goals = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget), _dec(_class = function () {
+        function Goals(masterBudget) {
             _classCallCheck(this, Goals);
+
+            this.masterBudget = masterBudget;
 
             this.goalsList = [];
             this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
             this.selectedName = null;
             this.selectedMonth = "January";
-            this.selectedYear = null;
+            this.selectedYear = 2018;
             this.selectedCost = null;
 
             this.monthlySavings = 0;
@@ -933,18 +945,18 @@ define('goals/goals',["exports", "goals/goal"], function (exports, _goal) {
 
             this.selectedName = null;
             this.selectedMonth = "January";
-            this.selectedYear = null;
+            this.selectedYear = 2018;
             this.selectedCost = null;
             console.log(this.goalsList);
         };
 
         Goals.prototype.removeGoal = function removeGoal(index) {
-            this.monthlySavings -= goalsList(index);
+            this.monthlySavings -= this.goalsList[index].monthlyCost;
             this.goalsList.splice(index, 1);
         };
 
         return Goals;
-    }();
+    }()) || _class);
 });
 define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia-fetch-client', '../utilities/chartFactory', 'masterBudget'], function (exports, _aureliaFramework, _aureliaRouter, _aureliaFetchClient, _chartFactory, _masterBudget) {
     'use strict';
@@ -1106,17 +1118,19 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                         self.masterBudget.transportation.carMonthlyOwnershipCost = ageData[2];
                                     }
                                 });
+
+                                self.masterBudget.transportation.cost = parseInt(parseInt(self.masterBudget.transportation.carYearlyUpkeepCost) / 12) + parseInt(self.masterBudget.transportation.carMonthlyOwnershipCost);
                                 console.log(this.masterBudget.transportation);
 
-                                _context3.next = 23;
+                                _context3.next = 24;
                                 return this.httpClient.fetch('/api/home-insurance/get.json');
 
-                            case 23:
+                            case 24:
                                 homeInsurance = _context3.sent;
-                                _context3.next = 26;
+                                _context3.next = 27;
                                 return homeInsurance.json();
 
-                            case 26:
+                            case 27:
                                 homeInsuranceData = _context3.sent;
 
                                 homeInsuranceData.costByState.forEach(function (homeData) {
@@ -1125,15 +1139,15 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                     }
                                 });
 
-                                _context3.next = 30;
+                                _context3.next = 31;
                                 return this.httpClient.fetch('api/healthcare-insurance/get.json');
 
-                            case 30:
+                            case 31:
                                 healthInsurance = _context3.sent;
-                                _context3.next = 33;
+                                _context3.next = 34;
                                 return healthInsurance.json();
 
-                            case 33:
+                            case 34:
                                 healthInsuranceData = _context3.sent;
 
                                 healthInsuranceData.costByState.forEach(function (healthData) {
@@ -1142,7 +1156,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                     }
                                 });
 
-                            case 35:
+                            case 36:
                             case 'end':
                                 return _context3.stop();
                         }
@@ -1422,7 +1436,7 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[3], masterBudget.medical.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[4], masterBudget.other.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[5], masterBudget.savings.cost, masterBudget));
-            masterBudget.transportation.calculateAverageTransportationCost();
+
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[6], masterBudget.taxes.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[7], masterBudget.transportation.cost, masterBudget));
 
@@ -1546,6 +1560,7 @@ define('budget-breakdown-module/category-modules/child-care/child-care',['export
             this.childSupportInflation = 1;
             this.eventAggregator = eventAggregator;
             this.collapsed = true;
+            this.isMonthly = true;
         }
 
         ChildCare.prototype.toggle = function toggle() {
@@ -1553,11 +1568,15 @@ define('budget-breakdown-module/category-modules/child-care/child-care',['export
         };
 
         ChildCare.prototype.calculateAdvancedChildCareCost = function calculateAdvancedChildCareCost() {
-            this.cost = parseInt(this.privateSchoolCost) + parseInt(this.daycareCost);
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.privateSchoolCost) + parseInt(this.daycareCost)) * scale);
+
+            this.eventAggregator.publish('update', { name: 'Child Care', value: this.cost });
         };
 
         ChildCare.prototype.toggleHorizon = function toggleHorizon() {
             this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedChildCareCost();
         };
 
         return ChildCare;
@@ -1609,14 +1628,73 @@ define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia
         };
 
         Food.prototype.calculateAdvancedFoodCost = function calculateAdvancedFoodCost() {
-            this.cost = parseInt(this.groceriesCost) + parseInt(this.diningOutCost);
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.groceriesCost) + parseInt(this.diningOutCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Food', value: this.cost });
         };
 
         Food.prototype.toggleHorizon = function toggleHorizon() {
             this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedFoodCost();
         };
 
         return Food;
+    }()) || _class) || _class);
+});
+define('budget-breakdown-module/category-modules/medical/medical',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Medical = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _dec2, _class;
+
+    var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
+        function Medical(constants, eventAggregator) {
+            _classCallCheck(this, Medical);
+
+            this.includeInBudget = true;
+            this.constants = constants;
+            this.cost = 0;
+            this.costPercentage = 0;
+            this.healthInsuranceCost = 0;
+            this.healthInflation = 1.0379;
+            this.medicationCost = 0;
+            this.dentalCost = 0;
+            this.otherMedicalCost = 0;
+            this.collapsed = true;
+            this.eventAggregator = eventAggregator;
+            this.isMonthly = true;
+        }
+
+        Medical.prototype.toggle = function toggle() {
+            this.collapsed = !this.collapsed;
+        };
+
+        Medical.prototype.calculateAdvancedMedical = function calculateAdvancedMedical() {
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost) + parseInt(this.medicationCost) + parseInt(this.otherMedicalCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Medical', value: this.cost });
+        };
+
+        Medical.prototype.toggleHorizon = function toggleHorizon() {
+            this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedMedical();
+        };
+
+        return Medical;
     }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/housing/housing',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
@@ -1662,63 +1740,23 @@ define('budget-breakdown-module/category-modules/housing/housing',['exports', 'a
         };
 
         Housing.prototype.calculateAdvancedCost = function calculateAdvancedCost() {
-            this.cost = parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost);
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Housing', value: this.cost });
+        };
+
+        Housing.prototype.calculateAutoBudgetCost = function calculateAutoBudgetCost() {
+            this.cost = parseInt(parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost));
         };
 
         Housing.prototype.toggleHorizon = function toggleHorizon() {
             this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedCost();
         };
 
         return Housing;
-    }()) || _class) || _class);
-});
-define('budget-breakdown-module/category-modules/medical/medical',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Medical = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _dec2, _class;
-
-    var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
-        function Medical(constants, eventAggregator) {
-            _classCallCheck(this, Medical);
-
-            this.includeInBudget = true;
-            this.constants = constants;
-            this.cost = 0;
-            this.costPercentage = 0;
-            this.healthInsuranceCost = 0;
-            this.healthInflation = 1.0379;
-            this.medicationCost = 0;
-            this.dentalCost = 0;
-            this.otherMedicalCost = 0;
-            this.collapsed = true;
-            this.eventAggregator = eventAggregator;
-            this.isMonthly = true;
-        }
-
-        Medical.prototype.toggle = function toggle() {
-            this.collapsed = !this.collapsed;
-        };
-
-        Medical.prototype.calculateAdvancedMedical = function calculateAdvancedMedical() {
-            this.cost = parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost) + parseInt(this.medicationCost) + parseInt(this.otherMedicalCost);
-        };
-
-        Medical.prototype.toggleHorizon = function toggleHorizon() {
-            this.isMonthly = !this.isMonthly;
-        };
-
-        return Medical;
     }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/other/other',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
@@ -1765,11 +1803,16 @@ define('budget-breakdown-module/category-modules/other/other',['exports', 'aurel
         };
 
         Other.prototype.calculateAdvancedOtherCost = function calculateAdvancedOtherCost() {
-            this.cost = parseInt(this.cellPhoneCost) + parseInt(this.recreationCost) + parseInt(this.gymCost) + parseInt(this.entertainmentCost) + parseInt(this.clothingCost);
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.cellPhoneCost) + parseInt(this.recreationCost) + parseInt(this.gymCost) + parseInt(this.entertainmentCost) + parseInt(this.clothingCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Other', value: this.cost });
         };
 
         Other.prototype.toggleHorizon = function toggleHorizon() {
             this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedOtherCost();
         };
 
         return Other;
@@ -1813,11 +1856,16 @@ define('budget-breakdown-module/category-modules/savings/savings',['exports', 'a
         };
 
         Savings.prototype.calculateAdvancedSavings = function calculateAdvancedSavings() {
-            this.cost = parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost);
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Savings', value: this.cost });
         };
 
         Savings.prototype.toggleHorizon = function toggleHorizon() {
             this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedSavings();
         };
 
         return Savings;
@@ -1859,11 +1907,16 @@ define('budget-breakdown-module/category-modules/taxes/taxes',['exports', 'aurel
         };
 
         Taxes.prototype.calculateAdvancedTaxCost = function calculateAdvancedTaxCost() {
-            this.cost = parseInt(this.vehicleTaxCost) + parseInt(this.housingTaxCost);
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.vehicleTaxCost) + parseInt(this.housingTaxCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Transportation', value: this.cost });
         };
 
         Taxes.prototype.toggleHorizon = function toggleHorizon() {
             this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedTaxCost();
         };
 
         return Taxes;
@@ -1903,8 +1956,12 @@ define('budget-breakdown-module/category-modules/transportation/transportation',
             this.isMonthly = true;
         }
 
-        Transportation.prototype.calculateAverageTransportationCost = function calculateAverageTransportationCost() {
-            this.cost = parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost);
+        Transportation.prototype.calculateAdvancedTransportationCost = function calculateAdvancedTransportationCost() {
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Transportation', value: this.cost });
         };
 
         Transportation.prototype.toggle = function toggle() {
@@ -1913,6 +1970,7 @@ define('budget-breakdown-module/category-modules/transportation/transportation',
 
         Transportation.prototype.toggleHorizon = function toggleHorizon() {
             this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedTransportationCost();
         };
 
         return Transportation;
@@ -1930,16 +1988,16 @@ define('text!five-year/card-info-three.html', ['module'], function(module) { mod
 define('text!five-year/card-info-two.html', ['module'], function(module) { module.exports = "<template><div id=\"card-info-one-div\">advice</div></template>"; });
 define('text!five-year/donut-details.html', ['module'], function(module) { module.exports = "<template><require from=\"../utilities/currency\"></require><require from=\"../utilities/percent\"></require><nav class=\"navbar navbar-light teal\"><div class=\"container-fluid\"><ul repeat.for=\"category of masterBudget.budgetCategories\" class=\"nav navbar-nav\"><li class=\"${category === currentCategory ? 'active': ''}\"><a click.delegate=\"changeNavigationTab(category, currentCategory)\">${category}</a></li></ul></div></nav><div class=\"card\" id=\"donut-details-div\"><h4>With a monthly income of ${currentExpense | currency} for ${currentYear} is ${currentExpenseYearCost | currency}</h4><div><h3>Top ways to save:</h3><p>1) Cancel Club Memberships</p><p>2) Reduce or eliminate cable bill</p><p>3) Carpool/Reduce Transportation cost</p></div></div></template>"; });
 define('text!five-year/five-year.html', ['module'], function(module) { module.exports = "<template><div id=\"five-year-module-container\"><div id=\"goals-chart-div\"><compose view-model=\"chart/donut-chart\" view-model.ref=\"chartVM\"></compose></div><div id=\"donut-details\"><compose view-model=\"./donut-details\"></compose></div></div></template>"; });
+define('text!goals/goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"progress\"><div class=\"progress-bar\" style=\"width:75%\"></div></div><div id=\"goal-template\"><div><h2>How much will you need to reach your Goal?</h2><h4>Start with a goal to help your realize the savings needed to reach this goal</h4></div></div><div>Your current savings are ${masterBudget.savings.cost} a month. How much more will you need to save to be able to afford goal purchases?</div><table class=\"table table-striped table-hover\"><thead><tr><th>Goal</th><th>Cost</th><th>Purchase Month</th><th>Purchase Year</th><th></th></tr></thead><tbody><tr><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"text\" class=\"form-control\" id=\"inputGoal\" placeholder=\"Boat\" value.bind=\"selectedName\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputCost\" placeholder=\"8000\" value.bind=\"selectedCost\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><select id=\"inputMonth\" class=\"form-control\" value.bind=\"selectedMonth\"><option repeat.for=\"month of months\" value.bind=\"month\">${month}</option></select></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputYear\" placeholder=\"2019\" value.bind=\"selectedYear\"></div></div></td><td><button class=\"btn btn-raised btn-info\" click.delegate=\"addGoal()\">Add Goal</button></td></tr><tr repeat.for=\"goal of goalsList\"><td>${goal.name}</td><td>${goal.cost}</td><td>${goal.month}</td><td>${goal.year}</td><td><button class=\"btn btn-raised btn-danger\" click.delegate=\"removeGoal($index)\">Remove Goal</button></td></tr></tbody></table><div if.bind=\"goalsList.length > 0\">You must save ${monthlySavings} a month to afford these goals.</div></template>"; });
 define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"view overlay hm-blue-light\" id=\"intro-template\"><div class=\"mask pattern-8 flex-center\"><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome()\"></div><div class=\"form-group\"><label for=\"\"><b>Location:</b></label><input type=\"text\" class=\"form-control\" value.bind=\"masterBudget.location\"></div><div class=\"btn-toolbar\" role=\"toolbar\" id=\"adults-toolbar\"><b>Adults in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"adult-intro-button\" repeat.for=\"i of 2\" class=\"btn btn-primary active\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div><br><div class=\"btn-toolbar\" role=\"toolbar\" id=\"children-toolbar\"><b>Children in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"children-intro-button\" repeat.for=\"i of 5\" class=\"btn btn-primary active\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i + 1\" name=\"options\"> ${i}</label></div></div><br><div id=\"budgetButton\"><button class=\"active btn btn-success\" click.delegate=\"route() getMonthlyIncome()\">Budget</button></div></form></div></div></template>"; });
-define('text!goals/goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"progress\"><div class=\"progress-bar\" style=\"width:30%\"></div></div><div id=\"goal-template\"><div><h2>How much will you need to reach your Goal?</h2><h4>Start with a goal to help your realize the savings needed to reach this goal</h4></div></div><table class=\"table table-striped table-hover\"><thead><tr><th>Goal</th><th>Cost</th><th>Purchase Month</th><th>Purchase Year</th><th></th></tr></thead><tbody><tr><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"text\" class=\"form-control\" id=\"inputGoal\" placeholder=\"Boat\" value.bind=\"selectedName\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputCost\" placeholder=\"8000\" value.bind=\"selectedCost\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><select id=\"inputMonth\" class=\"form-control\" value.bind=\"selectedMonth\"><option repeat.for=\"month of months\" value.bind=\"month\">${month}</option></select></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputYear\" placeholder=\"2019\" value.bind=\"selectedYear\"></div></div></td><td><button class=\"btn btn-raised btn-info\" click.delegate=\"addGoal()\">Add Goal</button></td></tr><tr repeat.for=\"goal of goalsList\"><td>${goal.name}</td><td>${goal.cost}</td><td>${goal.month}</td><td>${goal.year}</td><td><button class=\"btn btn-raised btn-danger\" click.delegate=\"removeGoal($index)\">Remove Goal</button></td></tr></tbody></table></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"results-banner-module/banner\"></compose><div id=\"results-container\" class=\"row\"><div id=\"chart-div\"><compose view-model=\"chart/chart\" view-model.ref=\"chartVM\"></compose></div><div id=\"breakdown-div\"><compose view-model=\"budget-breakdown-module/breakdown\"></compose></div><div id=\"button-div\"><button id=\"goals-button\" class=\"btn active btn-lg btn-primary\" click.delegate=\"routeGoals()\">Goals</button> <button id=\"five-year-button\" class=\"active btn btn-lg btn-primary\" click.delegate=\"routeFiveYearPlan()\">Five Year Plan</button> <button id=\"auto-budget-button\" class=\"active btn btn-lg btn-primary\" click.delegate=\"routeAutoBudget()\">Auto Budget</button></div><div></div></div></template>"; });
 define('text!results-banner-module/banner.html', ['module'], function(module) { module.exports = "<template><table id=\"banner-table\" class=\"table\"><tr><td><div><label id=\"breakdown-header-label\" for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome()\"></div></td><td><div><label id=\"breakdown-header-label\" for=\"\"><b>Location:</b></label><input type=\"text\" value.bind=\"masterBudget.location\" class=\"form-control\"></div></td><td><div id=\"breakdown-buttons\" class=\"btn-toolbar\" role=\"toolbar\"><b>Adults in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"breakdown-buttons-label\" repeat.for=\"i of 2\" class=\"btn btn-sm btn-primary active\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div></td><td><div id=\"breakdown-buttons\" class=\"btn-toolbar\" role=\"toolbar\"><b>Children in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"breakdown-buttons-label\" repeat.for=\"i of 5\" class=\"btn btn-sm btn-primary active\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i\" name=\"options\"> ${i}</label></div></div></td></tr></table></template>"; });
-define('text!budget-breakdown-module/category-modules/child-care/child-care.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOne\"><dv class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-child-care checkbox-inline\"><input id=\"checkbox1\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Child Care')\"><label for=\"checkbox1\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseChildCare\" aria-expanded=\"true\" aria-controls=\"collapseChildCare\">Child Care<span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></dv></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div><br><br><br><div id=\"collapseChildCare\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingChildCare\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.childCare\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedChildCareCost() eventAggregator.publish('update', {name: 'Child Care', value: cost})\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/food/food.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingFood\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-food checkbox-inline\"><input id=\"checkbox2\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Food')\"><label for=\"checkbox2\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFood\" aria-expanded=\"true\" aria-controls=\"collapseFood\">Food <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseFood\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFood\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.food\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label for=\"food-input\">${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedFoodCost() eventAggregator.publish('update', {name: 'Food', value: cost})\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/medical/medical.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingMedical\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-medical checkbox-inline\"><input id=\"checkbox4\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Medical')\"><label for=\"checkbox4\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseMedical\">Medical <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseMedical\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingMedical\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.medical\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedMedical() eventAggregator.publish('update', {name: 'Medical', value: cost})\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/other/other.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOther\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-other checkbox-inline\"><input id=\"checkbox5\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Other')\"><label for=\"checkbox5\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOther\" aria-expanded=\"true\" aria-controls=\"collapseOther\">Other <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseOther\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOther\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.other\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedOtherCost() eventAggregator.publish('update', {name: 'Other', value: cost})\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/savings/savings.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingSavings\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-savings checkbox-inline\"><input id=\"checkbox6\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Savings')\"><label for=\"checkbox6\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseSavings\" aria-expanded=\"true\" aria-controls=\"collapseSavings\">Savings <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4 mb-0\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseSavings\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingSavings\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.savings\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedSavings() eventAggregator.publish('update', {name: 'Savings', value: cost})\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/housing/housing.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingHousing\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-housing checkbox-inline\"><input id=\"checkbox3\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Housing')\"><label for=\"checkbox3\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseHousing\" aria-expanded=\"true\" aria-controls=\"collapseHousing\">Housing <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseHousing\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingHousing\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.housing\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedCost() eventAggregator.publish('update', {name: 'Housing', value: cost})\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/taxes/taxes.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTaxes\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox checkbox-taxes checkbox-inline\"><input id=\"checkbox7\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Taxes')\"><label for=\"checkbox7\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTaxes\" aria-expanded=\"true\" aria-controls=\"collapseTaxes\">Taxes <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseTaxes\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTaxes\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.taxes\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedTaxCost() eventAggregator.publish('update', {name: 'Taxes', value: cost})\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/transportation/transportation.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTransportation\"><dv class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-transportation checkbox-inline\"><input id=\"checkbox8\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Transportation')\"><label for=\"checkbox8\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTransportation\" aria-expanded=\"true\" aria-controls=\"collapseTransportation\">Transportation <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></dv></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div><br><br><br><div id=\"collapseTransportation\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTransportation\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.transportation\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedTransportation() eventAggregator.publish('update', {name: 'Transportation', value: cost})\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/food/food.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingFood\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-food checkbox-inline\"><input id=\"checkbox2\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Food')\"><label for=\"checkbox2\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFood\" aria-expanded=\"true\" aria-controls=\"collapseFood\">Food <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseFood\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFood\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.food\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label for=\"food-input\">${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedFoodCost()\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/child-care/child-care.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOne\"><dv class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-child-care checkbox-inline\"><input id=\"checkbox1\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Child Care')\"><label for=\"checkbox1\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseChildCare\" aria-expanded=\"true\" aria-controls=\"collapseChildCare\">Child Care<span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></dv></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div><br><br><br><div id=\"collapseChildCare\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingChildCare\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.childCare\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedChildCareCost()\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/other/other.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOther\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-other checkbox-inline\"><input id=\"checkbox5\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Other')\"><label for=\"checkbox5\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOther\" aria-expanded=\"true\" aria-controls=\"collapseOther\">Other <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseOther\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOther\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.other\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedOtherCost()\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/housing/housing.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingHousing\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-housing checkbox-inline\"><input id=\"checkbox3\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Housing')\"><label for=\"checkbox3\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseHousing\" aria-expanded=\"true\" aria-controls=\"collapseHousing\">Housing <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseHousing\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingHousing\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.housing\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedCost()\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/medical/medical.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingMedical\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-medical checkbox-inline\"><input id=\"checkbox4\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Medical')\"><label for=\"checkbox4\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseMedical\">Medical <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseMedical\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingMedical\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.medical\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedMedical()\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/savings/savings.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingSavings\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-savings checkbox-inline\"><input id=\"checkbox6\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Savings')\"><label for=\"checkbox6\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseSavings\" aria-expanded=\"true\" aria-controls=\"collapseSavings\">Savings <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4 mb-0\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseSavings\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingSavings\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.savings\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedSavings()\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/taxes/taxes.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTaxes\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox checkbox-taxes checkbox-inline\"><input id=\"checkbox7\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Taxes')\"><label for=\"checkbox7\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTaxes\" aria-expanded=\"true\" aria-controls=\"collapseTaxes\">Taxes <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div></div><br><br><br><div id=\"collapseTaxes\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTaxes\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.taxes\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedTaxCost()\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/transportation/transportation.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTransportation\"><dv class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-transportation checkbox-inline\"><input id=\"checkbox8\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Transportation')\"><label for=\"checkbox8\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTransportation\" aria-expanded=\"true\" aria-controls=\"collapseTransportation\">Transportation <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></dv></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\">${cost | currency}</div><br><br><br><div id=\"collapseTransportation\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTransportation\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.transportation\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedTransportationCost()\"></div></div></div></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map

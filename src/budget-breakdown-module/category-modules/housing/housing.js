@@ -31,11 +31,20 @@ export class Housing {
 
     //Calculates advanced cost for housing
     calculateAdvancedCost() {
-        this.cost = parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost);
+        var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers 
+        this.cost = parseInt( ( parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost)) * scale);
+        // this.cost = this.cost.toFixed(2);
+
+        this.eventAggregator.publish('update', {name: 'Housing', value: this.cost});
+    }
+
+    //Calculate cost for autoBudget
+    calculateAutoBudgetCost() {
+        this.cost = parseInt( parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost));
     }
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
-        
+        this.calculateAdvancedCost();
     }
 }

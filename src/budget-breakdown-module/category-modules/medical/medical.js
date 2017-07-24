@@ -27,11 +27,15 @@ export class Medical {
 
     //Calculates the advanced cost of the medical category
     calculateAdvancedMedical() {
-        this.cost = parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost) + parseInt(this.medicationCost)  + parseInt(this.otherMedicalCost);
+        var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers 
+        this.cost = parseInt( ( parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost) + parseInt(this.medicationCost)  + parseInt(this.otherMedicalCost) ) * scale);
+        // this.cost = this.cost.toFixed(2);
+
+        this.eventAggregator.publish('update', {name: 'Medical', value: this.cost});
     }
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
-        
+        this.calculateAdvancedMedical();
     }
 }

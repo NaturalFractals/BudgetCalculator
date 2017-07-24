@@ -20,6 +20,7 @@ export class ChildCare {
         this.childSupportInflation = 1;
         this.eventAggregator = eventAggregator;
         this.collapsed = true;
+        this.isMonthly = true;
     }
 
     //Toggles the arrow of the collapse menu
@@ -29,11 +30,14 @@ export class ChildCare {
 
     //Calculates the cost of the advanced child care cost
     calculateAdvancedChildCareCost() {
-        this.cost = parseInt(this.privateSchoolCost) + parseInt(this.daycareCost);
+        var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers 
+        this.cost = parseInt( ( parseInt(this.privateSchoolCost) + parseInt(this.daycareCost) ) * scale);
+
+        this.eventAggregator.publish('update', {name: 'Child Care', value: this.cost});
     }
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
-        
+        this.calculateAdvancedChildCareCost();
     }
 }
