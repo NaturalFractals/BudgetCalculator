@@ -35,11 +35,15 @@ export class Food {
 
     //Calculate detailed food cost
     calculateAdvancedFoodCost() {
-        this.cost = parseInt(this.groceriesCost) + parseInt(this.diningOutCost);
+        var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers 
+        this.cost = parseInt( ( parseInt(this.groceriesCost) + parseInt(this.diningOutCost) ) * scale);
+        // this.cost = this.cost.toFixed(2);
+
+        this.eventAggregator.publish('update', {name: 'Food', value: this.cost});
     }
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
-        
+        this.calculateAdvancedFoodCost();
     }
 }

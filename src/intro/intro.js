@@ -62,6 +62,8 @@ export class Intro {
                 self.masterBudget.transportation.carMonthlyOwnershipCost = ageData[2];
             }
         });
+        // self.masterBudget.transportation.calculateAdvancedTransportationCost();
+        self.masterBudget.transportation.cost = parseInt(parseInt(self.masterBudget.transportation.carYearlyUpkeepCost) / 12) + parseInt(self.masterBudget.transportation.carMonthlyOwnershipCost);
         console.log(this.masterBudget.transportation);
 
         //Get average home insurance cost

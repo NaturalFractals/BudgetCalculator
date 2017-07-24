@@ -20,8 +20,12 @@ export class Transportation {
     }
 
     //Calculates the average transportation for the basic calc page.
-    calculateAverageTransportationCost() {
-        this.cost = parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost);
+    calculateAdvancedTransportationCost() {
+        var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers
+        this.cost = parseInt( ( parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost) ) * scale);
+        // this.cost = this.cost.toFixed(2);
+
+        this.eventAggregator.publish('update', {name: 'Transportation', value: this.cost});
     }
 
     //Toggles the arrow of the collapse menu
@@ -31,5 +35,6 @@ export class Transportation {
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
+        this.calculateAdvancedTransportationCost();
     }
 }

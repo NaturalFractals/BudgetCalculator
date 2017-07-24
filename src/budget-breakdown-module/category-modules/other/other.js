@@ -33,11 +33,15 @@ export class Other {
 
     //Calculates the advanced cost of other category
     calculateAdvancedOtherCost() {
-        this.cost = parseInt(this.cellPhoneCost) + parseInt(this.recreationCost) + parseInt(this.gymCost) + parseInt(this.entertainmentCost) + parseInt(this.clothingCost);
+        var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers
+        this.cost = parseInt( ( parseInt(this.cellPhoneCost) + parseInt(this.recreationCost) + parseInt(this.gymCost) + parseInt(this.entertainmentCost) + parseInt(this.clothingCost) ) * scale);
+        // this.cost = this.cost.toFixed(2);
+
+        this.eventAggregator.publish('update', {name: 'Other', value: this.cost});
     }
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
-        
+        this.calculateAdvancedOtherCost();
     }
 }

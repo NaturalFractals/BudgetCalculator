@@ -33,7 +33,7 @@
         <div repeat.for="constant of constants.food" class="form-group">
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label for="food-input">${constant.label}</label>
-            <input type="number" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedFoodCost() eventAggregator.publish('update', {name: 'Food', value: cost})">
+            <input type="number" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedFoodCost()">
           </div>
         </div>
       </div>

@@ -24,11 +24,15 @@ export class Taxes {
 
     //Calculates cost of vehicle and housing tax entered by the user.
     calculateAdvancedTaxCost() {
-        this.cost =  parseInt(this.vehicleTaxCost) + parseInt(this.housingTaxCost);
+        var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers
+        this.cost =  parseInt( ( parseInt(this.vehicleTaxCost) + parseInt(this.housingTaxCost) ) * scale);
+        // this.cost = this.cost.toFixed(2);
+
+        this.eventAggregator.publish('update', {name: 'Transportation', value: this.cost});
     }
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
-        
+        this.calculateAdvancedTaxCost();
     }
 }
