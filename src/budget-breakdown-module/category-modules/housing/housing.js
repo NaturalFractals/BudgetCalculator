@@ -18,6 +18,7 @@ export class Housing {
         this.homeMaintenanceInflation  = 1.0229;
         this.homeTelephoneCost = 0;
         this.homeTelephoneInflation = 0.9915;
+        this.utilitiesCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
         this.isMonthly = true;
@@ -35,6 +36,11 @@ export class Housing {
         // this.cost = this.cost.toFixed(2);
 
         this.eventAggregator.publish('update', {name: 'Housing', value: this.cost});
+    }
+
+    //Calculate cost for autoBudget
+    calculateAutoBudgetCost() {
+        this.cost = parseInt( parseInt(this.monthlyRentCost) + parseInt(this.homeInsuranceCost) + parseInt(this.utilitiesCost));
     }
 
     toggleHorizon() {

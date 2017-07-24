@@ -67,11 +67,5 @@ export class DonutDetails {
             tempMasterBudget.other.entertainmentCost *= this.masterBudget.entertainmentInflation;
             tempMasterBudget.other.cellPhoneCost *= this.masterBudget.cellPhoneInflation;
         }
-
-
-        
-    }
-
-
-    
+    }  
 }

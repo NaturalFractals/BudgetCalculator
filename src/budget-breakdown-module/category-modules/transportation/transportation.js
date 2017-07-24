@@ -15,6 +15,7 @@ export class Transportation {
         this.publicTransportationInflation = 1.0329;
         this.carYearlyUpkeepCost = 0;
         this.carMonthlyOwnershipCost = 0;
+        this.hasCar = 0;
         this.eventAggregator = eventAggregator;
         this.isMonthly = true;
     }

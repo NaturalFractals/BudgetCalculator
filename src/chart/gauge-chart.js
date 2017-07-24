@@ -8,7 +8,6 @@ export class GaugeChart {
     constructor(masterBudget, constants) {
         this.masterBudget = masterBudget;
         this.constants = constants;
-        console.log(constants);
         this.chart = null;
         this.chart2 = null;
         this.neutralArray = [];
@@ -19,6 +18,7 @@ export class GaugeChart {
 
     attached() {
         var tuples = this.createChartTuple(this.masterBudget);
+        this.autoBudget();
         this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
         this.chart2 = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
     }
@@ -50,33 +50,33 @@ export class GaugeChart {
     //Handles the drop event into a container
     drop(ev) {
         ev.preventDefault();
-        var data = ev.dataTransfer.getData("tonberry");
+        let data = ev.dataTransfer.getData("tonberry");
         console.log(data);
         if(ev.target.id === 'reduce-container'){
             if(this.reduceArray.indexOf(data) < 0)
                 this.reduceArray.push(data);
-            var indexToRemove = this.neutralArray.indexOf(data);
+            let indexToRemove = this.neutralArray.indexOf(data);
             if(indexToRemove > -1)
                 this.neutralArray.splice(indexToRemove, 1);
-            var indexToRemove = this.cutArray.indexOf(data);
-            if(indexToRemove > -1)
+            let indexToRemove2 = this.cutArray.indexOf(data);
+            if(indexToRemove2 > -1)
                 this.cutArray.splice(indexToRemove, 1);
         } else if (ev.target.id === 'cut-container') {
             if(this.cutArray.indexOf(data) < 0)
                 this.cutArray.push(data);
-            var indexToRemove = this.neutralArray.indexOf(data);
+            let indexToRemove = this.neutralArray.indexOf(data);
             if(indexToRemove > -1)
                 this.neutralArray.splice(indexToRemove, 1);
-            var indexToRemove2 = this.reduceArray.indexOf(data);
+            let indexToRemove2 = this.reduceArray.indexOf(data);
             if(indexToRemove2 > -1)
                 this.reduceArray.splice(indexToRemove, 1);
         } else {
             if(this.neutralArray.indexOf(data) < 0)
                 this.neutralArray.push(data);
-            var indexToRemove = this.reduceArray.indexOf(data);
+            let indexToRemove = this.reduceArray.indexOf(data);
             if(indexToRemove > -1)
                 this.reduceArray.splice(indexToRemove, 1);
-            var indexToRemove2 = this.cutArray.indexOf(data);
+            let indexToRemove2 = this.cutArray.indexOf(data);
             if(indexToRemove2 > -1)
                 this.cutArray.splice(indexToRemove2, 1);
         }
@@ -84,21 +84,26 @@ export class GaugeChart {
 
     //Calculates the auto budget once the auto-budget Button is clicked
     autoBudget() {
-        var cost = this.masterBudget.sumOfAllCost;
-        var autoBudgetCost = cost - this.masterBudget.recreationCost;
-        var percentReduction = 0.9;
-        var tempMasterBudget = this.masterBudget;
+        let cost = this.masterBudget.sumOfAllCost;
+        let autoBudgetCost = cost - this.masterBudget.recreationCost;
+        let percentReduction = 0.9;
+        let tempMasterBudget = this.masterBudget;
         console.log(this.masterBudget);
+        console.log(tempMasterBudget.sumOfAllCost);
+        console.log(tempMasterBudget.totalMonthlyIncome);
+        let count = 0;
         while(tempMasterBudget.sumOfAllCost < tempMasterBudget.totalMonthlyIncome) {
-            tempMasterBudget.other.recreationCost *= percentReduction;
-            tempMasterBudget.other.gymCost *= percentReduction;
-            tempMasterBudget.other.clothingCost *= percentReduction;
-            tempMasterBudget.housing.diningOutCost *= percentReduction;
-            console.log(tempMasterBudget);
+            tempMasterBudget.other.recreationCost = parseInt(tempMasterBudget.other.recreationCost) * parseInt(percentReduction);
+            tempMasterBudget.other.gymCost = parseInt(tempMasterBudget.other.gymCost) * parseInt(percentReduction);
+            tempMasterBudget.other.clothingCost = parseInt(tempMasterBudget.other.clothingCost) * parseInt(percentReduction);
+            tempMasterBudget.housing.diningOutCost = parseInt(tempMasterBudget.housing.diningOutCost) * parseInt(percentReduction);
             tempMasterBudget.other.calculateAdvancedOtherCost();
-            tempMasterBudget.housing.calculateAdvancedHousingCost();
+            if(count > 3) break;
+            console.log(tempMasterBudget.sumOfAllCost);
+            count++;
         }
-        var tuples = this.createChartTuple(this.masterBudget);
+        let tuples = this.createChartTuple(tempMasterBudget);
+        console.log(tuples);
         this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
         this.chart2 = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
     }
@@ -114,15 +119,15 @@ export class GaugeChart {
         var budgetArray = [];
         masterBudget.sumOfAllCost = 0;
         masterBudget.sumOfAllCost += parseInt(masterBudget.food.cost) + parseInt(masterBudget.childCare.cost) + parseInt(masterBudget.housing.cost) + parseInt(masterBudget.medical.cost) + parseInt(masterBudget.savings.cost) + parseInt(masterBudget.taxes.cost) + parseInt(masterBudget.transportation.cost);
-        var total = masterBudget.sumOfAllCost;
         var totalObject = {};
         totalObject.name = 'Total Expenses';
-        totalObject.y = total;
+        totalObject.y = masterBudget.sumOfAllCost;
         var remainingObject = [];
         remainingObject.name = 'Savings';
-        remainingObject.y = masterBudget.monthlyIncome - total;
+        remainingObject.y = masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost;
         budgetArray.push(totalObject);
         budgetArray.push(remainingObject);
+        console.log(budgetArray);
         return budgetArray;
     }
 }
