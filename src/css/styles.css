@@ -27,6 +27,14 @@
     width: 40%;
 }
 
+/* Budget buttons in div on auto button page*/
+#auto-budget-buttons {
+    position:absolute;
+    width:100%;
+    bottom:0;
+    text-align:center;
+}
+
 .list-group {
     text-align: center;
 }
