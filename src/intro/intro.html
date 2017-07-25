@@ -1,21 +1,22 @@
 <template>
     <require from="css/styles.css"></require>
     <div class="view overlay hm-blue-light" id="intro-template" >
-        <div class="card mask pattern-8 flex-center" id="intro-card">
-            <form id="personalInfo">
+        <h1 id="intro-page-title"> Budget Planning </h1>
+        <div class="card" id="intro-card">
+            <form>
                 <!-- Input annual income-->
-                <div class="form-group">
+                <div id="intro-form" class="form-group">
                     <label for=""><b>Annual Income:</b></label>
-                    <input type="text" class="form-control" placeholder="50,000" value.bind="masterBudget.annualIncome" change.delegate="sanitizeIncome() getMonthlyIncome()">
+                    <input type="text" class="form-control" placeholder="$50,000" value.bind="masterBudget.annualIncome" change.delegate="sanitizeIncome() getMonthlyIncome()">
                 </div>
                 <!-- Input user's location-->
-                <div class="form-group">
+                <div id="intro-form" class="form-group">
                     <label for=""><b>Location:</b></label>
                     <input type="text" class="form-control" value.bind="masterBudget.location">
                 </div>
                 <!-- Input number of adults in household-->
                 <div class="btn-toolbar" role="toolbar" id="adults-toolbar">
-                    <b>Adults in Household</b>
+                    <b style="margin: 0 auto;">Adults in Household</b>
                     <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
                         <label id="adult-intro-button" repeat.for="i of 2" class="btn btn-raised btn-primary">
                             <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
@@ -25,7 +26,7 @@
                 </div>
                 <br>
                 <!-- Input number of children in household-->
-                <div class="btn-toolbar" role="toolbar" id="adults-toolbar">
+                <div class="btn-toolbar" role="toolbar" id="children-toolbar">
                     <b>Children in Household</b>
                     <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
                         <label id="children-intro-button" repeat.for="i of 5" class="btn btn-raised btn-primary">

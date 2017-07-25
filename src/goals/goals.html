@@ -1,5 +1,9 @@
 <template>
     <require from="css/styles.css"></require>
+    <div>
+        <h1 id="content-header" style="font-size: 36px; text-align:center;"><b>Budget Planning<b></h1>
+    </div>
+    <br>
     <!-- Progress bar to keep track of amount needed for goal-->
     <div class="progress">
         <div class="progress-bar" style="width: 75%"></div>
@@ -10,41 +14,12 @@
             <h2>How much will you need to reach your Goal?</h2>
             <h4>Start with a goal to help your realize the savings needed to reach this goal</h4>
         </div>
-
-        <!-- Dropdown group for selecting goals-->
-        <!-- <div class="btn-group">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Your Goal</button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item">Buy a House</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item">Pay of Debt</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item">Save for Retirement</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item">Buy a Car</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item">Vacation</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item">Save for Emergency</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item">Home Improvements</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Gifts</a>
-            </div>
-        </div> -->
-
-        <!-- Input cost of the goal-->
-        <!-- <div id="text-output">
-            <h4><b>To Reach Your Goal:</b> Spend ${goalCostPerMonth} less each month</h5>
-            </h4>
-        </div> -->
     </div>
-
-    <div>
+    <div id="goal-template">
         Your current savings are ${masterBudget.savings.cost} a month. How much more will you need to save to be able to afford goal purchases?
     </div>
 
-    <table class="table table-striped table-hover ">
+    <table id="goal-template" class="table table-striped table-hover ">
         <thead>
             <tr>
                 <th>Goal</th>

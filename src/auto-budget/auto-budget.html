@@ -1,7 +1,11 @@
 <template>
     <require from="css/styles.css"></require>
     <require from="highcharts/css/highcharts.css"></require>
-    <div id="drag-drop-div" style="background:#e0f2f1">
+    <div>
+        <h1 id="content-header" style="font-size: 36px; text-align:center;"><b>Budget Planning<b></h1>
+    </div>
+    <br>
+    <div id="drag-drop-div">
         <compose view-model="chart/gauge-chart"></compose>
     </div>
 </template>

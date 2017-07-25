@@ -15,7 +15,7 @@ export class MasterBudget {
     constructor(constants, food, other, housing, medical, taxes, savings, childCare, transportation) {
         this.constants = constants;
         this.location = "";
-        this.annualIncome = 0;
+        this.annualIncome;
         this.totalMonthlyIncome = 2000;
         this.numberChildren = 2;
         this.numberAdults = 1;
