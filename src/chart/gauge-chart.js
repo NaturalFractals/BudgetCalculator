@@ -84,7 +84,7 @@ export class GaugeChart {
     //Calculates the auto budget once the auto-budget Button is clicked
     autoBudget() {
         let cost = this.masterBudget.sumOfAllCost;
-        let percentReduction = 0.9;
+        let percentReduction = 0.95;
         var tempMasterBudget = this.masterBudget;
         let count = 0;
         while (tempMasterBudget.sumOfAllCost > tempMasterBudget.totalMonthlyIncome) {
@@ -95,12 +95,12 @@ export class GaugeChart {
             tempMasterBudget.other.calculateAdvancedOtherCost();
             tempMasterBudget.sumAllCost();
             console.log("Removed other cost");
-            if (count > 5) break;
+            if (count > 10) break;
             count++;
         }
         let tuples = this.createChartTuple(tempMasterBudget);
         console.log(tuples);
-        this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
+        this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples, "After");
     }
 
     //Adjust the budget based on input from the drag and drop or user
@@ -127,7 +127,7 @@ export class GaugeChart {
         });
         tempMasterBudget.sumAllCost();
         let tuples = await this.createChartTuple(tempMasterBudget);
-        this.chart2 = await ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
+        this.chart2 = await ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples, 'After');
     }
 
     //Create tuples for the pie chart

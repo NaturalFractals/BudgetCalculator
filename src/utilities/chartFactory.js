@@ -3,8 +3,8 @@ import * as HighCharts from "highcharts";
 export class ChartFactory {
     
     //Create half donut chart
-    static createHalfDonutChart(containerID, tuples) {
-        console.log(tuples);
+    static createHalfDonutChart(containerID, tuples, type) {
+        console.log(type);
         return Highcharts.chart(containerID, {
             chart: {
                 plotBackgroundColor: null,
@@ -12,10 +12,10 @@ export class ChartFactory {
                 plotShadow: false
             },
             title: {
-                text: '<br>Budget<br>',
+                text: '<br>Before<br>',
                 align: 'center',
                 verticalAlign: 'middle',
-                y: 40
+                y: -100
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
