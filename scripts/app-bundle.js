@@ -367,7 +367,9 @@ define('masterBudget',['exports', 'budget-breakdown-module/category-modules/food
             this.chart = null;
         }
 
-        MasterBudget.prototype.sumAllCost = function sumAllCost() {};
+        MasterBudget.prototype.sumAllCost = function sumAllCost() {
+            this.sumOfAllCost = parseInt(this.food.cost) + parseInt(this.savings.cost) + parseInt(this.other.cost) + parseInt(this.housing.cost) + parseInt(this.medical.cost) + parseInt(this.taxes.cost) + parseInt(this.childCare.cost) + parseInt(this.transportation.cost);
+        };
 
         return MasterBudget;
     }()) || _class);
@@ -620,8 +622,8 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
         }
 
         GaugeChart.prototype.attached = function attached() {
+            this.masterBudget.sumAllCost();
             var tuples = this.createChartTuple(this.masterBudget);
-            this.autoBudget();
             this.chart = _chartFactory.ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
             this.chart2 = _chartFactory.ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
         };
@@ -649,7 +651,6 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
         GaugeChart.prototype.drop = function drop(ev) {
             ev.preventDefault();
             var data = ev.dataTransfer.getData("tonberry");
-            console.log(data);
             if (ev.target.id === 'reduce-container') {
                 if (this.reduceArray.indexOf(data) < 0) this.reduceArray.push(data);
                 var indexToRemove = this.neutralArray.indexOf(data);
@@ -673,21 +674,18 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
 
         GaugeChart.prototype.autoBudget = function autoBudget() {
             var cost = this.masterBudget.sumOfAllCost;
-            var autoBudgetCost = cost - this.masterBudget.recreationCost;
             var percentReduction = 0.9;
             var tempMasterBudget = this.masterBudget;
-            console.log(this.masterBudget);
-            console.log(tempMasterBudget.sumOfAllCost);
-            console.log(tempMasterBudget.totalMonthlyIncome);
             var count = 0;
-            while (tempMasterBudget.sumOfAllCost < tempMasterBudget.totalMonthlyIncome) {
-                tempMasterBudget.other.recreationCost = parseInt(tempMasterBudget.other.recreationCost) * parseInt(percentReduction);
-                tempMasterBudget.other.gymCost = parseInt(tempMasterBudget.other.gymCost) * parseInt(percentReduction);
-                tempMasterBudget.other.clothingCost = parseInt(tempMasterBudget.other.clothingCost) * parseInt(percentReduction);
-                tempMasterBudget.housing.diningOutCost = parseInt(tempMasterBudget.housing.diningOutCost) * parseInt(percentReduction);
+            while (tempMasterBudget.sumOfAllCost > tempMasterBudget.totalMonthlyIncome) {
+                tempMasterBudget.other.recreationCost = parseInt(tempMasterBudget.other.recreationCost) * percentReduction;
+                tempMasterBudget.other.gymCost = parseInt(tempMasterBudget.other.gymCost) * percentReduction;
+                tempMasterBudget.other.clothingCost = parseInt(tempMasterBudget.other.clothingCost) * percentReduction;
+                tempMasterBudget.housing.diningOutCost = parseInt(tempMasterBudget.housing.diningOutCost) * percentReduction;
                 tempMasterBudget.other.calculateAdvancedOtherCost();
-                if (count > 3) break;
-                console.log(tempMasterBudget.sumOfAllCost);
+                tempMasterBudget.sumAllCost();
+                console.log("Removed other cost");
+                if (count > 5) break;
                 count++;
             }
             var tuples = this.createChartTuple(tempMasterBudget);
@@ -706,9 +704,7 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
                                 cost = this.masterBudget.sumOfAllCost;
                                 percentReduction = 0.9;
                                 tempMasterBudget = this.masterBudget;
-
-                                console.log(tempMasterBudget);
-                                _context.next = 7;
+                                _context.next = 6;
                                 return this.cutArray.forEach(function (item) {
                                     self.constants.autoBudgetFields.forEach(function (field) {
                                         if (field.label === item) {
@@ -718,8 +714,8 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
                                     });
                                 });
 
-                            case 7:
-                                _context.next = 9;
+                            case 6:
+                                _context.next = 8;
                                 return this.reduceArray.forEach(function (item) {
                                     self.constants.autoBudgetFields.forEach(function (field) {
                                         if (field.lable === item) {
@@ -729,20 +725,20 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
                                     });
                                 });
 
-                            case 9:
-                                console.log(tempMasterBudget);
-                                _context.next = 12;
+                            case 8:
+                                tempMasterBudget.sumAllCost();
+                                _context.next = 11;
                                 return this.createChartTuple(tempMasterBudget);
 
-                            case 12:
+                            case 11:
                                 tuples = _context.sent;
-                                _context.next = 15;
+                                _context.next = 14;
                                 return _chartFactory.ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
 
-                            case 15:
+                            case 14:
                                 this.chart2 = _context.sent;
 
-                            case 16:
+                            case 15:
                             case 'end':
                                 return _context.stop();
                         }
@@ -759,15 +755,11 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
 
         GaugeChart.prototype.createChartTuple = function createChartTuple(masterBudget) {
             var budgetArray = [];
-            masterBudget.sumOfAllCost = 0;
-            masterBudget.sumOfAllCost += parseInt(masterBudget.food.cost) + parseInt(masterBudget.childCare.cost) + parseInt(masterBudget.housing.cost) + parseInt(masterBudget.medical.cost) + parseInt(masterBudget.savings.cost) + parseInt(masterBudget.taxes.cost) + parseInt(masterBudget.transportation.cost);
             var totalObject = [];
             totalObject.push('Income');
-
             totalObject.push(masterBudget.totalMonthlyIncome);
             var remainingObject = [];
             remainingObject.push('Budget');
-
             remainingObject.push(Math.max(0, masterBudget.sumOfAllCost - masterBudget.totalMonthlyIncome));
             budgetArray.push(totalObject);
             budgetArray.push(remainingObject);
@@ -828,7 +820,7 @@ define('five-year/card-info-two',["exports"], function (exports) {
         _classCallCheck(this, CardInfoTwo);
     };
 });
-define('five-year/donut-details',['exports', 'aurelia-framework', 'masterBudget'], function (exports, _aureliaFramework, _masterBudget) {
+define('five-year/donut-details',['exports', 'aurelia-framework', 'masterBudget', '../utilities/chartFactory'], function (exports, _aureliaFramework, _masterBudget, _chartFactory) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -856,8 +848,6 @@ define('five-year/donut-details',['exports', 'aurelia-framework', 'masterBudget'
         }
 
         DonutDetails.prototype.changeNavigationTab = function changeNavigationTab(category, currentCategory) {
-            console.log(currentCategory);
-            console.log(category);
             switch (category) {
                 case this.masterBudget.budgetCategories[0]:
                     this.currentExpense = this.masterBudget.childCare.cost;
@@ -1121,7 +1111,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                                 case 0:
                                                     navigator.geolocation.getCurrentPosition(function () {
                                                         var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee(position) {
-                                                            var data, data2;
+                                                            var data, data2, householdCost, houseHoldCostData;
                                                             return regeneratorRuntime.wrap(function _callee$(_context) {
                                                                 while (1) {
                                                                     switch (_context.prev = _context.next) {
@@ -1139,8 +1129,22 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                                                             data2 = _context.sent;
 
                                                                             self.getCurrentLocation(data2);
+                                                                            _context.next = 10;
+                                                                            return self.httpClient.fetch('api/household-cost-county/get.json');
 
-                                                                        case 8:
+                                                                        case 10:
+                                                                            householdCost = _context.sent;
+                                                                            _context.next = 13;
+                                                                            return householdCost.json();
+
+                                                                        case 13:
+                                                                            houseHoldCostData = _context.sent;
+
+                                                                            houseHoldCostData.costByCounty.forEach(function (houseObject) {
+                                                                                if (houseObject.County == self.masterBudget.location) self.masterBudget.housing.cost += houseObject[self.masterBudget.numberAdults];
+                                                                            });
+
+                                                                        case 15:
                                                                         case 'end':
                                                                             return _context.stop();
                                                                     }
@@ -1205,17 +1209,16 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                 });
 
                                 self.masterBudget.transportation.cost = parseInt(parseInt(self.masterBudget.transportation.carYearlyUpkeepCost) / 12) + parseInt(self.masterBudget.transportation.carMonthlyOwnershipCost);
-                                console.log(this.masterBudget.transportation);
 
-                                _context3.next = 24;
+                                _context3.next = 23;
                                 return this.httpClient.fetch('/api/home-insurance/get.json');
 
-                            case 24:
+                            case 23:
                                 homeInsurance = _context3.sent;
-                                _context3.next = 27;
+                                _context3.next = 26;
                                 return homeInsurance.json();
 
-                            case 27:
+                            case 26:
                                 homeInsuranceData = _context3.sent;
 
                                 homeInsuranceData.costByState.forEach(function (homeData) {
@@ -1224,15 +1227,15 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                     }
                                 });
 
-                                _context3.next = 31;
+                                _context3.next = 30;
                                 return this.httpClient.fetch('api/healthcare-insurance/get.json');
 
-                            case 31:
+                            case 30:
                                 healthInsurance = _context3.sent;
-                                _context3.next = 34;
+                                _context3.next = 33;
                                 return healthInsurance.json();
 
-                            case 34:
+                            case 33:
                                 healthInsuranceData = _context3.sent;
 
                                 healthInsuranceData.costByState.forEach(function (healthData) {
@@ -1241,7 +1244,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                     }
                                 });
 
-                            case 36:
+                            case 35:
                             case 'end':
                                 return _context3.stop();
                         }
@@ -1275,10 +1278,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
         };
 
         Intro.prototype.getMonthlyIncome = function getMonthlyIncome() {
-            console.log(this.masterBudget.annualIncome);
-            console.log(this.income);
             this.masterBudget.totalMonthlyIncome = parseInt(this.income) / 12;
-            console.log(this.masterBudget.totalMonthlyIncome);
         };
 
         return Intro;
@@ -1516,7 +1516,6 @@ define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _h
         ChartFactory.createChartTuple = function createChartTuple(masterBudget) {
             var budgetArray = [];
             masterBudget.sumOfAllCost = 0;
-            console.log(masterBudget);
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[0], masterBudget.childCare.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[1], masterBudget.food.cost, masterBudget));
             budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[2], masterBudget.housing.cost, masterBudget));
@@ -1837,7 +1836,6 @@ define('budget-breakdown-module/category-modules/other/other',['exports', 'aurel
         Other.prototype.calculateAdvancedOtherCost = function calculateAdvancedOtherCost() {
             var scale = this.isMonthly ? 1 : 1 / 12;
             this.cost = parseInt((parseInt(this.cellPhoneCost) + parseInt(this.recreationCost) + parseInt(this.gymCost) + parseInt(this.entertainmentCost) + parseInt(this.clothingCost)) * scale);
-
 
             this.eventAggregator.publish('update', { name: 'Other', value: this.cost });
         };

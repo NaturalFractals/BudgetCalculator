@@ -1,6 +1,7 @@
 import * as HighCharts from "highcharts";
 
 export class ChartFactory {
+    
     //Create half donut chart
     static createHalfDonutChart(containerID, tuples) {
         console.log(tuples);
@@ -110,7 +111,6 @@ export class ChartFactory {
     static createChartTuple(masterBudget) {
         var budgetArray = [];
         masterBudget.sumOfAllCost = 0;
-        console.log(masterBudget);
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[0], masterBudget.childCare.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[1], masterBudget.food.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[2], masterBudget.housing.cost, masterBudget));
