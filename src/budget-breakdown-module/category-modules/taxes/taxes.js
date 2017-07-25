@@ -28,7 +28,7 @@ export class Taxes {
         this.cost =  parseInt( ( parseInt(this.vehicleTaxCost) + parseInt(this.housingTaxCost) ) * scale);
         // this.cost = this.cost.toFixed(2);
 
-        this.eventAggregator.publish('update', {name: 'Transportation', value: this.cost});
+        this.eventAggregator.publish('update', {name: 'Taxes', value: this.cost});
     }
 
     toggleHorizon() {
