@@ -3,6 +3,7 @@ import * as HighCharts from "highcharts";
 export class ChartFactory {
     //Create half donut chart
     static createHalfDonutChart(containerID, tuples) {
+        console.log(tuples);
         return Highcharts.chart(containerID, {
             chart: {
                 plotBackgroundColor: null,
@@ -10,7 +11,7 @@ export class ChartFactory {
                 plotShadow: false
             },
             title: {
-                text: 'Browser<br>shares<br>2015',
+                text: '<br>Budget<br>',
                 align: 'center',
                 verticalAlign: 'middle',
                 y: 40
@@ -35,6 +36,7 @@ export class ChartFactory {
             },
             series: [{
                 type: 'pie',
+                size: '100%',
                 name: 'Budget',
                 innerSize: '50%',
                 data: tuples
