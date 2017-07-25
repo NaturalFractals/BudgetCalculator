@@ -80,7 +80,7 @@ export class Intro {
         let healthInsuranceData = await healthInsurance.json();
         healthInsuranceData.costByState.forEach((healthData) => {
             if (healthData[0] == self.masterBudget.stateLocation) {
-                self.masterBudget.medical.cost = healthData[2];
+                self.masterBudget.medical.cost = parseInt(healthData[2] / 12);
             }
         });
     }

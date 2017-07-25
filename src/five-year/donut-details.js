@@ -1,14 +1,16 @@
 import {inject} from 'aurelia-framework';
 import {MasterBudget} from 'masterBudget';
+import {EventAggregator} from 'aurelia-event-aggregator'
 
-@inject(MasterBudget)
+@inject(MasterBudget, EventAggregator)
 export class DonutDetails {
-    constructor(masterBudget) {
+    constructor(masterBudget, eventAggregator) {
         this.currentYear = 2017;
         this.currentExpense = '$5,463';
         this.currentExpenseYearCost = 324;
         this.currentCategory = 'Child Care';
         this.masterBudget = masterBudget;
+        eventAggregator.subscribe("change year", year => {this.changedYear(year)});
     }
 
     //Changes the information of the currrent details based on navigation click
@@ -51,6 +53,10 @@ export class DonutDetails {
             default:
                 break;
         }
+    }
+
+    changedYear(year) {
+        this.currentYear = year;
     }
 
     calculateInflationData() {

@@ -25,7 +25,7 @@ export class GaugeChart {
 
     //Uses constants to create array for responsive drag and drop
     createNeutralArray() {
-        for(var i = 0; i < this.constants.autoBudgetFields.length; i++) {
+        for (var i = 0; i < this.constants.autoBudgetFields.length; i++) {
             this.neutralArray.push(this.constants.autoBudgetFields[i].label);
         }
     }
@@ -52,32 +52,32 @@ export class GaugeChart {
         ev.preventDefault();
         let data = ev.dataTransfer.getData("tonberry");
         console.log(data);
-        if(ev.target.id === 'reduce-container'){
-            if(this.reduceArray.indexOf(data) < 0)
+        if (ev.target.id === 'reduce-container') {
+            if (this.reduceArray.indexOf(data) < 0)
                 this.reduceArray.push(data);
             let indexToRemove = this.neutralArray.indexOf(data);
-            if(indexToRemove > -1)
+            if (indexToRemove > -1)
                 this.neutralArray.splice(indexToRemove, 1);
             let indexToRemove2 = this.cutArray.indexOf(data);
-            if(indexToRemove2 > -1)
+            if (indexToRemove2 > -1)
                 this.cutArray.splice(indexToRemove, 1);
         } else if (ev.target.id === 'cut-container') {
-            if(this.cutArray.indexOf(data) < 0)
+            if (this.cutArray.indexOf(data) < 0)
                 this.cutArray.push(data);
             let indexToRemove = this.neutralArray.indexOf(data);
-            if(indexToRemove > -1)
+            if (indexToRemove > -1)
                 this.neutralArray.splice(indexToRemove, 1);
             let indexToRemove2 = this.reduceArray.indexOf(data);
-            if(indexToRemove2 > -1)
+            if (indexToRemove2 > -1)
                 this.reduceArray.splice(indexToRemove, 1);
         } else {
-            if(this.neutralArray.indexOf(data) < 0)
+            if (this.neutralArray.indexOf(data) < 0)
                 this.neutralArray.push(data);
             let indexToRemove = this.reduceArray.indexOf(data);
-            if(indexToRemove > -1)
+            if (indexToRemove > -1)
                 this.reduceArray.splice(indexToRemove, 1);
             let indexToRemove2 = this.cutArray.indexOf(data);
-            if(indexToRemove2 > -1)
+            if (indexToRemove2 > -1)
                 this.cutArray.splice(indexToRemove2, 1);
         }
     }
@@ -92,42 +92,64 @@ export class GaugeChart {
         console.log(tempMasterBudget.sumOfAllCost);
         console.log(tempMasterBudget.totalMonthlyIncome);
         let count = 0;
-        while(tempMasterBudget.sumOfAllCost < tempMasterBudget.totalMonthlyIncome) {
+        while (tempMasterBudget.sumOfAllCost < tempMasterBudget.totalMonthlyIncome) {
             tempMasterBudget.other.recreationCost = parseInt(tempMasterBudget.other.recreationCost) * parseInt(percentReduction);
             tempMasterBudget.other.gymCost = parseInt(tempMasterBudget.other.gymCost) * parseInt(percentReduction);
             tempMasterBudget.other.clothingCost = parseInt(tempMasterBudget.other.clothingCost) * parseInt(percentReduction);
             tempMasterBudget.housing.diningOutCost = parseInt(tempMasterBudget.housing.diningOutCost) * parseInt(percentReduction);
             tempMasterBudget.other.calculateAdvancedOtherCost();
-            if(count > 3) break;
+            if (count > 3) break;
             console.log(tempMasterBudget.sumOfAllCost);
             count++;
         }
         let tuples = this.createChartTuple(tempMasterBudget);
         console.log(tuples);
         this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
-        this.chart2 = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
     }
 
-    userAdjustedBudget() {
+    //Adjust the budget based on input from the drag and drop or user
+    async userAdjustedBudget() {
+        var self = this;
         var cost = this.masterBudget.sumOfAllCost;
         var percentReduction = 0.9;
         var tempMasterBudget = this.masterBudget;
+        console.log(tempMasterBudget);
+        await this.cutArray.forEach((item) => {
+            self.constants.autoBudgetFields.forEach((field) => {
+                if (field.label === item) {
+                    let c = tempMasterBudget[field.class];
+                    c[field.variable] = 0;
+                }
+            });
+        });
+        await this.reduceArray.forEach((item) => {
+            self.constants.autoBudgetFields.forEach((field) => {
+                if (field.lable === item) {
+                    let c = tempMasterBudget[field.class];
+                    c[field.variable] *= percentReduction;
+                }
+            })
+        });
+        console.log(tempMasterBudget);
+        let tuples = await this.createChartTuple(tempMasterBudget);
+        this.chart2 = await ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
     }
 
-        //Create tuples for the pie chart
+    //Create tuples for the pie chart
     createChartTuple(masterBudget) {
         var budgetArray = [];
         masterBudget.sumOfAllCost = 0;
         masterBudget.sumOfAllCost += parseInt(masterBudget.food.cost) + parseInt(masterBudget.childCare.cost) + parseInt(masterBudget.housing.cost) + parseInt(masterBudget.medical.cost) + parseInt(masterBudget.savings.cost) + parseInt(masterBudget.taxes.cost) + parseInt(masterBudget.transportation.cost);
-        var totalObject = {};
-        totalObject.name = 'Total Expenses';
-        totalObject.y = masterBudget.sumOfAllCost;
+        var totalObject = [];
+        totalObject.push('Income');
+        // totalObject.push(Math.min(100, (parseInt(masterBudget.sumOfAllCost) / parseInt(masterBudget.totalMonthlyIncome) * 100)));
+        totalObject.push(masterBudget.totalMonthlyIncome);
         var remainingObject = [];
-        remainingObject.name = 'Savings';
-        remainingObject.y = masterBudget.totalMonthlyIncome - masterBudget.sumOfAllCost;
+        remainingObject.push('Budget');
+        // remainingObject.push(Math.max(0, ((parseInt(masterBudget.totalMonthlyIncome) - parseInt(masterBudget.sumOfAllCost)) / parseInt(masterBudget.totalMonthlyIncome) * 100)));
+        remainingObject.push(Math.max(0, (masterBudget.sumOfAllCost - masterBudget.totalMonthlyIncome)));
         budgetArray.push(totalObject);
         budgetArray.push(remainingObject);
-        console.log(budgetArray);
         return budgetArray;
     }
 }

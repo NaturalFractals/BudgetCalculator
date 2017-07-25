@@ -3,6 +3,7 @@ import * as HighCharts from "highcharts";
 export class ChartFactory {
     //Create half donut chart
     static createHalfDonutChart(containerID, tuples) {
+        console.log(tuples);
         return Highcharts.chart(containerID, {
             chart: {
                 plotBackgroundColor: null,
@@ -10,7 +11,7 @@ export class ChartFactory {
                 plotShadow: false
             },
             title: {
-                text: 'Browser<br>shares<br>2015',
+                text: '<br>Budget<br>',
                 align: 'center',
                 verticalAlign: 'middle',
                 y: 40
@@ -35,6 +36,7 @@ export class ChartFactory {
             },
             series: [{
                 type: 'pie',
+                size: '100%',
                 name: 'Budget',
                 innerSize: '50%',
                 data: tuples
@@ -115,7 +117,6 @@ export class ChartFactory {
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[3], masterBudget.medical.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[4], masterBudget.other.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[5], masterBudget.savings.cost, masterBudget));
-        // masterBudget.transportation.calculateAdvancedTransportationCost();
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[6], masterBudget.taxes.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[7], masterBudget.transportation.cost, masterBudget));
 

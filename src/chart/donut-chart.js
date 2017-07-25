@@ -4,33 +4,50 @@ import {MasterBudget} from 'masterBudget';
 import {EventAggregator} from 'aurelia-event-aggregator'
 
 @inject(MasterBudget, EventAggregator)
-export class Chart {
+export class DonutChart {
 
     constructor(masterBudget, eventAggregator) {
         this.chart = null;
         this.masterBudget = masterBudget;
         this.years = [2017, 2018, 2019, 2020, 2021];
         this.currentYear = 2017;
-        eventAggregator.subscribe('toggle element', moduleName => {this.changeChart(moduleName)} );
-        eventAggregator.subscribe('update', update => {this.changedCost(update.name, update.value)} );
+        this.eventAggregator = eventAggregator;
     }
 
     attached() {
         var tuples = ChartFactory.createChartTuple(this.masterBudget);
         this.chart = ChartFactory.createDonutChart('goalsChartContainer', tuples);
-        this.masterBudget.chart = this.chart;
     }
 
-    drawChartForYear(year, currentYear) {
+    drawChartForYear(year) {
         this.currentYear = year.year;
-        console.log(this.currentYear);
+
+        var newSeries = {
+                name: 'Percentage',
+                colorByPoint: true,
+                data: [{name: "Child Care", y: parseInt(this.masterBudget.childCare.cost + (this.currentYear - 2017) * 1.0558) },
+                       {name: "Food", y:  parseInt(this.masterBudget.food.cost + (this.currentYear - 2017) * 1.0295)},
+                       {name: "Housing", y:  parseInt(this.masterBudget.housing.cost + (this.currentYear - 2017) * 1.0269)},
+                       {name: "Medical", y:  parseInt(this.masterBudget.medical.cost + (this.currentYear - 2017) * 1.0379)},
+                       {name: "Other", y:  parseInt(this.masterBudget.other.cost + (this.currentYear - 2017) * 1)},
+                       {name: "Savings", y:  parseInt(this.masterBudget.savings.cost + (this.currentYear - 2017) * 1)},
+                       {name: "Taxes", y:  parseInt(this.masterBudget.taxes.cost + (this.currentYear - 2017) * 1)},
+                       {name: "Transportation", y:  parseInt(this.masterBudget.transportation.cost + (this.currentYear - 2017) * 1.0329)}]
+        };
+
+        this.chart.series[0].update(newSeries, true, true);
+        eventAggregator.publish("change year", this.currentYear);
     }
 
-    changeChart(moduleName) {
-        var dataIndex = this.getDataIndex(moduleName);
-        var visible = this.chart.series[0].data[dataIndex].visible ? false : true;
-        this.chart.series[0].data[dataIndex].setVisible(visible);
+    donutTupleHelper(oldYear, newYear, moduleName) {
+        var tempObject = {};
+        tempObject.name = name;
+        tempObject.y = data;
+        masterBudget.sumOfAllCost += parseInt(data);
+        return tempObject;
     }
+
+
 
     getDataIndex(moduleName) {
         switch (moduleName) {
@@ -40,7 +57,7 @@ export class Chart {
             case "Medical":     return 3;
             case "Other":       return 4;
             case "Savings":     return 5;
-            case "Taxes":      return 6;
+            case "Taxes":       return 6;
             default:            return 7;
         }
     }
