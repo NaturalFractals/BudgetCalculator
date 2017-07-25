@@ -35,6 +35,12 @@ export class Intro {
                 let data = await self.httpClient.fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + startPos.coords.latitude + ',' + startPos.coords.longitude + '&key=AIzaSyBM9-m7L5132H_bDe3JUn9tlwblTARBRbQ');
                 let data2 = await data.json();
                 self.getCurrentLocation(data2);
+                let householdCost = await self.httpClient.fetch('api/household-cost-county/get.json');
+                let houseHoldCostData = await householdCost.json();
+                houseHoldCostData.costByCounty.forEach((houseObject) => {
+                    if (houseObject.County == self.masterBudget.location)
+                        self.masterBudget.housing.cost += houseObject[self.masterBudget.numberAdults]
+                })
             });
         };
         await window.onload();
@@ -64,7 +70,6 @@ export class Intro {
         });
         // self.masterBudget.transportation.calculateAdvancedTransportationCost();
         self.masterBudget.transportation.cost = parseInt(parseInt(self.masterBudget.transportation.carYearlyUpkeepCost) / 12) + parseInt(self.masterBudget.transportation.carMonthlyOwnershipCost);
-        console.log(this.masterBudget.transportation);
 
         //Get average home insurance cost
         let homeInsurance = await this.httpClient.fetch('/api/home-insurance/get.json');
@@ -108,9 +113,6 @@ export class Intro {
 
     //Calculates the monthly income based on entered annual income
     getMonthlyIncome() {
-        console.log(this.masterBudget.annualIncome);
-        console.log(this.income);
         this.masterBudget.totalMonthlyIncome = parseInt(this.income) / 12;
-        console.log(this.masterBudget.totalMonthlyIncome);
     }
 }

@@ -36,7 +36,7 @@ export class DonutChart {
         };
 
         this.chart.series[0].update(newSeries, true, true);
-        eventAggregator.publish("change year", this.currentYear);
+        this.eventAggregator.publish("change year", this.currentYear);
     }
 
     donutTupleHelper(oldYear, newYear, moduleName) {

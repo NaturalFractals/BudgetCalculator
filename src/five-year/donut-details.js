@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {MasterBudget} from 'masterBudget';
 import {EventAggregator} from 'aurelia-event-aggregator'
+import {ChartFactory} from '../utilities/chartFactory';
 
 @inject(MasterBudget, EventAggregator)
 export class DonutDetails {
@@ -15,8 +16,6 @@ export class DonutDetails {
 
     //Changes the information of the currrent details based on navigation click
     changeNavigationTab(category, currentCategory) {
-        console.log(currentCategory)
-        console.log(category);
         switch(category) {
             case this.masterBudget.budgetCategories[0]:
                 this.currentExpense = this.masterBudget.childCare.cost;

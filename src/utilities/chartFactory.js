@@ -1,9 +1,10 @@
 import * as HighCharts from "highcharts";
 
 export class ChartFactory {
+    
     //Create half donut chart
-    static createHalfDonutChart(containerID, tuples) {
-        console.log(tuples);
+    static createHalfDonutChart(containerID, tuples, type) {
+        console.log(type);
         return Highcharts.chart(containerID, {
             chart: {
                 plotBackgroundColor: null,
@@ -11,10 +12,10 @@ export class ChartFactory {
                 plotShadow: false
             },
             title: {
-                text: '<br>Budget<br>',
+                text: '<br>Before<br>',
                 align: 'center',
                 verticalAlign: 'middle',
-                y: 40
+                y: -100
             },
             tooltip: {
                 pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -110,7 +111,6 @@ export class ChartFactory {
     static createChartTuple(masterBudget) {
         var budgetArray = [];
         masterBudget.sumOfAllCost = 0;
-        console.log(masterBudget);
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[0], masterBudget.childCare.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[1], masterBudget.food.cost, masterBudget));
         budgetArray.push(this.tupleHelper(masterBudget.budgetCategories[2], masterBudget.housing.cost, masterBudget));

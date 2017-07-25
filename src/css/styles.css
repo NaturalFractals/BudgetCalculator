@@ -1,21 +1,8 @@
 
-.view {
-    height: 100%;
-}
-
-.view {
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
-/* 
 /* Style for personal info or intro page*/
 #personalInfo {
     width: 50%;
     margin: 0 auto;
-    background: url("ra.jpg")no-repeat center center fixed;
 }
 
 /* Style for Five Year Results Container*/
@@ -129,6 +116,15 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 #intro-template {
     padding-bottom: 800px;
     padding-top: 50px;
+    background-image: url('src/css/roadmap.jpg');
+    background-size: 210vh;
+
+}
+
+/*Intro card */
+#intro-card {
+  width: 800px;
+  margin-left: 800px;
 }
 
 /* Buttons for children on intro*/
@@ -150,7 +146,7 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 /* Budget button on intro page */
 #budgetButton {
     margin: 0 auto;
-    width: 220px;
+    width: 120px;
     color: white;
 }
 
@@ -222,12 +218,17 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
 /* Goals button on results page*/
 #goals-button {
-  color:white;
+    color:white;
 }
 
 /* Five year button on results page*/
 #five-year-button {
-  color: white;
+    color: white;
+}
+
+/* Auto Budget Button on results page*/
+#auto-budget-button {
+    color: white;
 }
 
 /* Buttons for breakdown banner*/

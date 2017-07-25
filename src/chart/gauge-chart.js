@@ -17,8 +17,8 @@ export class GaugeChart {
     }
 
     attached() {
+        this.masterBudget.sumAllCost();
         var tuples = this.createChartTuple(this.masterBudget);
-        this.autoBudget();
         this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
         this.chart2 = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
     }
@@ -51,7 +51,6 @@ export class GaugeChart {
     drop(ev) {
         ev.preventDefault();
         let data = ev.dataTransfer.getData("tonberry");
-        console.log(data);
         if (ev.target.id === 'reduce-container') {
             if (this.reduceArray.indexOf(data) < 0)
                 this.reduceArray.push(data);
@@ -85,26 +84,23 @@ export class GaugeChart {
     //Calculates the auto budget once the auto-budget Button is clicked
     autoBudget() {
         let cost = this.masterBudget.sumOfAllCost;
-        let autoBudgetCost = cost - this.masterBudget.recreationCost;
-        let percentReduction = 0.9;
-        let tempMasterBudget = this.masterBudget;
-        console.log(this.masterBudget);
-        console.log(tempMasterBudget.sumOfAllCost);
-        console.log(tempMasterBudget.totalMonthlyIncome);
+        let percentReduction = 0.95;
+        var tempMasterBudget = this.masterBudget;
         let count = 0;
-        while (tempMasterBudget.sumOfAllCost < tempMasterBudget.totalMonthlyIncome) {
-            tempMasterBudget.other.recreationCost = parseInt(tempMasterBudget.other.recreationCost) * parseInt(percentReduction);
-            tempMasterBudget.other.gymCost = parseInt(tempMasterBudget.other.gymCost) * parseInt(percentReduction);
-            tempMasterBudget.other.clothingCost = parseInt(tempMasterBudget.other.clothingCost) * parseInt(percentReduction);
-            tempMasterBudget.housing.diningOutCost = parseInt(tempMasterBudget.housing.diningOutCost) * parseInt(percentReduction);
+        while (tempMasterBudget.sumOfAllCost > tempMasterBudget.totalMonthlyIncome) {
+            tempMasterBudget.other.recreationCost = parseInt(tempMasterBudget.other.recreationCost) * percentReduction;
+            tempMasterBudget.other.gymCost = parseInt(tempMasterBudget.other.gymCost) * percentReduction;
+            tempMasterBudget.other.clothingCost = parseInt(tempMasterBudget.other.clothingCost) * percentReduction;
+            tempMasterBudget.housing.diningOutCost = parseInt(tempMasterBudget.housing.diningOutCost) * percentReduction;
             tempMasterBudget.other.calculateAdvancedOtherCost();
-            if (count > 3) break;
-            console.log(tempMasterBudget.sumOfAllCost);
+            tempMasterBudget.sumAllCost();
+            console.log("Removed other cost");
+            if (count > 10) break;
             count++;
         }
         let tuples = this.createChartTuple(tempMasterBudget);
         console.log(tuples);
-        this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
+        this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples, "After");
     }
 
     //Adjust the budget based on input from the drag and drop or user
@@ -113,7 +109,6 @@ export class GaugeChart {
         var cost = this.masterBudget.sumOfAllCost;
         var percentReduction = 0.9;
         var tempMasterBudget = this.masterBudget;
-        console.log(tempMasterBudget);
         await this.cutArray.forEach((item) => {
             self.constants.autoBudgetFields.forEach((field) => {
                 if (field.label === item) {
@@ -130,23 +125,19 @@ export class GaugeChart {
                 }
             })
         });
-        console.log(tempMasterBudget);
+        tempMasterBudget.sumAllCost();
         let tuples = await this.createChartTuple(tempMasterBudget);
-        this.chart2 = await ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
+        this.chart2 = await ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples, 'After');
     }
 
     //Create tuples for the pie chart
     createChartTuple(masterBudget) {
         var budgetArray = [];
-        masterBudget.sumOfAllCost = 0;
-        masterBudget.sumOfAllCost += parseInt(masterBudget.food.cost) + parseInt(masterBudget.childCare.cost) + parseInt(masterBudget.housing.cost) + parseInt(masterBudget.medical.cost) + parseInt(masterBudget.savings.cost) + parseInt(masterBudget.taxes.cost) + parseInt(masterBudget.transportation.cost);
         var totalObject = [];
         totalObject.push('Income');
-        // totalObject.push(Math.min(100, (parseInt(masterBudget.sumOfAllCost) / parseInt(masterBudget.totalMonthlyIncome) * 100)));
         totalObject.push(masterBudget.totalMonthlyIncome);
         var remainingObject = [];
         remainingObject.push('Budget');
-        // remainingObject.push(Math.max(0, ((parseInt(masterBudget.totalMonthlyIncome) - parseInt(masterBudget.sumOfAllCost)) / parseInt(masterBudget.totalMonthlyIncome) * 100)));
         remainingObject.push(Math.max(0, (masterBudget.sumOfAllCost - masterBudget.totalMonthlyIncome)));
         budgetArray.push(totalObject);
         budgetArray.push(remainingObject);

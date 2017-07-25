@@ -38,7 +38,8 @@ export class MasterBudget {
         this.chart = null;
     }
 
+    //Sum cost for all categories
     sumAllCost() {
-
+        this.sumOfAllCost = parseInt(this.food.cost) + parseInt(this.savings.cost) + parseInt(this.other.cost) + parseInt(this.housing.cost) + parseInt(this.medical.cost) + parseInt(this.taxes.cost) + parseInt(this.childCare.cost) + parseInt(this.transportation.cost);
     }
 }
