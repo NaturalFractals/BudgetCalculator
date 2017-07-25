@@ -16,27 +16,27 @@
                 <!-- Input number of adults in household-->
                 <div class="btn-toolbar" role="toolbar" id="adults-toolbar">
                     <b>Adults in Household</b>
-                    <div class="radio-group" data-toggle="buttons">
-                        <label id="adult-intro-button" repeat.for="i of 2" class="btn btn-primary active">
-                    <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
-                    ${i + 1}
-                </label>
+                    <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
+                        <label id="adult-intro-button" repeat.for="i of 2" class="btn btn-raised btn-primary">
+                            <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
+                        ${i + 1}
+                        </label>
                     </div>
                 </div>
                 <br>
                 <!-- Input number of children in household-->
-                <div class="btn-toolbar" role="toolbar" id="children-toolbar">
+                <div class="btn-toolbar" role="toolbar" id="adults-toolbar">
                     <b>Children in Household</b>
-                    <div class="radio-group" data-toggle="buttons">
-                        <label id="children-intro-button" repeat.for="i of 5" class="btn btn-primary active">
-                    <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i + 1" name="options"> 
-                    ${i}
-                </label>
+                    <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
+                        <label id="children-intro-button" repeat.for="i of 5" class="btn btn-raised btn-primary">
+                            <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i + 1" name="options"> 
+                         ${i}
+                        </label>
                     </div>
                 </div>
                 <br>
                 <div id="budgetButton">
-                    <button class="active btn btn-success" click.delegate="route() getMonthlyIncome()">Budget</button>
+                    <button class="btn btn-lg btn-raised btn-info" click.delegate="route() getMonthlyIncome()">Budget</button>
                 </div>
             </form>
         </div>
