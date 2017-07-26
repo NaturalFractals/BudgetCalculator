@@ -9,6 +9,7 @@ export class Taxes {
         this.includeInBudget = true;
         this.constants = constants;
         this.cost = 0;
+        this.grossIncome = 0;
         this.costPercentage = 0;
         this.stateTaxCost = 0;
         this.housingTaxCost = 0;
@@ -34,6 +35,5 @@ export class Taxes {
 
     toggleHorizon() {
         this.isMonthly = !this.isMonthly;
-        this.calculateAdvancedTaxCost();
     }
 }

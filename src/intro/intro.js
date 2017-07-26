@@ -88,6 +88,11 @@ export class Intro {
                 self.masterBudget.medical.cost = parseInt(healthData[2] / 12);
             }
         });
+
+        //Get average state taxes based on income
+        let stateTax = await this.httpClient.fetch('api/state-taxes/get.json');
+        let stateTaxData = await stateTax.json();
+        //TODO: add for loop to get tax data based on state
     }
 
     //Get current county/location of user
@@ -114,5 +119,7 @@ export class Intro {
     //Calculates the monthly income based on entered annual income
     getMonthlyIncome() {
         this.masterBudget.totalMonthlyIncome = parseInt(this.income) / 12;
+        console.log(this.income);
+        this.masterBudget.savings.cost = this.income * 0.15;
     }
 }
