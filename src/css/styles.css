@@ -7,7 +7,7 @@
 
 /* Header for every page but intro*/
 #content-header {
-    background:#eceff1;
+    background:#e0f2f1;
 }
 
 /* Style for Five Year Results Container*/
@@ -67,7 +67,7 @@
 
 /* Drag and drop top parent div*/
 #drag-drop-div {
-    background:#eceff1;
+    background:#e0f2f1;
 }
 
 /* Cut containter for drag and drop*/
@@ -120,7 +120,7 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
 /* Navigation bar above donut chart*/
 #navbar-years {
-    background:  #e1f5fe;
+    background:  #e0f2f1;
     margin-right: 21px;
     margin-left: 30px;
 }

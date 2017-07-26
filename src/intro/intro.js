@@ -119,7 +119,6 @@ export class Intro {
     //Calculates the monthly income based on entered annual income
     getMonthlyIncome() {
         this.masterBudget.totalMonthlyIncome = parseInt(this.income) / 12;
-        console.log(this.income);
         this.masterBudget.savings.cost = this.income * 0.15;
     }
 }
