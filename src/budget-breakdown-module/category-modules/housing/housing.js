@@ -10,6 +10,7 @@ export class Housing {
         this.constants = constants;
         this.cost = 0;
         this.costPercentage = 0;
+        this.monthlyCableCost = 0;
         this.monthlyRentCost = 0;
         this.monthlyRentInflation = 1.0269;
         this.homeInsuranceCost = 0;

@@ -1,18 +1,18 @@
 import * as HighCharts from "highcharts";
 
 export class ChartFactory {
-    
+
     //Create half donut chart
     static createHalfDonutChart(containerID, tuples, type) {
-        console.log(type);
         return Highcharts.chart(containerID, {
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: 0,
                 plotShadow: false
             },
+            colors: ['#89A54E', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
             title: {
-                text: '<br>Before<br>',
+                text: type,
                 align: 'center',
                 verticalAlign: 'middle',
                 y: -100
@@ -32,19 +32,22 @@ export class ChartFactory {
                     },
                     startAngle: -90,
                     endAngle: 90,
-                    center: ['50%', '75%']
-                }
+                    center: ['50%', '75%'],
+                    colors: ['#89A54E', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92']
+                },
             },
             series: [{
                 type: 'pie',
                 size: '100%',
                 name: 'Budget',
                 innerSize: '50%',
-                data: tuples
-            }]
+                data: tuples,
+                colors: ['#89A54E', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
+                colorByPoint: true
+            }],
         });
     }
-    
+
     //Creates a donut chart 
     static createDonutChart(containerID, tuples) {
         return Highcharts.chart(containerID, {
