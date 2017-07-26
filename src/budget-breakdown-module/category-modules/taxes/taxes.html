@@ -30,6 +30,9 @@
           <label class="btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}">Yearly</label>
         </div>
 
+        <div style="padding-bottom: 1vh" class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <label>Gross Income After Taxes: </label>${grossIncome}
+        </div>
         <div repeat.for="constant of constants.taxes" class="form-group">
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <label>${constant.label}</label>
