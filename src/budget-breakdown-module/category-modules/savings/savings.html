@@ -19,7 +19,7 @@
         ${costPercentage | percent}
       </div>
       <div class="col-md-4">
-        ${cost | currency}
+        <p class="${includeInBudget ? 'blackparagraph' : 'grayparagraph'}">${cost | currency}</p>
       </div>
     </div>
     <br><br><br>

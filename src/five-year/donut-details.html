@@ -5,12 +5,12 @@
     <nav class="navbar navbar-light teal">
         <div class="container-fluid">
             <ul repeat.for="category of masterBudget.budgetCategories" class="nav navbar-nav">
-                <li class="${category === currentCategory ? 'active': ''}"><a click.delegate="changeNavigationTab(category, currentCategory)">${category}</a></li>
+                <li class="${category === currentCategory ? 'active': ''}"><a click.delegate="changeNavigationTab(category)">${category}</a></li>
             </ul>
         </div>
     </nav>
     <div class="card" id="donut-details-div">
-        <h4> With a monthly income of ${currentExpense | currency} for ${currentYear} is ${currentExpenseYearCost | currency} </h4>
+        <h4> Your monthly ${currentCategory} expense for ${currentYear} is ${currentExpense | currency}. </h4>
         <div>
             <h3>Top ways to save:</h3>
             <p>1) Cancel Club Memberships</p>

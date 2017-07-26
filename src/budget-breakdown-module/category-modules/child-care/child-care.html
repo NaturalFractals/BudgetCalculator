@@ -19,7 +19,7 @@
       ${costPercentage | percent}
     </div>
     <div class="col-md-4">
-      ${cost | currency}
+      <p class="${includeInBudget ? 'blackparagraph' : 'grayparagraph'}"><p class="${includeInBudget ? 'blackparagraph' : 'grayparagraph'}">${cost | currency}</p></p>
     </div>
   <br><br><br>
   <div id="collapseChildCare" class="collapse" role="tabpanel" aria-labelledby="headingChildCare">
