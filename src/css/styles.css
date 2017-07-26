@@ -35,6 +35,12 @@
     text-align:center;
 }
 
+/* Container for auto budget page*/
+#auto-budget-container {
+    width: 100vw;
+    margin-left: 7vw;
+}
+
 .list-group {
     text-align: center;
 }

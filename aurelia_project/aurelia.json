@@ -191,7 +191,8 @@
             "path": "../node_modules/highcharts",
             "main": "js/highcharts",
             "resources": [
-              "css/highcharts.css"
+              "css/highcharts.css",
+              "css/highchartss.css"
             ]
           },
           {

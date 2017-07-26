@@ -19,8 +19,8 @@ export class GaugeChart {
     attached() {
         this.masterBudget.sumAllCost();
         var tuples = this.createChartTuple(this.masterBudget);
-        this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples);
-        this.chart2 = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples);
+        this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples, "Before");
+        this.chart2 = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples, "After");
     }
 
     //Uses constants to create array for responsive drag and drop
@@ -115,7 +115,7 @@ export class GaugeChart {
             tempMasterBudget.other.calculateAdvancedOtherCost();
             tempMasterBudget.sumAllCost();
             console.log("Removed other cost");
-            if (count > 10) break;
+            if (count > 20) break;
             count++;
         }
         let tuples = this.createChartTuple(tempMasterBudget);
