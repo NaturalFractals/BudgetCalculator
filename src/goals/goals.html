@@ -1,5 +1,6 @@
 <template>
     <require from="css/styles.css"></require>
+    <require from="../utilities/currency"></require>
     <div>
         <h1 id="content-header" style="font-size: 36px; text-align:center;"><b>Budget Planning<b></h1>
     </div>
@@ -74,13 +75,13 @@
             </tr>
         </tbody>
     </table>
-    <div class="panel panel-primary">
+    <div id="panel-goals" class="panel panel-primary" if.bind="goalsList.length > 0">
         <div class="panel-heading">
-            <h3 class="panel-title">Panel primary</h3>
+            <h3 id="panel-title-heading" class="panel-title">Goal Budget</h3>
         </div>
         <div class="panel-body">
-            <div id="goals-results-text" if.bind="goalsList.length > 1">
-                You must save ${monthlySavings} a month to afford these goals.
+            <div id="goals-results-text">
+                You must save ${monthlySavings | currency} a month to afford these goals.
             </div>
         </div>
     </div> 
