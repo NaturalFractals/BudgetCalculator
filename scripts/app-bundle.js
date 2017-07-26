@@ -344,7 +344,7 @@ define('masterBudget',['exports', 'budget-breakdown-module/category-modules/food
 
             this.constants = constants;
             this.location = "";
-            this.annualIncome = 0;
+            this.annualIncome;
             this.totalMonthlyIncome = 2000;
             this.numberChildren = 2;
             this.numberAdults = 1;
@@ -389,23 +389,6 @@ define('auto-budget/auto-budget',["exports"], function (exports) {
 
     var AutoBudget = exports.AutoBudget = function AutoBudget() {
         _classCallCheck(this, AutoBudget);
-    };
-});
-define('budget-breakdown-module/breakdown',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Breakdown = exports.Breakdown = function Breakdown() {
-        _classCallCheck(this, Breakdown);
     };
 });
 define('chart/chart',['exports', 'aurelia-framework', '../utilities/chartFactory', 'masterBudget', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _chartFactory, _masterBudget, _aureliaEventAggregator) {
@@ -675,6 +658,26 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
         };
 
         GaugeChart.prototype.autoBudget = function autoBudget() {
+            if (this.neutralArray.indexOf('Gym Membership') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Gym Membership'), 1);
+                this.reduceArray.push('Gym Membership');
+            }
+            if (this.neutralArray.indexOf('Clothing') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Clothing'), 1);
+                this.reduceArray.push('Clothing');
+            }
+            if (this.neutralArray.indexOf('Eating Out') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Eating Out'), 1);
+                this.reduceArray.push('Eating Out');
+            }
+            if (this.neutralArray.indexOf('Recreation/Travel') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Recreation/Travel'), 1);
+                this.reduceArray.push('Recreation/Travel');
+            }
+            if (this.neutralArray.indexOf('Vacation') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Vacation'), 1);
+                this.cutArray.push('Vacation');
+            }
             var cost = this.masterBudget.sumOfAllCost;
             var percentReduction = 0.95;
             var tempMasterBudget = this.masterBudget;
@@ -770,6 +773,23 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
 
         return GaugeChart;
     }()) || _class);
+});
+define('budget-breakdown-module/breakdown',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Breakdown = exports.Breakdown = function Breakdown() {
+        _classCallCheck(this, Breakdown);
+    };
 });
 define('five-year/card-info-one',["exports"], function (exports) {
     "use strict";
@@ -1344,6 +1364,48 @@ define('results/results',['exports', 'aurelia-framework', 'aurelia-router'], fun
         return Results;
     }()) || _class);
 });
+define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBudget', '../utilities/chartFactory'], function (exports, _aureliaFramework, _masterBudget, _chartFactory) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Banner = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _class;
+
+    var Banner = exports.Banner = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget), _dec(_class = function () {
+        function Banner(masterBudget) {
+            _classCallCheck(this, Banner);
+
+            this.income = null;
+            this.displayIncome = "";
+            this.masterBudget = masterBudget;
+        }
+
+        Banner.prototype.sanitizeIncome = function sanitizeIncome() {
+            this.displayIncome = this.displayIncome.replace(/,/g, "");
+            this.displayIncome = this.displayIncome.replace(/\$/g, "");
+
+            this.income = parseInt(this.displayIncome);
+
+            this.displayIncome = '$' + this.income.toLocaleString();
+        };
+
+        Banner.prototype.getMonthlyIncome = function getMonthlyIncome() {
+            var income = parseInt(this.displayIncome);
+            this.masterBudget.totalMonthlyIncome = income / 12;
+        };
+
+        return Banner;
+    }()) || _class);
+});
 define('utilities/chartFactory',['exports', 'highcharts'], function (exports, _highcharts) {
     'use strict';
 
@@ -1582,13 +1644,13 @@ define('utilities/percent',['exports'], function (exports) {
     return PercentValueConverter;
   }();
 });
-define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBudget', '../utilities/chartFactory'], function (exports, _aureliaFramework, _masterBudget, _chartFactory) {
+define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia-framework', '../../../constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    exports.Banner = undefined;
+    exports.Food = undefined;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -1596,33 +1658,52 @@ define('results-banner-module/banner',['exports', 'aurelia-framework', 'masterBu
         }
     }
 
-    var _dec, _class;
+    var _dec, _dec2, _class;
 
-    var Banner = exports.Banner = (_dec = (0, _aureliaFramework.inject)(_masterBudget.MasterBudget), _dec(_class = function () {
-        function Banner(masterBudget) {
-            _classCallCheck(this, Banner);
+    var Food = exports.Food = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
+        function Food(constants, eventAggregator) {
+            _classCallCheck(this, Food);
 
-            this.income = null;
-            this.displayIncome = "";
-            this.masterBudget = masterBudget;
+            this.includeInBudget = true;
+            this.groceries = 0;
+            this.constants = constants;
+            this.cost = 0;
+            this.costPercentage = 0;
+            this.groceriesCost = 0;
+            this.groceriesInflation = 1.0295;
+            this.diningOutCost = 0;
+            this.diningOutInflation = 1.0304;
+            this.workdayCost = 0;
+            this.collapsed = true;
+            this.eventAggregator = eventAggregator;
+            this.isMonthly = true;
         }
 
-        Banner.prototype.sanitizeIncome = function sanitizeIncome() {
-            this.displayIncome = this.displayIncome.replace(/,/g, "");
-            this.displayIncome = this.displayIncome.replace(/\$/g, "");
-
-            this.income = parseInt(this.displayIncome);
-
-            this.displayIncome = '$' + this.income.toLocaleString();
+        Food.prototype.toggle = function toggle() {
+            this.collapsed = !this.collapsed;
         };
 
-        Banner.prototype.getMonthlyIncome = function getMonthlyIncome() {
-            var income = parseInt(this.displayIncome);
-            this.masterBudget.totalMonthlyIncome = income / 12;
+        Food.prototype.calculateFoodCost = function calculateFoodCost(numberChildren, numberAdults) {
+            this.numberChildren = numberChildren;
+            this.numberAdults = numberAdults;
+            this.cost = parseInt(numberChildren) * parseInt(this.constants.foodCostPerChild) + parseInt(numberAdults) * parseInt(this.constants.foodCostPerAdult);
         };
 
-        return Banner;
-    }()) || _class);
+        Food.prototype.calculateAdvancedFoodCost = function calculateAdvancedFoodCost() {
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.groceriesCost) + parseInt(this.diningOutCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Food', value: this.cost });
+        };
+
+        Food.prototype.toggleHorizon = function toggleHorizon() {
+            this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedFoodCost();
+        };
+
+        return Food;
+    }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/child-care/child-care',['exports', 'aurelia-framework', 'aurelia-event-aggregator', 'constants'], function (exports, _aureliaFramework, _aureliaEventAggregator, _constants) {
     'use strict';
@@ -1678,6 +1759,60 @@ define('budget-breakdown-module/category-modules/child-care/child-care',['export
         };
 
         return ChildCare;
+    }()) || _class) || _class);
+});
+define('budget-breakdown-module/category-modules/medical/medical',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Medical = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _dec2, _class;
+
+    var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
+        function Medical(constants, eventAggregator) {
+            _classCallCheck(this, Medical);
+
+            this.includeInBudget = true;
+            this.constants = constants;
+            this.cost = 0;
+            this.costPercentage = 0;
+            this.healthInsuranceCost = 0;
+            this.healthInflation = 1.0379;
+            this.medicationCost = 0;
+            this.dentalCost = 0;
+            this.otherMedicalCost = 0;
+            this.collapsed = true;
+            this.eventAggregator = eventAggregator;
+            this.isMonthly = true;
+        }
+
+        Medical.prototype.toggle = function toggle() {
+            this.collapsed = !this.collapsed;
+        };
+
+        Medical.prototype.calculateAdvancedMedical = function calculateAdvancedMedical() {
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost) + parseInt(this.medicationCost) + parseInt(this.otherMedicalCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Medical', value: this.cost });
+        };
+
+        Medical.prototype.toggleHorizon = function toggleHorizon() {
+            this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedMedical();
+        };
+
+        return Medical;
     }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/housing/housing',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
@@ -1742,174 +1877,6 @@ define('budget-breakdown-module/category-modules/housing/housing',['exports', 'a
         return Housing;
     }()) || _class) || _class);
 });
-define('budget-breakdown-module/category-modules/food/food',['exports', 'aurelia-framework', '../../../constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Food = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _dec2, _class;
-
-    var Food = exports.Food = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
-        function Food(constants, eventAggregator) {
-            _classCallCheck(this, Food);
-
-            this.includeInBudget = true;
-            this.groceries = 0;
-            this.constants = constants;
-            this.cost = 0;
-            this.costPercentage = 0;
-            this.groceriesCost = 0;
-            this.groceriesInflation = 1.0295;
-            this.diningOutCost = 0;
-            this.diningOutInflation = 1.0304;
-            this.workdayCost = 0;
-            this.collapsed = true;
-            this.eventAggregator = eventAggregator;
-            this.isMonthly = true;
-        }
-
-        Food.prototype.toggle = function toggle() {
-            this.collapsed = !this.collapsed;
-        };
-
-        Food.prototype.calculateFoodCost = function calculateFoodCost(numberChildren, numberAdults) {
-            this.numberChildren = numberChildren;
-            this.numberAdults = numberAdults;
-            this.cost = parseInt(numberChildren) * parseInt(this.constants.foodCostPerChild) + parseInt(numberAdults) * parseInt(this.constants.foodCostPerAdult);
-        };
-
-        Food.prototype.calculateAdvancedFoodCost = function calculateAdvancedFoodCost() {
-            var scale = this.isMonthly ? 1 : 1 / 12;
-            this.cost = parseInt((parseInt(this.groceriesCost) + parseInt(this.diningOutCost)) * scale);
-
-
-            this.eventAggregator.publish('update', { name: 'Food', value: this.cost });
-        };
-
-        Food.prototype.toggleHorizon = function toggleHorizon() {
-            this.isMonthly = !this.isMonthly;
-            this.calculateAdvancedFoodCost();
-        };
-
-        return Food;
-    }()) || _class) || _class);
-});
-define('budget-breakdown-module/category-modules/savings/savings',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Savings = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _dec2, _class;
-
-    var Savings = exports.Savings = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
-        function Savings(constants, eventAggregator) {
-            _classCallCheck(this, Savings);
-
-            this.includeInBudget = true;
-            this.cost = 0;
-            this.costPercentage = 0;
-            this.constants = constants;
-            this.emergencyFundCost = 0;
-            this.retirementCost = 0;
-            this.investmentsCost = 0;
-            this.collegeSavingsCost = 0;
-            this.collapsed = true;
-            this.eventAggregator = eventAggregator;
-            this.isMonthly = true;
-        }
-
-        Savings.prototype.toggle = function toggle() {
-            this.collapsed = !this.collapsed;
-        };
-
-        Savings.prototype.calculateAdvancedSavings = function calculateAdvancedSavings() {
-            var scale = this.isMonthly ? 1 : 1 / 12;
-            this.cost = parseInt((parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost)) * scale);
-
-
-            this.eventAggregator.publish('update', { name: 'Savings', value: this.cost });
-        };
-
-        Savings.prototype.toggleHorizon = function toggleHorizon() {
-            this.isMonthly = !this.isMonthly;
-            this.calculateAdvancedSavings();
-        };
-
-        return Savings;
-    }()) || _class) || _class);
-});
-define('budget-breakdown-module/category-modules/medical/medical',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Medical = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _dec2, _class;
-
-    var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
-        function Medical(constants, eventAggregator) {
-            _classCallCheck(this, Medical);
-
-            this.includeInBudget = true;
-            this.constants = constants;
-            this.cost = 0;
-            this.costPercentage = 0;
-            this.healthInsuranceCost = 0;
-            this.healthInflation = 1.0379;
-            this.medicationCost = 0;
-            this.dentalCost = 0;
-            this.otherMedicalCost = 0;
-            this.collapsed = true;
-            this.eventAggregator = eventAggregator;
-            this.isMonthly = true;
-        }
-
-        Medical.prototype.toggle = function toggle() {
-            this.collapsed = !this.collapsed;
-        };
-
-        Medical.prototype.calculateAdvancedMedical = function calculateAdvancedMedical() {
-            var scale = this.isMonthly ? 1 : 1 / 12;
-            this.cost = parseInt((parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost) + parseInt(this.medicationCost) + parseInt(this.otherMedicalCost)) * scale);
-
-
-            this.eventAggregator.publish('update', { name: 'Medical', value: this.cost });
-        };
-
-        Medical.prototype.toggleHorizon = function toggleHorizon() {
-            this.isMonthly = !this.isMonthly;
-            this.calculateAdvancedMedical();
-        };
-
-        return Medical;
-    }()) || _class) || _class);
-});
 define('budget-breakdown-module/category-modules/other/other',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
     'use strict';
 
@@ -1966,6 +1933,59 @@ define('budget-breakdown-module/category-modules/other/other',['exports', 'aurel
         };
 
         return Other;
+    }()) || _class) || _class);
+});
+define('budget-breakdown-module/category-modules/savings/savings',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Savings = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _dec2, _class;
+
+    var Savings = exports.Savings = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
+        function Savings(constants, eventAggregator) {
+            _classCallCheck(this, Savings);
+
+            this.includeInBudget = true;
+            this.cost = 0;
+            this.costPercentage = 0;
+            this.constants = constants;
+            this.emergencyFundCost = 0;
+            this.retirementCost = 0;
+            this.investmentsCost = 0;
+            this.collegeSavingsCost = 0;
+            this.collapsed = true;
+            this.eventAggregator = eventAggregator;
+            this.isMonthly = true;
+        }
+
+        Savings.prototype.toggle = function toggle() {
+            this.collapsed = !this.collapsed;
+        };
+
+        Savings.prototype.calculateAdvancedSavings = function calculateAdvancedSavings() {
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Savings', value: this.cost });
+        };
+
+        Savings.prototype.toggleHorizon = function toggleHorizon() {
+            this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedSavings();
+        };
+
+        return Savings;
     }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/taxes/taxes',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
@@ -2073,28 +2093,28 @@ define('budget-breakdown-module/category-modules/transportation/transportation',
         return Transportation;
     }()) || _class) || _class);
 });
-define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"bootstrap-material-design/css/bootstrap-material-design.css\"></require><require from=\"css/styles.css\"></require><div id=\"app\"><div id=\"content\"><div id=\"intro\"><h1 style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><hr><router-view></router-view></div></div></template>"; });
-define('text!css/styles.css', ['module'], function(module) { module.exports = "\r\n/* Style for personal info or intro page*/\r\n#personalInfo {\r\n    width: 50%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for Five Year Results Container*/\r\n#five-year-module-container {\r\n    width: 70%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for five year container info*/\r\n#five-year-info-container {\r\n    clear: both;\r\n}\r\n\r\n/* Toolbar for number of adult radios*/\r\n#adults-toolbar {\r\n    margin: 0 auto;\r\n    width: 40%;\r\n}\r\n\r\n.list-group {\r\n    text-align: center;\r\n}\r\n\r\n.badge {\r\n    color:green;\r\n    background:blanchedalmond;\r\n    padding: 8px;\r\n    text-align: center;\r\n}\r\n\r\n/* Goals monthly or yearly toggle*/\r\n#amount-toggle {\r\n    margin-top: 80px;\r\n    margin-bottom: 40px;\r\n}\r\n\r\n/* Reduce container for drag and drop*/\r\n#reduce-container {\r\n    width: 300px;\r\n    height: 400px;\r\n    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Cut containter for drag and drop*/\r\n#cut-container {\r\n    width: 300px;\r\n    height: 400px;\r\n    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Choice containter for drag and drop*/\r\n#choice-container {\r\n    width: 300px;\r\n    height: 400px;\r\n    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Container for goals donut chart*/\r\n#goals-chart-div {\r\n    float:left;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Container for goals donut chart details (to the right of chart)*/\r\n#donut-details {\r\n    float:right;\r\n    width: 700px;\r\n    height: 400px;\r\n}\r\n\r\n/* Container for the donut details.*/\r\n#donut-details-div {\r\n    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Card info one div*/\r\n#card-info-one-div {\r\nbox-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Card info two div*/\r\n#card-info-two-div {\r\nbox-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Card info three div*/\r\n#card-info-three-div {\r\nbox-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Navigation bar above donut chart*/\r\n#navbar-years {\r\n    background:  #e1f5fe;\r\n    margin-right: 21px;\r\n    margin-left: 30px;\r\n}\r\n\r\n.arrows {\r\n  margin-left: 6px;\r\n}\r\n\r\n/* Style for goals templage*/\r\n#goal-template {\r\n    width: 30%;\r\n    margin: 0 auto;\r\n    margin-top: 100px;\r\n}\r\n\r\n/*Intro page tempalte styles*/\r\n#intro-template {\r\n    padding-bottom: 800px;\r\n    padding-top: 50px;\r\n    background-image: url('src/css/roadmap.jpg');\r\n    background-size: 210vh;\r\n\r\n}\r\n\r\n/*Intro card */\r\n#intro-card {\r\n  width: 800px;\r\n  margin-left: 800px;\r\n}\r\n\r\n/* Buttons for children on intro*/\r\n#children-intro-button {\r\n    color:white;\r\n}\r\n\r\n/* Buttons for adults on intro*/\r\n#adult-intro-button {\r\n    color:white;\r\n}\r\n\r\n/* Toolbar for number of children radios*/\r\n#children-toolbar {\r\n    margin: 0 auto;\r\n    width: 80%;\r\n}\r\n\r\n/* Budget button on intro page */\r\n#budgetButton {\r\n    margin: 0 auto;\r\n    width: 120px;\r\n    color: white;\r\n}\r\n\r\n/* Style for banner module table*/\r\n.blackparagraph {\r\n  color:black;\r\n}\r\n\r\n.grayparagraph {\r\n  color: LightGray;\r\n}\r\n\r\n#banner-table {\r\n    background: #E4E4E4;\r\n    /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */\r\n    margin-bottom: 50px;\r\n    width: 75%;\r\n    margin: 0 auto;\r\n    margin-left: 270px;  /*added to fix centering from making it card class*/\r\n}\r\n\r\n/* Style for radio button lables in banner table*/\r\n#radio-label {\r\n    color: black;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    font-size: 16px;\r\n}\r\n\r\n/* Style for the accordian breakdown*/\r\n #accordion {\r\n    /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */\r\n    margin-top: 60px;\r\n} \r\n\r\n/* Chart container styles*/\r\n#chartContainer {\r\n  /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */\r\n  margin-top: 60px;\r\n}\r\n\r\n/* Chart container styles*/\r\n#goalsChartContainer {\r\n  /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */\r\n}\r\n\r\n/* Style for input-group in collapse*/\r\n.input-group {\r\n  margin-left: 5%;\r\n}\r\n\r\n/* Nav bar class*/\r\n.navbar {\r\n  margin-bottom: 0px;\r\n}\r\n\r\n/* Style for breakdown div*/\r\n#breakdown-div {\r\n    float:right;\r\n    width: 600px;\r\n    height: 480px;\r\n}\r\n\r\n/* Style for chart div*/\r\n#chart-div {\r\n    float:left;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Style for button div*/\r\n#button-div {\r\n    clear:both;\r\n    padding: 200px;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Goals button on results page*/\r\n#goals-button {\r\n    color:white;\r\n}\r\n\r\n/* Five year button on results page*/\r\n#five-year-button {\r\n    color: white;\r\n}\r\n\r\n/* Auto Budget Button on results page*/\r\n#auto-budget-button {\r\n    color: white;\r\n}\r\n\r\n/* Buttons for breakdown banner*/\r\n#breakdown-buttons-label {\r\n    color: white;\r\n}\r\n\r\n/* */\r\n#breakdown-header-label {\r\n  color: black;\r\n}\r\n\r\n/* Chart and breakdown table container*/\r\n#results-container {\r\n    width: 70%;\r\n    margin: 0 auto;\r\n}\r\n\r\n#collapse-table {\r\n    background: gray;\r\n}\r\n\r\nlabel {\r\n    display: inline-block;\r\n    width: 10em;\r\n    /* other CSS unchanged */\r\n}\r\n\r\n/* Checkbox garbage */\r\n.checkbox {\r\n  padding-left: 20px; }\r\n  .checkbox label {\r\n    display: inline-block;\r\n    position: relative;\r\n    padding-left: 5px;\r\n    width: 1px; }\r\n    .checkbox label::before {\r\n      content: \"\";\r\n      display: inline-block;\r\n      position: absolute;\r\n      width: 17px;\r\n      height: 17px;\r\n      left: 0;\r\n      margin-left: -20px;\r\n      border: 1px solid #cccccc;\r\n      border-radius: 3px;\r\n      background-color: #fff;\r\n      -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;\r\n      -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;\r\n      transition: border 0.15s ease-in-out, color 0.15s ease-in-out; }\r\n    .checkbox label::after {\r\n      display: inline-block;\r\n      position: absolute;\r\n      width: 16px;\r\n      height: 16px;\r\n      left: 0;\r\n      top: 0;\r\n      margin-left: -20px;\r\n      padding-left: 3px;\r\n      padding-top: 1px;\r\n      font-size: 11px;\r\n      color: #555555; }\r\n  .checkbox input[type=\"checkbox\"] {\r\n    opacity: 0; }\r\n    .checkbox input[type=\"checkbox\"]:focus + label::before {\r\n      outline: thin dotted;\r\n      outline: 5px auto -webkit-focus-ring-color;\r\n      outline-offset: -2px; }\r\n    .checkbox input[type=\"checkbox\"]:checked + label::after {\r\n      font-family: 'FontAwesome';\r\n      content: \"\\f00c\"; \r\n      padding-top: 1px;}\r\n    .checkbox input[type=\"checkbox\"]:disabled + label {\r\n      opacity: 0.65; }\r\n      .checkbox input[type=\"checkbox\"]:disabled + label::before {\r\n        background-color: #eeeeee;\r\n        cursor: not-allowed; }\r\n  .checkbox.checkbox-circle label::before {\r\n    border-radius: 50%; }\r\n  .checkbox.checkbox-inline {\r\n    margin-top: 0; }\r\n\r\n.checkbox-child-care input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #7cb5ec;\r\n  border-color: #7cb5ec; }\r\n.checkbox-child-care input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-food input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #434348;\r\n  border-color: #434348; }\r\n.checkbox-food input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-housing input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #90ED7D;\r\n  border-color: #90ed7d; }\r\n.checkbox-housing input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-medical input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #f7a35c;\r\n  border-color: #f7a35c; }\r\n.checkbox-medical input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-other input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #8085e9;\r\n  border-color: #8085e9; }\r\n.checkbox-other input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-savings input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #f15c80;\r\n  border-color: #f15c80; }\r\n.checkbox-savings input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-taxes input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #e4d354;\r\n  border-color: #e4d354; }\r\n.checkbox-taxes input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-transportation input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #2b908f;\r\n  border-color: #2b908f; }\r\n.checkbox-transportation input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n\r\n  /*.checkbox {\r\n  padding-left: 20px; }\r\n  .checkbox label {\r\n    display: inline-block;\r\n    position: relative;\r\n    padding-left: 5px; }\r\n    .checkbox label::before {\r\n      content: \"\";\r\n      display: inline-block;\r\n      position: absolute;\r\n      width: 17px;\r\n      height: 17px;\r\n      left: 0;\r\n      margin-left: -20px;\r\n      border: 1px solid #cccccc;\r\n      border-radius: 3px;\r\n      background-color: #fff;\r\n      -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;\r\n      -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;\r\n      transition: border 0.15s ease-in-out, color 0.15s ease-in-out; }\r\n    .checkbox label::after {\r\n      display: inline-block;\r\n      position: absolute;\r\n      width: 16px;\r\n      height: 16px;\r\n      left: 0;\r\n      top: 0;\r\n      margin-left: -20px;\r\n      padding-left: 3px;\r\n      padding-top: 1px;\r\n      font-size: 11px;\r\n      color: #555555; }\r\n  .checkbox input[type=\"checkbox\"] {\r\n    opacity: 0; }\r\n    .checkbox input[type=\"checkbox\"]:focus + label::before {\r\n      outline: thin dotted;\r\n      outline: 5px auto -webkit-focus-ring-color;\r\n      outline-offset: -2px; }\r\n    .checkbox input[type=\"checkbox\"]:checked + label::after {\r\n      font-family: 'FontAwesome';\r\n      content: \"\\f00c\"; }\r\n    .checkbox input[type=\"checkbox\"]:disabled + label {\r\n      opacity: 0.65; }\r\n      .checkbox input[type=\"checkbox\"]:disabled + label::before {\r\n        background-color: #eeeeee;\r\n        cursor: not-allowed; }\r\n  .checkbox.checkbox-circle label::before {\r\n    border-radius: 50%; }\r\n  .checkbox.checkbox-inline {\r\n    margin-top: 0; }\r\n\r\n.checkbox-primary input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #428bca;\r\n  border-color: #428bca; }\r\n.checkbox-primary input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-danger input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #d9534f;\r\n  border-color: #d9534f; }\r\n.checkbox-danger input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-info input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #5bc0de;\r\n  border-color: #5bc0de; }\r\n.checkbox-info input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-warning input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #f0ad4e;\r\n  border-color: #f0ad4e; }\r\n.checkbox-warning input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-success input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #5cb85c;\r\n  border-color: #5cb85c; }\r\n.checkbox-success input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }*/\r\n"; });
-define('text!auto-budget/auto-budget.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><div id=\"drag-drop-div\" style=\"background:#e0f2f1\"><compose view-model=\"chart/gauge-chart\"></compose></div></template>"; });
+define('text!app.html', ['module'], function(module) { module.exports = "<template><require from=\"bootstrap/css/bootstrap.css\"></require><require from=\"bootstrap-material-design/css/bootstrap-material-design.css\"></require><require from=\"css/styles.css\"></require><div id=\"app\"><router-view></router-view></div></template>"; });
+define('text!css/styles.css', ['module'], function(module) { module.exports = "\r\n/* Style for personal info or intro page*/\r\n#personalInfo {\r\n    width: 50%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Header for every page but intro*/\r\n#content-header {\r\n    background:#eceff1;\r\n}\r\n\r\n/* Style for Five Year Results Container*/\r\n#five-year-module-container {\r\n    width: 70%;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Style for five year container info*/\r\n#five-year-info-container {\r\n    clear: both;\r\n}\r\n\r\n/* Toolbar for number of adult radios*/\r\n#adults-toolbar {\r\n    margin: 0 auto;\r\n    width: 40%;\r\n}\r\n\r\n/* Budget buttons in div on auto button page*/\r\n#auto-budget-buttons {\r\n    position:absolute;\r\n    width:100%;\r\n    bottom:0;\r\n    text-align:center;\r\n}\r\n\r\n.list-group {\r\n    text-align: center;\r\n}\r\n\r\n.badge {\r\n    color:green;\r\n    background:blanchedalmond;\r\n    padding: 8px;\r\n    text-align: center;\r\n}\r\n\r\n/* Goals monthly or yearly toggle*/\r\n#amount-toggle {\r\n    margin-top: 80px;\r\n    margin-bottom: 40px;\r\n}\r\n\r\n/* Reduce container for drag and drop*/\r\n#reduce-container {\r\n    width: 300px;\r\n    height: 400px;\r\n    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Drag and drop top parent div*/\r\n#drag-drop-div {\r\n    background:#eceff1;\r\n}\r\n\r\n/* Cut containter for drag and drop*/\r\n#cut-container {\r\n    width: 300px;\r\n    height: 400px;\r\n    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Choice containter for drag and drop*/\r\n#choice-container {\r\n    width: 300px;\r\n    height: 400px;\r\n    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Container for goals donut chart*/\r\n#goals-chart-div {\r\n    float:left;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Container for goals donut chart details (to the right of chart)*/\r\n#donut-details {\r\n    float:right;\r\n    width: 700px;\r\n    height: 400px;\r\n}\r\n\r\n/* Container for the donut details.*/\r\n#donut-details-div {\r\n    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Card info one div*/\r\n#card-info-one-div {\r\nbox-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Card info two div*/\r\n#card-info-two-div {\r\nbox-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Card info three div*/\r\n#card-info-three-div {\r\nbox-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);\r\n}\r\n\r\n/* Navigation bar above donut chart*/\r\n#navbar-years {\r\n    background:  #e1f5fe;\r\n    margin-right: 21px;\r\n    margin-left: 30px;\r\n}\r\n\r\n.arrows {\r\n  margin-left: 6px;\r\n}\r\n\r\n/* Style for goals templage*/\r\n#goal-template {\r\n    width: 70vh;\r\n    margin: 0 auto;\r\n    margin-top: 100px;\r\n}\r\n\r\n/*Intro page tempalte styles*/\r\n#intro-template {\r\n    padding-bottom: 800px;\r\n    padding-top: 50px;\r\n    background-image: url('src/css/roadmap.jpg');\r\n    background-size: 210vh;\r\n}\r\n\r\n/* Title on the intro page*/\r\n#intro-page-title {\r\n    width: 48vh;\r\n    margin: 0 auto;\r\n    font-size: 400%;\r\n    color: white;\r\n}\r\n\r\n/*Intro card */\r\n#intro-card {\r\n  width: 40vh;\r\n  margin-left: 38vw;\r\n  margin-top: 10vh;\r\n  opacity: 0.8;\r\n}\r\n\r\n/* Inputs on intro card*/\r\n#intro-form {\r\n    padding-left: 1vw;\r\n    padding-right: 1vw;\r\n}\r\n\r\n/* Buttons for children on intro*/\r\n#children-intro-button {\r\n    color:white;\r\n}\r\n\r\n/* Buttons for adults on intro*/\r\n#adult-intro-button {\r\n    color:white;\r\n}\r\n\r\n/* Toolbar for number of children radios*/\r\n#children-toolbar {\r\n    margin: 0 auto;\r\n    width: 80%;\r\n}\r\n\r\n/* Budget button on intro page */\r\n#budgetButton {\r\n    margin: 0 auto;\r\n    width: 120px;\r\n    color: white;\r\n}\r\n\r\n/* Style for banner module table*/\r\n.blackparagraph {\r\n  color:black;\r\n}\r\n\r\n.grayparagraph {\r\n  color: LightGray;\r\n}\r\n\r\n#banner-table {\r\n    /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */\r\n    margin-bottom: 50px;\r\n    width: 75%;\r\n    margin: 0 auto;\r\n    margin-left: 270px;  /*added to fix centering from making it card class*/\r\n}\r\n\r\n/* Style for radio button lables in banner table*/\r\n#radio-label {\r\n    color: black;\r\n    text-align: center;\r\n    vertical-align: middle;\r\n    font-size: 16px;\r\n}\r\n\r\n/* Style for the accordian breakdown*/\r\n #accordion {\r\n    /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */\r\n    margin-top: 60px;\r\n} \r\n\r\n/* Chart container styles*/\r\n#chartContainer {\r\n  /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */\r\n  margin-top: 60px;\r\n}\r\n\r\n/* Chart container styles*/\r\n#goalsChartContainer {\r\n  /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */\r\n}\r\n\r\n/* Style for input-group in collapse*/\r\n.input-group {\r\n  margin-left: 5%;\r\n}\r\n\r\n/* Nav bar class*/\r\n.navbar {\r\n  margin-bottom: 0px;\r\n}\r\n\r\n/* Style for breakdown div*/\r\n#breakdown-div {\r\n    float:right;\r\n    width: 600px;\r\n    height: 480px;\r\n}\r\n\r\n/* Style for chart div*/\r\n#chart-div {\r\n    float:left;\r\n    width: 600px;\r\n    height: 400px;\r\n}\r\n\r\n/* Style for button div*/\r\n#button-div {\r\n    clear:both;\r\n    padding: 20vh;\r\n    margin: 0 auto;\r\n}\r\n\r\n/* Goals button on results page*/\r\n#goals-button {\r\n    color:white;\r\n}\r\n\r\n/* Five year button on results page*/\r\n#five-year-button {\r\n    color: white;\r\n}\r\n\r\n/* Auto Budget Button on results page*/\r\n#auto-budget-button {\r\n    color: white;\r\n}\r\n\r\n/* Buttons for breakdown banner*/\r\n#breakdown-buttons-label {\r\n    color: white;\r\n}\r\n\r\n/* */\r\n#breakdown-header-label {\r\n  color: black;\r\n}\r\n\r\n/* Chart and breakdown table container*/\r\n#results-container {\r\n    width: 70%;\r\n    margin: 0 auto;\r\n}\r\n\r\n#collapse-table {\r\n    background: gray;\r\n}\r\n\r\nlabel {\r\n    display: inline-block;\r\n    width: 10em;\r\n    /* other CSS unchanged */\r\n}\r\n\r\n/* Checkbox garbage */\r\n.checkbox {\r\n  padding-left: 20px; }\r\n  .checkbox label {\r\n    display: inline-block;\r\n    position: relative;\r\n    padding-left: 5px;\r\n    width: 1px; }\r\n    .checkbox label::before {\r\n      content: \"\";\r\n      display: inline-block;\r\n      position: absolute;\r\n      width: 17px;\r\n      height: 17px;\r\n      left: 0;\r\n      margin-left: -20px;\r\n      border: 1px solid #cccccc;\r\n      border-radius: 3px;\r\n      background-color: #fff;\r\n      -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;\r\n      -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;\r\n      transition: border 0.15s ease-in-out, color 0.15s ease-in-out; }\r\n    .checkbox label::after {\r\n      display: inline-block;\r\n      position: absolute;\r\n      width: 16px;\r\n      height: 16px;\r\n      left: 0;\r\n      top: 0;\r\n      margin-left: -20px;\r\n      padding-left: 3px;\r\n      padding-top: 1px;\r\n      font-size: 11px;\r\n      color: #555555; }\r\n  .checkbox input[type=\"checkbox\"] {\r\n    opacity: 0; }\r\n    .checkbox input[type=\"checkbox\"]:focus + label::before {\r\n      outline: thin dotted;\r\n      outline: 5px auto -webkit-focus-ring-color;\r\n      outline-offset: -2px; }\r\n    .checkbox input[type=\"checkbox\"]:checked + label::after {\r\n      font-family: 'FontAwesome';\r\n      content: \"\\f00c\"; \r\n      padding-top: 1px;}\r\n    .checkbox input[type=\"checkbox\"]:disabled + label {\r\n      opacity: 0.65; }\r\n      .checkbox input[type=\"checkbox\"]:disabled + label::before {\r\n        background-color: #eeeeee;\r\n        cursor: not-allowed; }\r\n  .checkbox.checkbox-circle label::before {\r\n    border-radius: 50%; }\r\n  .checkbox.checkbox-inline {\r\n    margin-top: 0; }\r\n\r\n.checkbox-child-care input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #7cb5ec;\r\n  border-color: #7cb5ec; }\r\n.checkbox-child-care input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-food input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #434348;\r\n  border-color: #434348; }\r\n.checkbox-food input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-housing input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #90ED7D;\r\n  border-color: #90ed7d; }\r\n.checkbox-housing input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-medical input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #f7a35c;\r\n  border-color: #f7a35c; }\r\n.checkbox-medical input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-other input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #8085e9;\r\n  border-color: #8085e9; }\r\n.checkbox-other input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-savings input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #f15c80;\r\n  border-color: #f15c80; }\r\n.checkbox-savings input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-taxes input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #e4d354;\r\n  border-color: #e4d354; }\r\n.checkbox-taxes input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-transportation input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #2b908f;\r\n  border-color: #2b908f; }\r\n.checkbox-transportation input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n\r\n  /*.checkbox {\r\n  padding-left: 20px; }\r\n  .checkbox label {\r\n    display: inline-block;\r\n    position: relative;\r\n    padding-left: 5px; }\r\n    .checkbox label::before {\r\n      content: \"\";\r\n      display: inline-block;\r\n      position: absolute;\r\n      width: 17px;\r\n      height: 17px;\r\n      left: 0;\r\n      margin-left: -20px;\r\n      border: 1px solid #cccccc;\r\n      border-radius: 3px;\r\n      background-color: #fff;\r\n      -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;\r\n      -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;\r\n      transition: border 0.15s ease-in-out, color 0.15s ease-in-out; }\r\n    .checkbox label::after {\r\n      display: inline-block;\r\n      position: absolute;\r\n      width: 16px;\r\n      height: 16px;\r\n      left: 0;\r\n      top: 0;\r\n      margin-left: -20px;\r\n      padding-left: 3px;\r\n      padding-top: 1px;\r\n      font-size: 11px;\r\n      color: #555555; }\r\n  .checkbox input[type=\"checkbox\"] {\r\n    opacity: 0; }\r\n    .checkbox input[type=\"checkbox\"]:focus + label::before {\r\n      outline: thin dotted;\r\n      outline: 5px auto -webkit-focus-ring-color;\r\n      outline-offset: -2px; }\r\n    .checkbox input[type=\"checkbox\"]:checked + label::after {\r\n      font-family: 'FontAwesome';\r\n      content: \"\\f00c\"; }\r\n    .checkbox input[type=\"checkbox\"]:disabled + label {\r\n      opacity: 0.65; }\r\n      .checkbox input[type=\"checkbox\"]:disabled + label::before {\r\n        background-color: #eeeeee;\r\n        cursor: not-allowed; }\r\n  .checkbox.checkbox-circle label::before {\r\n    border-radius: 50%; }\r\n  .checkbox.checkbox-inline {\r\n    margin-top: 0; }\r\n\r\n.checkbox-primary input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #428bca;\r\n  border-color: #428bca; }\r\n.checkbox-primary input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-danger input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #d9534f;\r\n  border-color: #d9534f; }\r\n.checkbox-danger input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-info input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #5bc0de;\r\n  border-color: #5bc0de; }\r\n.checkbox-info input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-warning input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #f0ad4e;\r\n  border-color: #f0ad4e; }\r\n.checkbox-warning input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }\r\n\r\n.checkbox-success input[type=\"checkbox\"]:checked + label::before {\r\n  background-color: #5cb85c;\r\n  border-color: #5cb85c; }\r\n.checkbox-success input[type=\"checkbox\"]:checked + label::after {\r\n  color: #fff; }*/\r\n"; });
+define('text!auto-budget/auto-budget.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><div><h1 id=\"content-header\" style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><br><div id=\"drag-drop-div\"><compose view-model=\"chart/gauge-chart\"></compose></div></template>"; });
+define('text!budget-breakdown-module/breakdown.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><require from=\"./category-modules/child-care/child-care\"></require><require from=\"./category-modules/food/food\"></require><require from=\"./category-modules/housing/housing\"></require><require from=\"./category-modules/medical/medical\"></require><require from=\"./category-modules/other/other\"></require><require from=\"./category-modules/savings/savings\"></require><require from=\"./category-modules/taxes/taxes\"></require><require from=\"./category-modules/transportation/transportation\"></require><div id=\"accordion\" class=\"row\" role=\"tablist\" aria-multiselectable=\"true\"><compose view-model=\"./category-modules/child-care/child-care\"></compose><compose view-model=\"./category-modules/food/food\"></compose><compose view-model=\"./category-modules/housing/housing\"></compose><compose view-model=\"./category-modules/medical/medical\"></compose><compose view-model=\"./category-modules/other/other\"></compose><compose view-model=\"./category-modules/savings/savings\"></compose><compose view-model=\"./category-modules/taxes/taxes\"></compose><compose view-model=\"./category-modules/transportation/transportation\"></compose></div></template>"; });
 define('text!chart/chart.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><div id=\"chartContainer\" class=\"card\" style=\"height:500px\"></div></template>"; });
 define('text!chart/donut-chart.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><require from=\"highcharts/css/highcharts.css\"></require><nav data-spy=\"scroll\" class=\"navbar navbar-light teal\"><div class=\"container-fluid\"><ul repeat.for=\"year of years\" class=\"nav navbar-nav\"><li class=\"${currentYear === year ? 'active' : ''}\"><a click.delegate=\"drawChartForYear({year})\">${year}</a></li></ul></div><div id=\"goalsChartContainer\" style=\"height:500px\"></div></nav></template>"; });
-define('text!chart/gauge-chart.html', ['module'], function(module) { module.exports = "<template><div><div class=\"col-md-2\"><h2>Drag and Drop</h2><div id=\"choice-container\" style=\"border:2px solid #2bbbad\" class=\"card z-depth-5 content-options\" dragstart.trigger=\"drag($event)\" drop.trigger=\"drop($event)\" dragover.trigger=\"allowDrop($event)\"><ul class=\"list-group\"><li class=\"list-group-item\" draggable=\"true\" repeat.for=\"constant of neutralArray\"><span class=\"badge\">${constant}</span></li></ul></div></div><div class=\"col-md-2\"><h2>Remove</h2><div id=\"cut-container\" style=\"border:2px solid #2bbbad\" class=\"card z-depth-5 content-cut\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\" drop.trigger=\"drop($event)\"><ul class=\"list-group\"><li class=\"list-group-item\" draggable=\"true\" repeat.for=\"cut of cutArray\"><span class=\"badge badge-info\">${cut}</span></li></ul></div></div><div class=\"col-md-2\"><h2 style=\"margin-left:90px\">Reduce</h2><div id=\"reduce-container\" style=\"border:2px solid #2bbbad\" class=\"card z-depth-5 content-reduce\" drop.trigger=\"drop($event)\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\"><ul class=\"list-group\"><li class=\"list-group-item\" draggable=\"true\" repeat.for=\"reduce of reduceArray\"><span class=\"badge badge-info\">${reduce}</span></li></ul></div></div><div class=\"col-md-6\"><div class=\"card col-md-6 active\" id=\"gaugeChartContainer\" style=\"height:300px;width:500px\"></div><div class=\"card col-md-6 active\" id=\"gaugeChartContainer2\" style=\"height:300px;width:500px\"></div></div></div><br><br><br><br><br><br><button class=\"btn btn-raised btn-primary\" style=\"margin-left:120px;color:#fff\" click.delegate=\"autoBudget()\">Auto-Budget</button> <button class=\"btn btn-raised btn-primary\" style=\"margin-left:180px;color:#fff\" click.delegate=\"userAdjustedBudget()\">My Budget</button><br><br><br><br></template>"; });
-define('text!budget-breakdown-module/breakdown.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><require from=\"./category-modules/child-care/child-care\"></require><require from=\"./category-modules/food/food\"></require><require from=\"./category-modules/housing/housing\"></require><require from=\"./category-modules/medical/medical\"></require><require from=\"./category-modules/other/other\"></require><require from=\"./category-modules/savings/savings\"></require><require from=\"./category-modules/taxes/taxes\"></require><require from=\"./category-modules/transportation/transportation\"></require><div id=\"accordion\" class=\"row\" role=\"tablist\" aria-multiselectable=\"true\"><compose view-model=\"./category-modules/child-care/child-care\"></compose><compose view-model=\"./category-modules/food/food\"></compose><compose view-model=\"./category-modules/housing/housing\"></compose><compose view-model=\"./category-modules/medical/medical\"></compose><compose view-model=\"./category-modules/other/other\"></compose><compose view-model=\"./category-modules/savings/savings\"></compose><compose view-model=\"./category-modules/taxes/taxes\"></compose><compose view-model=\"./category-modules/transportation/transportation\"></compose></div></template>"; });
+define('text!chart/gauge-chart.html', ['module'], function(module) { module.exports = "<template><div><div class=\"col-md-2\"><h2>Drag and Drop</h2><div id=\"choice-container\" style=\"border:2px solid #2bbbad\" class=\"card z-depth-5 content-options\" dragstart.trigger=\"drag($event)\" drop.trigger=\"drop($event)\" dragover.trigger=\"allowDrop($event)\"><ul class=\"list-group\"><li class=\"list-group-item\" draggable=\"true\" repeat.for=\"constant of neutralArray\"><span class=\"badge\">${constant}</span></li></ul><button id=\"auto-budget-buttons\" class=\"btn btn-raised btn-primary\" style=\"color:#fff\" click.delegate=\"autoBudget()\">Auto-Budget</button></div></div><div class=\"col-md-2\"><h2>Remove</h2><div id=\"cut-container\" style=\"border:2px solid #2bbbad\" class=\"card z-depth-5 content-cut\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\" drop.trigger=\"drop($event)\"><ul class=\"list-group\"><li class=\"list-group-item\" draggable=\"true\" repeat.for=\"cut of cutArray\"><span class=\"badge badge-info\">${cut}</span></li></ul><button id=\"auto-budget-buttons\" class=\"btn btn-raised btn-primary\" style=\"color:#fff\" click.delegate=\"userAdjustedBudget()\">My Budget</button></div></div><div class=\"col-md-2\"><h2 style=\"margin-left:90px\">Reduce</h2><div id=\"reduce-container\" style=\"border:2px solid #2bbbad\" class=\"card z-depth-5 content-reduce\" drop.trigger=\"drop($event)\" dragstart.trigger=\"drag($event)\" dragover.trigger=\"allowDrop($event)\"><ul class=\"list-group\"><li class=\"list-group-item\" draggable=\"true\" repeat.for=\"reduce of reduceArray\"><span class=\"badge badge-info\">${reduce}</span></li></ul><button id=\"auto-budget-buttons\" class=\"btn btn-raised btn-primary\" style=\"color:#fff\" click.delegate=\"userAdjustedBudget()\">My Budget</button></div></div><div class=\"col-md-6\"><div class=\"card col-md-6 active\" id=\"gaugeChartContainer\" style=\"height:300px;width:500px\"></div><div class=\"card col-md-6 active\" id=\"gaugeChartContainer2\" style=\"height:300px;width:500px\"></div></div></div><br><br><br><br><br><br><br><br><br><br></template>"; });
+define('text!goals/goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div><h1 id=\"content-header\" style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><br><div class=\"progress\"><div class=\"progress-bar\" style=\"width:75%\"></div></div><div id=\"goal-template\"><div><h2>How much will you need to reach your Goal?</h2><h4>Start with a goal to help your realize the savings needed to reach this goal</h4></div></div><div id=\"goal-template\">Your current savings are ${masterBudget.savings.cost} a month. How much more will you need to save to be able to afford goal purchases?</div><table id=\"goal-template\" class=\"table table-striped table-hover\"><thead><tr><th>Goal</th><th>Cost</th><th>Purchase Month</th><th>Purchase Year</th><th></th></tr></thead><tbody><tr><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"text\" class=\"form-control\" id=\"inputGoal\" placeholder=\"Boat\" value.bind=\"selectedName\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputCost\" placeholder=\"8000\" value.bind=\"selectedCost\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><select id=\"inputMonth\" class=\"form-control\" value.bind=\"selectedMonth\"><option repeat.for=\"month of months\" value.bind=\"month\">${month}</option></select></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputYear\" placeholder=\"2019\" value.bind=\"selectedYear\"></div></div></td><td><button class=\"btn btn-raised btn-info\" click.delegate=\"addGoal()\">Add Goal</button></td></tr><tr repeat.for=\"goal of goalsList\"><td>${goal.name}</td><td>${goal.cost}</td><td>${goal.month}</td><td>${goal.year}</td><td><button class=\"btn btn-raised btn-danger\" click.delegate=\"removeGoal($index)\">Remove Goal</button></td></tr></tbody></table><div if.bind=\"goalsList.length > 0\">You must save ${monthlySavings} a month to afford these goals.</div></template>"; });
 define('text!five-year/card-info-one.html', ['module'], function(module) { module.exports = "<template>safasdfasdfasf</template>"; });
 define('text!five-year/card-info-three.html', ['module'], function(module) { module.exports = "<template><div id=\"card-info-one-div\">nezxt</div></template>"; });
 define('text!five-year/card-info-two.html', ['module'], function(module) { module.exports = "<template><div id=\"card-info-one-div\">advice</div></template>"; });
 define('text!five-year/donut-details.html', ['module'], function(module) { module.exports = "<template><require from=\"../utilities/currency\"></require><require from=\"../utilities/percent\"></require><nav class=\"navbar navbar-light teal\"><div class=\"container-fluid\"><ul repeat.for=\"category of masterBudget.budgetCategories\" class=\"nav navbar-nav\"><li class=\"${category === currentCategory ? 'active': ''}\"><a click.delegate=\"changeNavigationTab(category)\">${category}</a></li></ul></div></nav><div class=\"card\" id=\"donut-details-div\"><h4>Your monthly ${currentCategory} expense for ${currentYear} is ${currentExpense | currency}.</h4><div><h3>Top ways to save:</h3><p>1) Cancel Club Memberships</p><p>2) Reduce or eliminate cable bill</p><p>3) Carpool/Reduce Transportation cost</p></div></div></template>"; });
 define('text!five-year/five-year.html', ['module'], function(module) { module.exports = "<template><div id=\"five-year-module-container\"><div id=\"goals-chart-div\" class=\"card\"><compose view-model=\"chart/donut-chart\" view-model.ref=\"chartVM\"></compose></div><div id=\"donut-details\" class=\"card\"><compose view-model=\"./donut-details\"></compose></div></div></template>"; });
-define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"view overlay hm-blue-light\" id=\"intro-template\"><div class=\"card mask pattern-8 flex-center\" id=\"intro-card\"><form id=\"personalInfo\"><div class=\"form-group\"><label for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome()\"></div><div class=\"form-group\"><label for=\"\"><b>Location:</b></label><input type=\"text\" class=\"form-control\" value.bind=\"masterBudget.location\"></div><div class=\"btn-toolbar\" role=\"toolbar\" id=\"adults-toolbar\"><b>Adults in Household</b><div class=\"btn-group btn-group-justified btn-group-raised\" data-toggle=\"buttons\"><label id=\"adult-intro-button\" repeat.for=\"i of 2\" class=\"btn btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div><br><div class=\"btn-toolbar\" role=\"toolbar\" id=\"adults-toolbar\"><b>Children in Household</b><div class=\"btn-group btn-group-justified btn-group-raised\" data-toggle=\"buttons\"><label id=\"children-intro-button\" repeat.for=\"i of 5\" class=\"btn btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i + 1\" name=\"options\"> ${i}</label></div></div><br><div id=\"budgetButton\"><button class=\"btn btn-lg btn-raised btn-info\" click.delegate=\"route() getMonthlyIncome()\">Budget</button></div></form></div></div></template>"; });
-define('text!goals/goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"progress\"><div class=\"progress-bar\" style=\"width:75%\"></div></div><div id=\"goal-template\"><div><h2>How much will you need to reach your Goal?</h2><h4>Start with a goal to help your realize the savings needed to reach this goal</h4></div></div><div>Your current savings are ${masterBudget.savings.cost} a month. How much more will you need to save to be able to afford goal purchases?</div><table class=\"table table-striped table-hover\"><thead><tr><th>Goal</th><th>Cost</th><th>Purchase Month</th><th>Purchase Year</th><th></th></tr></thead><tbody><tr><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"text\" class=\"form-control\" id=\"inputGoal\" placeholder=\"Boat\" value.bind=\"selectedName\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputCost\" placeholder=\"8000\" value.bind=\"selectedCost\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><select id=\"inputMonth\" class=\"form-control\" value.bind=\"selectedMonth\"><option repeat.for=\"month of months\" value.bind=\"month\">${month}</option></select></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputYear\" placeholder=\"2019\" value.bind=\"selectedYear\"></div></div></td><td><button class=\"btn btn-raised btn-info\" click.delegate=\"addGoal()\">Add Goal</button></td></tr><tr repeat.for=\"goal of goalsList\"><td>${goal.name}</td><td>${goal.cost}</td><td>${goal.month}</td><td>${goal.year}</td><td><button class=\"btn btn-raised btn-danger\" click.delegate=\"removeGoal($index)\">Remove Goal</button></td></tr></tbody></table><div if.bind=\"goalsList.length > 0\">You must save ${monthlySavings} a month to afford these goals.</div></template>"; });
-define('text!results/results.html', ['module'], function(module) { module.exports = "<template><compose view-model=\"results-banner-module/banner\"></compose><div style=\"background:#e0f2f1\"><div id=\"results-container\" class=\"row\"><div id=\"chart-div\"><compose view-model=\"chart/chart\" view-model.ref=\"chartVM\"></compose></div><div id=\"breakdown-div\"><compose view-model=\"budget-breakdown-module/breakdown\"></compose></div><div class=\"button-group\" id=\"button-div\"><button type=\"button\" class=\"col-md-3 btn btn-raised btn-primary\" click.delegate=\"routeGoals()\">Goals</button> <button type=\"button\" class=\"col-md-3 btn btn-raised btn-primary\" click.delegate=\"routeFiveYearPlan()\">Five Year Plan</button> <button type=\"button\" class=\"col-md-3 btn btn-raised btn-primary\" click.delegate=\"routeAutoBudget()\">Auto Budget</button></div><div></div></div></div></template>"; });
+define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"view overlay hm-blue-light\" id=\"intro-template\"><h1 id=\"intro-page-title\">Budget Planning</h1><div class=\"card\" id=\"intro-card\"><form><div id=\"intro-form\" class=\"form-group\"><label for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"$50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome()\"></div><div id=\"intro-form\" class=\"form-group\"><label for=\"\"><b>Location:</b></label><input type=\"text\" class=\"form-control\" value.bind=\"masterBudget.location\"></div><div class=\"btn-toolbar\" role=\"toolbar\" id=\"adults-toolbar\"><b style=\"margin:0 auto\">Adults in Household</b><div class=\"btn-group btn-group-justified btn-group-raised\" data-toggle=\"buttons\"><label id=\"adult-intro-button\" repeat.for=\"i of 2\" class=\"btn btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div><br><div class=\"btn-toolbar\" role=\"toolbar\" id=\"children-toolbar\"><b>Children in Household</b><div class=\"btn-group btn-group-justified btn-group-raised\" data-toggle=\"buttons\"><label id=\"children-intro-button\" repeat.for=\"i of 5\" class=\"btn btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i + 1\" name=\"options\"> ${i}</label></div></div><br><div id=\"budgetButton\"><button class=\"btn btn-lg btn-raised btn-info\" click.delegate=\"route() getMonthlyIncome()\">Budget</button></div></form></div></div></template>"; });
+define('text!results/results.html', ['module'], function(module) { module.exports = "<template><div id=\"content-header\"><h1 style=\"font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><br><compose view-model=\"results-banner-module/banner\"></compose><div style=\"background:#eceff1\"><div id=\"results-container\" class=\"row\"><div id=\"chart-div\"><compose view-model=\"chart/chart\" view-model.ref=\"chartVM\"></compose></div><div id=\"breakdown-div\"><compose view-model=\"budget-breakdown-module/breakdown\"></compose></div><div class=\"button-group\" id=\"button-div\"><button type=\"button\" class=\"col-md-3 btn btn-raised btn-primary\" click.delegate=\"routeGoals()\">Goals</button> <button type=\"button\" class=\"col-md-3 btn btn-raised btn-primary\" click.delegate=\"routeFiveYearPlan()\">Five Year Plan</button> <button type=\"button\" class=\"col-md-3 btn btn-raised btn-primary\" click.delegate=\"routeAutoBudget()\">Auto Budget</button></div></div></div></template>"; });
 define('text!results-banner-module/banner.html', ['module'], function(module) { module.exports = "<template><table id=\"banner-table\" class=\"table card\"><tr><td><div><label id=\"breakdown-header-label\" for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome()\"></div></td><td><div><label id=\"breakdown-header-label\" for=\"\"><b>Location:</b></label><input type=\"text\" value.bind=\"masterBudget.location\" class=\"form-control\"></div></td><td><div id=\"breakdown-buttons\" class=\"btn-toolbar\" role=\"toolbar\"><b>Adults in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"breakdown-buttons-label\" repeat.for=\"i of 2\" class=\"btn btn-sm btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div></td><td><div id=\"breakdown-buttons\" class=\"btn-toolbar\" role=\"toolbar\"><b>Children in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"breakdown-buttons-label\" repeat.for=\"i of 5\" class=\"btn btn-sm btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i\" name=\"options\"> ${i}</label></div></div></td></tr></table></template>"; });
+define('text!budget-breakdown-module/category-modules/medical/medical.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingMedical\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-medical checkbox-inline\"><input id=\"checkbox4\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Medical')\"><label for=\"checkbox4\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseMedical\">Medical <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p></div></div><br><br><br><div id=\"collapseMedical\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingMedical\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.medical\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedMedical()\"></div></div></div></div></div></template>"; });
+define('text!budget-breakdown-module/category-modules/food/food.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingFood\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-food checkbox-inline\"><input id=\"checkbox2\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Food')\"><label for=\"checkbox2\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFood\" aria-expanded=\"true\" aria-controls=\"collapseFood\">Food <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p></div></div><br><br><br><div id=\"collapseFood\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFood\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.food\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label for=\"food-input\">${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedFoodCost()\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/child-care/child-care.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOne\"><dv class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-child-care checkbox-inline\"><input id=\"checkbox1\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Child Care')\"><label for=\"checkbox1\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseChildCare\" aria-expanded=\"true\" aria-controls=\"collapseChildCare\">Child Care<span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></dv></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\"></p><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p><p></p></div><br><br><br><div id=\"collapseChildCare\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingChildCare\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.childCare\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedChildCareCost()\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/housing/housing.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingHousing\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-housing checkbox-inline\"><input id=\"checkbox3\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Housing')\"><label for=\"checkbox3\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseHousing\" aria-expanded=\"true\" aria-controls=\"collapseHousing\">Housing <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p></div></div><br><br><br><div id=\"collapseHousing\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingHousing\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.housing\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedCost()\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/other/other.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOther\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-other checkbox-inline\"><input id=\"checkbox5\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Other')\"><label for=\"checkbox5\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOther\" aria-expanded=\"true\" aria-controls=\"collapseOther\">Other <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p></div></div><br><br><br><div id=\"collapseOther\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingOther\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.other\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedOtherCost()\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/food/food.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingFood\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-food checkbox-inline\"><input id=\"checkbox2\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Food')\"><label for=\"checkbox2\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFood\" aria-expanded=\"true\" aria-controls=\"collapseFood\">Food <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p></div></div><br><br><br><div id=\"collapseFood\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFood\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.food\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label for=\"food-input\">${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedFoodCost()\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/savings/savings.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingSavings\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-savings checkbox-inline\"><input id=\"checkbox6\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Savings')\"><label for=\"checkbox6\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseSavings\" aria-expanded=\"true\" aria-controls=\"collapseSavings\">Savings <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4 mb-0\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p></div></div><br><br><br><div id=\"collapseSavings\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingSavings\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.savings\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedSavings()\"></div></div></div></div></div></template>"; });
-define('text!budget-breakdown-module/category-modules/medical/medical.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingMedical\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-medical checkbox-inline\"><input id=\"checkbox4\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Medical')\"><label for=\"checkbox4\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseMedical\" aria-expanded=\"true\" aria-controls=\"collapseMedical\">Medical <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p></div></div><br><br><br><div id=\"collapseMedical\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingMedical\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.medical\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedMedical()\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/taxes/taxes.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTaxes\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox checkbox-taxes checkbox-inline\"><input id=\"checkbox7\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Taxes')\"><label for=\"checkbox7\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTaxes\" aria-expanded=\"true\" aria-controls=\"collapseTaxes\">Taxes <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p></div></div><br><br><br><div id=\"collapseTaxes\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTaxes\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.taxes\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedTaxCost()\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/transportation/transportation.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingTransportation\"><dv class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-transportation checkbox-inline\"><input id=\"checkbox8\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Transportation')\"><label for=\"checkbox8\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseTransportation\" aria-expanded=\"true\" aria-controls=\"collapseTransportation\">Transportation <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></dv></div><div class=\"col-md-4\">${costPercentage | percent}</div><div class=\"col-md-4\"><p class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</p></div><br><br><br><div id=\"collapseTransportation\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingTransportation\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.transportation\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedTransportationCost()\"></div></div></div></div></div></template>"; });
 //# sourceMappingURL=app-bundle.js.map

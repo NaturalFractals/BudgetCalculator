@@ -1,7 +1,11 @@
 <template>
+    <div id="content-header">
+        <h1 style="font-size: 36px; text-align:center;"><b>Budget Planning<b></h1>
+      </div>
+      <br>
     <!-- Banner module -->
     <compose view-model="results-banner-module/banner"></compose>
-    <div style="background:#e0f2f1">
+    <div style="background:#eceff1">
         <!-- Container for chart and table -->
         <div id="results-container" class="row">
             <div id="chart-div">
@@ -15,6 +19,5 @@
                 <button type="button" class="col-md-3 btn btn-raised btn-primary" click.delegate="routeFiveYearPlan()">Five Year Plan</button>
                 <button type="button" class="col-md-3 btn btn-raised btn-primary" click.delegate="routeAutoBudget()">Auto Budget</button>
             </div>
-            <div>
-            </div>
+        </div>
 </template>

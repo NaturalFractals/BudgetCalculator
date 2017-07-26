@@ -6,6 +6,7 @@
                 <ul class="list-group">
                     <li class="list-group-item" draggable="true" repeat.for="constant of neutralArray"><span class="badge">${constant}</psan></li>
                 </ul>
+                <button id="auto-budget-buttons" class="btn btn-raised btn-primary"  style="color:white;" click.delegate="autoBudget()">Auto-Budget</button>
             </div>
         </div>
         <div class="col-md-2">
@@ -14,6 +15,7 @@
                 <ul class="list-group">
                     <li class="list-group-item" draggable="true" repeat.for="cut of cutArray"><span class="badge badge-info">${cut}</span></li>
                 </ul>
+                <button id="auto-budget-buttons" class="btn btn-raised btn-primary" style="color:white;" click.delegate="userAdjustedBudget()">My Budget</button>
             </div>
         </div>
         <div class="col-md-2">
@@ -22,6 +24,7 @@
                 <ul class="list-group">
                     <li class="list-group-item" draggable="true" repeat.for="reduce of reduceArray"><span class="badge badge-info">${reduce}</span></li>
                 </ul>
+                <button id="auto-budget-buttons" class="btn btn-raised btn-primary" style="color:white;" click.delegate="userAdjustedBudget()">My Budget</button>
             </div>
         </div>
         <div class="col-md-6">
@@ -30,7 +33,5 @@
         </div>
     </div>
     <br><br><br><br><br><br>
-    <button class="btn btn-raised btn-primary"  style="margin-left: 120px; color:white;" click.delegate="autoBudget()">Auto-Budget</button>
-    <button class="btn btn-raised btn-primary" style="margin-left: 180px; color:white;" click.delegate="userAdjustedBudget()">My Budget</button>
     <br><br><br><br>
 </template>

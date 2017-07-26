@@ -5,6 +5,11 @@
     margin: 0 auto;
 }
 
+/* Header for every page but intro*/
+#content-header {
+    background:#eceff1;
+}
+
 /* Style for Five Year Results Container*/
 #five-year-module-container {
     width: 70%;
@@ -20,6 +25,14 @@
 #adults-toolbar {
     margin: 0 auto;
     width: 40%;
+}
+
+/* Budget buttons in div on auto button page*/
+#auto-budget-buttons {
+    position:absolute;
+    width:100%;
+    bottom:0;
+    text-align:center;
 }
 
 .list-group {
@@ -44,6 +57,11 @@
     width: 300px;
     height: 400px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Drag and drop top parent div*/
+#drag-drop-div {
+    background:#eceff1;
 }
 
 /* Cut containter for drag and drop*/
@@ -107,7 +125,7 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
 /* Style for goals templage*/
 #goal-template {
-    width: 30%;
+    width: 70vh;
     margin: 0 auto;
     margin-top: 100px;
 }
@@ -118,13 +136,28 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
     padding-top: 50px;
     background-image: url('src/css/roadmap.jpg');
     background-size: 210vh;
+}
 
+/* Title on the intro page*/
+#intro-page-title {
+    width: 48vh;
+    margin: 0 auto;
+    font-size: 400%;
+    color: white;
 }
 
 /*Intro card */
 #intro-card {
-  width: 800px;
-  margin-left: 800px;
+  width: 40vh;
+  margin-left: 38vw;
+  margin-top: 10vh;
+  opacity: 0.8;
+}
+
+/* Inputs on intro card*/
+#intro-form {
+    padding-left: 1vw;
+    padding-right: 1vw;
 }
 
 /* Buttons for children on intro*/
@@ -160,7 +193,6 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 #banner-table {
-    background: #E4E4E4;
     /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */
     margin-bottom: 50px;
     width: 75%;
@@ -220,7 +252,7 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 /* Style for button div*/
 #button-div {
     clear:both;
-    padding: 200px;
+    padding: 20vh;
     margin: 0 auto;
 }
 
