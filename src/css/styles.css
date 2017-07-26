@@ -257,9 +257,10 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
 /* Style for button div*/
 #button-div {
-    clear:both;
+    clear: both;
     padding: 20vh;
-    margin: 0 auto;
+    margin-left: -8vw;
+    margin-right: 10vw;
 }
 
 /* Goals button on results page*/

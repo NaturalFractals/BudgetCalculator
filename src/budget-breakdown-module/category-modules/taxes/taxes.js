@@ -10,8 +10,9 @@ export class Taxes {
         this.constants = constants;
         this.cost = 0;
         this.costPercentage = 0;
-        this.vehicleTaxCost = 0;
+        this.stateTaxCost = 0;
         this.housingTaxCost = 0;
+        this.otherTaxCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
         this.isMonthly = true;

@@ -10,6 +10,7 @@ export class Transportation {
         this.constants = constants;
         this.cost = 0;
         this.costPercentage = 0;
+        this.otherCost = 0;
         this.collapsed = true;
         this.publicTransportationCost = 0;
         this.publicTransportationInflation = 1.0329;

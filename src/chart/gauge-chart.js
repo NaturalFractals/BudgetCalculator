@@ -8,8 +8,6 @@ export class GaugeChart {
     constructor(masterBudget, constants) {
         this.masterBudget = masterBudget;
         this.constants = constants;
-        this.chart = null;
-        this.chart2 = null;
         this.neutralArray = [];
         this.createNeutralArray();
         this.cutArray = [];
@@ -19,8 +17,8 @@ export class GaugeChart {
     attached() {
         this.masterBudget.sumAllCost();
         var tuples = this.createChartTuple(this.masterBudget);
-        this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples, "Before");
-        this.chart2 = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples, "After");
+        ChartFactory.createHalfDonutChart('gaugeChartContainer', tuples, "Before");
+        ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples, "After");
     }
 
     //Uses constants to create array for responsive drag and drop
@@ -120,7 +118,7 @@ export class GaugeChart {
         }
         let tuples = this.createChartTuple(tempMasterBudget);
         console.log(tuples);
-        this.chart = ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples, "After");
+        ChartFactory.createHalfDonutChart('gaugeChartContainer2', tuples, "After");
     }
 
     //Adjust the budget based on input from the drag and drop or user

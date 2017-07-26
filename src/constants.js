@@ -193,8 +193,8 @@ export class Constants {
                 'variable': 'publicTransportationCost'
             },
             {
-                'label': 'Car',
-                'variable': 'hasCar'
+                'label': 'Other',
+                'variable': 'otherCost'
             }
         ];
 
@@ -274,11 +274,11 @@ export class Constants {
         this.taxes = [
             {
                 'label': 'State Taxes',
-                'variable': 'vehicleTaxCost'
+                'variable': 'stateTaxCost'
             },
             {
-                'label': 'Filing Status',
-                'variable': 'filingStatus'
+                'label': 'Other Taxes',
+                'variable': 'otherTaxCost'
             }
         ];
 
