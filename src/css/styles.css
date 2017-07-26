@@ -126,7 +126,7 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
 .arrows {
-  margin-left: 6px;
+    margin-left: 6px;
 }
 
 /* Style for goals templage*/
@@ -134,6 +134,13 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
     width: 70vh;
     margin: 0 auto;
     margin-top: 100px;
+}
+
+/* Goals results text*/
+#goals-results-text {
+    margin-left: 28vw;
+    font-size: 2vw;
+    padding-top: 4vw;
 }
 
 /*Intro page tempalte styles*/
@@ -154,10 +161,10 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
 /*Intro card */
 #intro-card {
-  width: 40vh;
-  margin-left: 38vw;
-  margin-top: 10vh;
-  opacity: 0.8;
+    width: 40vh;
+    margin-left: 38vw;
+    margin-top: 10vh;
+    opacity: 0.8;
 }
 
 /* Inputs on intro card*/
@@ -191,11 +198,11 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
 /* Style for banner module table*/
 .blackparagraph {
-  color:black;
+    color:black;
 }
 
 .grayparagraph {
-  color: LightGray;
+    color: LightGray;
 }
 
 #banner-table {
@@ -223,7 +230,7 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 /* Chart container styles*/
 #chartContainer {
   /* box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08); */
-  margin-top: 60px;
+    margin-top: 60px;
 }
 
 /* Chart container styles*/
@@ -233,12 +240,12 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
 /* Style for input-group in collapse*/
 .input-group {
-  margin-left: 5%;
+    margin-left: 5%;
 }
 
 /* Nav bar class*/
 .navbar {
-  margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 /* Style for breakdown div*/
@@ -285,7 +292,7 @@ box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.08);
 
 /* */
 #breakdown-header-label {
-  color: black;
+    color: black;
 }
 
 /* Chart and breakdown table container*/

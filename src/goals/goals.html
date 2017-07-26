@@ -74,12 +74,14 @@
             </tr>
         </tbody>
     </table>
-
-    <div if.bind="goalsList.length > 0">
-        You must save ${monthlySavings} a month to afford these goals.
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Panel primary</h3>
+        </div>
+        <div class="panel-body">
+            <div id="goals-results-text" if.bind="goalsList.length > 1">
+                You must save ${monthlySavings} a month to afford these goals.
+            </div>
+        </div>
     </div> 
-
-
-
-
 </template>
