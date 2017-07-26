@@ -675,6 +675,26 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
         };
 
         GaugeChart.prototype.autoBudget = function autoBudget() {
+            if (this.neutralArray.indexOf('Gym Membership') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Gym Membership'), 1);
+                this.reduceArray.push('Gym Membership');
+            }
+            if (this.neutralArray.indexOf('Clothing') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Clothing'), 1);
+                this.reduceArray.push('Clothing');
+            }
+            if (this.neutralArray.indexOf('Eating Out') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Eating Out'), 1);
+                this.reduceArray.push('Eating Out');
+            }
+            if (this.neutralArray.indexOf('Recreation/Travel') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Recreation/Travel'), 1);
+                this.reduceArray.push('Recreation/Travel');
+            }
+            if (this.neutralArray.indexOf('Vacation') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Vacation'), 1);
+                this.cutArray.push('Vacation');
+            }
             var cost = this.masterBudget.sumOfAllCost;
             var percentReduction = 0.95;
             var tempMasterBudget = this.masterBudget;
