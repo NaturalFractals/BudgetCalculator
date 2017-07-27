@@ -90,6 +90,18 @@ export class Intro {
         });
     }
 
+    test(clickAction) {
+        this.masterBudget.numberAdults = clickAction + 1;
+        console.log(this.masterBudget.numberAdults);
+    }
+
+    test2(clickAction) {
+        this.masterBudget.numberChildren = clickAction;
+        console.log(this.masterBudget.numberChildren);
+        this.masterBudget.food.calculateFoodCost(this.masterBudget.numberChildren, this.masterBudget.numberAdults);
+        console.log(this.masterBudget.food.cost);
+    }
+
     //Get current county/location of user
     getCurrentLocation(jsonData) {
         var array = jsonData.results[4].formatted_address.split(",");
@@ -114,16 +126,15 @@ export class Intro {
     //Calculates the monthly income based on entered annual income
     async getMonthlyIncome() {
         var self = this;
-        this.masterBudget.totalMonthlyIncome = parseInt(this.income) / 12;
-        this.masterBudget.savings.cost = this.income * 0.15;
         //Get average state taxes based on income
         let stateTax = await this.httpClient.fetch('api/state-taxes/get.json');
         let stateTaxData = await stateTax.json();
         stateTaxData.taxes.forEach((state) => {
             if (self.masterBudget.stateLocation == state[0] && self.income < state[2]) {
                 self.masterBudget.taxes.cost = self.income * state[1];
-                console.log("here");
-                console.log(self.masterBudget.taxes.cost);
+                self.masterBudget.taxes.grossIncome = self.income - self.masterBudget.taxes.cost;
+                self.masterBudget.totalMonthlyIncome = parseInt(this.income) / 12;
+                self.masterBudget.savings.cost = this.income * 0.15;
             }
         });
     }

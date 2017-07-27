@@ -18,7 +18,7 @@
                 <div class="btn-toolbar" role="toolbar" id="adults-toolbar">
                     <b style="margin: 0 auto;">Adults in Household</b>
                     <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
-                        <label id="adult-intro-button" repeat.for="i of 2" class="btn btn-raised btn-primary">
+                        <label click.delegate="test(i)" id="adult-intro-button" repeat.for="i of 2" class="btn btn-raised btn-primary">
                             <input type="radio" checked.bind="masterBudget.numberAdults" value.bind="i + 1" name="options"> 
                         ${i + 1}
                         </label>
@@ -29,7 +29,7 @@
                 <div class="btn-toolbar" role="toolbar" id="children-toolbar">
                     <b>Children in Household</b>
                     <div class="btn-group btn-group-justified btn-group-raised" data-toggle="buttons">
-                        <label id="children-intro-button" repeat.for="i of 5" class="btn btn-raised btn-primary">
+                        <label click.delegate="test2(i)" id="children-intro-button" repeat.for="i of 5" class="btn btn-raised btn-primary">
                             <input type="radio" checked.bind="masterBudget.numberChildren" value.bind="i + 1" name="options"> 
                          ${i}
                         </label>

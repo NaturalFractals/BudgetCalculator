@@ -1,7 +1,7 @@
 <template>
     <div id="auto-budget-container">
         <div class="col-md-2" >
-            <h2>Drag and Drop</h2>
+            <h2 style="margin-left: 50px;">Drag and Drop</h2>
             <div id="choice-container" style="border: 2px solid #2BBBAD;" class="card z-depth-5 content-options" dragstart.trigger="drag($event)" drop.trigger="drop($event)" dragover.trigger="allowDrop($event)">
                 <ul class="list-group">
                     <li class="list-group-item" draggable="true" repeat.for="constant of neutralArray"><span class="badge">${constant}</psan></li>
@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="col-md-2">
-            <h2>Remove</h2>
+            <h2 style="margin-left: 90px;">Remove</h2>
             <div id="cut-container" style="border: 2px solid #2BBBAD;" class="card z-depth-5 content-cut" dragstart.trigger="drag($event)" dragover.trigger="allowDrop($event)" drop.trigger="drop($event)">
                 <ul class="list-group">
                     <li class="list-group-item" draggable="true" repeat.for="cut of cutArray"><span class="badge badge-info">${cut}</span></li>
