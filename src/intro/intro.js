@@ -110,6 +110,8 @@ export class Intro {
 
     //Routes the user to the results page after clicking budget button
     route() {
+        if(this.masterBudget.numberChildren == 0)
+            this.masterBudget.childCare.cost = 0;
         this.router.navigate("#/results");
     }
 

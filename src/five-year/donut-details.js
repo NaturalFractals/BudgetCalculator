@@ -17,26 +17,25 @@ export class DonutDetails {
 
     //Changes the information of the currrent details based on navigation click
     changeNavigationTab(category) {
-
         switch(category) {
             case this.masterBudget.budgetCategories[0]:
-                this.currentExpense = this.masterBudget.childCare.cost + (this.currentYear - 2017) * 1.0558;
+                this.currentExpense = (this.masterBudget.childCare.cost + (this.currentYear - 2017)) * 1.0558;
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[1]:
-                this.currentExpense = this.masterBudget.food.cost + (this.currentYear - 2017) * 1.0295;
+                this.currentExpense = (this.masterBudget.food.cost + (this.currentYear - 2017)) * 1.0295;
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[2]:
-                this.currentExpense = this.masterBudget.housing.cost + (this.currentYear - 2017) * 1.0269;
+                this.currentExpense = (this.masterBudget.housing.cost + (this.currentYear - 2017)) * 1.0269;
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[3]:
-                this.currentExpense = this.masterBudget.medical.cost + (this.currentYear - 2017) * 1.0379;
+                this.currentExpense = (this.masterBudget.medical.cost + (this.currentYear - 2017)) * 1.0379;
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[4]:
-                this.currentExpense = this.masterBudget.other.cost + (this.currentYear - 2017) * 1;
+                this.currentExpense = (this.masterBudget.other.cost + (this.currentYear - 2017)) * 1;
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[5]:

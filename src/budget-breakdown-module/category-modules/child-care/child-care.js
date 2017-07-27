@@ -20,7 +20,7 @@ export class ChildCare {
         this.childSupportInflation = 1;
         this.eventAggregator = eventAggregator;
         this.collapsed = true;
-        this.isMonthly = true;
+        this.isMonthly = false;
     }
 
     //Toggles the arrow of the collapse menu
