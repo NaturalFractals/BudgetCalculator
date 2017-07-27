@@ -1392,6 +1392,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                 }
             }
             this.masterBudget.taxes.calculateAdvancedTaxCost();
+            this.masterBudget.savings.calculateAdvancedSavings();
             this.router.navigate("#/results");
         };
 
@@ -2105,7 +2106,7 @@ define('budget-breakdown-module/category-modules/taxes/taxes',['exports', 'aurel
             this.otherTaxCost = 0;
             this.collapsed = true;
             this.eventAggregator = eventAggregator;
-            this.isMonthly = true;
+            this.isMonthly = false;
         }
 
         Taxes.prototype.toggle = function toggle() {
@@ -2122,6 +2123,7 @@ define('budget-breakdown-module/category-modules/taxes/taxes',['exports', 'aurel
 
         Taxes.prototype.toggleHorizon = function toggleHorizon() {
             this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedTaxCost();
         };
 
         return Taxes;

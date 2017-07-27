@@ -146,6 +146,7 @@ export class Intro {
             }
         }
         this.masterBudget.taxes.calculateAdvancedTaxCost();
+        this.masterBudget.savings.calculateAdvancedSavings();
         this.router.navigate("#/results");
     }
 
