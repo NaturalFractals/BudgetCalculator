@@ -17,11 +17,11 @@
         </a>
         </h5>
     </div>
+     <div class="col-md-4">
+      <!-- ${costPercentage | percent} -->
+    </div> 
     <div class="col-md-4">
-      ${costPercentage | percent}
-    </div>
-    <div class="col-md-4">
-      <p class="${includeInBudget ? 'blackparagraph' : 'grayparagraph'}">${cost | currency}</p>
+       <span class="${includeInBudget ? 'blackparagraph' : 'grayparagraph'}">${cost | currency}</span><span class="permonth">&nbsp&nbsp&nbsp/ Month</span>
     </div>
   <br><br><br>
   <div id="collapseTransportation" class="collapse" role="tabpanel" aria-labelledby="headingTransportation">

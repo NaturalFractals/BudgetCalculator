@@ -17,7 +17,7 @@ export class Savings {
         this.collegeSavingsCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
-        this.isMonthly = false;
+        this.isMonthly = true;
         this.omitted = 0;
     }
 
