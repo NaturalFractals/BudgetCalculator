@@ -11,12 +11,12 @@ export class Intro {
         this.router = router;
         this.httpClient = httpClient;
         this.masterBudget = masterBudget;
-        this.getLocation();
+        this.getLocation(false);
     }
 
     //Retrieves the user's current location.
     //TODO: Move this method out of intro.js
-    async getLocation() {
+    async getLocation(userInput) {
         var self = this;
 
         // check for Geolocation support
@@ -34,12 +34,14 @@ export class Intro {
                 startPos = position;
                 let data = await self.httpClient.fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + startPos.coords.latitude + ',' + startPos.coords.longitude + '&key=AIzaSyBM9-m7L5132H_bDe3JUn9tlwblTARBRbQ');
                 let data2 = await data.json();
-                self.getCurrentLocation(data2);
+                self.getCurrentLocation(data2, userInput);
+                console.log(self.masterBudget.location);
                 let householdCost = await self.httpClient.fetch('api/household-cost-county/get.json');
                 let houseHoldCostData = await householdCost.json();
                 houseHoldCostData.costByCounty.forEach((houseObject) => {
                     if (houseObject.County == self.masterBudget.location)
                         self.masterBudget.housing.cost += houseObject[self.masterBudget.numberAdults]
+                    console.log(houseObject);
                 })
             });
         };
@@ -103,9 +105,10 @@ export class Intro {
     }
 
     //Get current county/location of user
-    getCurrentLocation(jsonData) {
+    getCurrentLocation(jsonData, userInput) {
         var array = jsonData.results[4].formatted_address.split(",");
-        this.masterBudget.location = array[0];
+        if(!userInput)
+            this.masterBudget.location = array[0];
     }
 
     //Routes the user to the results page after clicking budget button

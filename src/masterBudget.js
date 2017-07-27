@@ -17,8 +17,8 @@ export class MasterBudget {
         this.location = "";
         this.annualIncome;
         this.totalMonthlyIncome = 2000;
-        this.numberChildren = 2;
-        this.numberAdults = 1;
+        this.numberChildren = 1;
+        this.numberAdults = 2;
         this.stateLocation = 'Alabama';
 
         this.food = food;
