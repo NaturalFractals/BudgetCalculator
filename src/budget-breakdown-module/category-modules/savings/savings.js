@@ -18,6 +18,7 @@ export class Savings {
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
         this.isMonthly = false;
+        this.omitted = 0;
     }
 
     //Toggles the arrow of the collapse menu
@@ -28,7 +29,7 @@ export class Savings {
     //Calculates cost of savings
     calculateAdvancedSavings() {
         var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers
-        this.cost = parseInt( ( parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost)) * scale);
+        this.cost = parseInt( ( parseInt(this.emergencyFundCost) + parseInt(this.retirementCost) + parseInt(this.investmentsCost) + parseInt(this.collegeSavingsCost) + parseInt(this.omitted)) * scale);
         // this.cost = this.cost.toFixed(2);
 
         this.eventAggregator.publish('update', {name: 'Savings', value: this.cost});

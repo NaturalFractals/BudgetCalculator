@@ -1,88 +1,94 @@
 <template>
     <require from="css/styles.css"></require>
     <require from="../utilities/currency"></require>
-    <div>
-        <h1 id="content-header" style="font-size: 36px; text-align:center;"><b>Budget Planning<b></h1>
-    </div>
-    <br>
-    <!-- Progress bar to keep track of amount needed for goal-->
-    <div class="progress">
-        <div class="progress-bar" style="width: 75%"></div>
-    </div>
-    <div id="goal-template">
-        <!-- Title for goals page-->
+  
         <div>
             <h2>How much will you need to reach your Goal?</h2>
             <h4>Start with a goal to help you realize the savings needed to reach this goal</h4>
+            <h1 id="content-header" style="font-size: 36px; text-align:center; margin-left:0vw;"><b>Goals<b></h1>
         </div>
-    </div>
-    <div id="goal-template">
-        Your current savings are ${masterBudget.savings.cost} a month. How much more will you need to save to be able to afford goal purchases?
-    </div>
-
-    <table id="goal-template" class="table table-striped table-hover ">
-        <thead>
-            <tr>
-                <th>Goal</th>
-                <th>Cost</th>
-                <th>Purchase Month</th>
-                <th>Purchase Year</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <div class="form-group form-inline">
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="inputGoal" placeholder="Boat" value.bind="selectedName">
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group form-inline">
-                        <div class="col-md-10">
-                            <input type="number" class="form-control" id="inputCost" placeholder="8000" value.bind="selectedCost">
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group form-inline">
-                        <div class="col-md-10">
-                            <select id="inputMonth" class="form-control" value.bind="selectedMonth">
-                                <option repeat.for="month of months" value.bind="month">${month}</option>
-                            </select>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="form-group form-inline">
-                        <div class="col-md-10">
-                            <input type="number" class="form-control" id="inputYear" placeholder="2019" value.bind="selectedYear">
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <button class="btn btn-raised btn-info" click.delegate="addGoal()">Add Goal</button>
-                </td>
-            </tr>
-            <tr repeat.for="goal of goalsList">
-                <td>${goal.name}</td>
-                <td>${goal.cost}</td>
-                <td>${goal.month}</td>
-                <td>${goal.year}</td>
-                <td><button class="btn btn-raised btn-danger" click.delegate="removeGoal($index)">Remove Goal</button></td>
-            </tr>
-        </tbody>
-    </table>
-    <div id="panel-goals" class="panel panel-primary" if.bind="goalsList.length > 0">
-        <div class="panel-heading">
-            <h3 id="panel-title-heading" class="panel-title">Goal Budget</h3>
+        <br>
+        <!-- Progress bar to keep track of amount needed for goal-->
+        <div class="progress" style="margin: 0vh 20vw;">
+            <div class="progress-bar" style="width: 100%"></div>
         </div>
-        <div class="panel-body">
-            <div id="goals-results-text">
-                You must save ${monthlySavings | currency} a month to afford these goals.
+        <div id="goal-template">
+            <!-- Title for goals page-->
+            <div>
+                <h2 style="margin-left: 0vw; width: 100vw">How much will you need to save reach your goals?</h2>
+                <h4>Enter your goals to find out your necessary monthly savings.</h4>
             </div>
         </div>
-    </div> 
+        <!-- <div id="goal-template">
+            Your current savings are ${masterBudget.savings.cost} a month. How much more will you need to save to be able to afford goal purchases?
+        </div> -->
+
+        <table id="goal-template" class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>Goal</th>
+                    <th>Cost</th>
+                    <th>Purchase Month</th>
+                    <th>Purchase Year</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group form-inline">
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="inputGoal" placeholder="Boat" value.bind="selectedName">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group form-inline">
+                            <div class="col-md-10">
+                                <input type="number" class="form-control" id="inputCost" placeholder="8000" value.bind="selectedCost">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group form-inline">
+                            <div class="col-md-10">
+                                <select id="inputMonth" class="form-control" value.bind="selectedMonth">
+                                    <option repeat.for="month of months" value.bind="month">${month}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group form-inline">
+                            <div class="col-md-10">
+                                <input type="number" class="form-control" id="inputYear" placeholder="2019" value.bind="selectedYear">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-raised btn-info" click.delegate="addGoal()">Add Goal</button>
+                    </td>
+                </tr>
+                <tr repeat.for="goal of goalsList">
+                    <td>${goal.name}</td>
+                    <td>${goal.cost}</td>
+                    <td>${goal.month}</td>
+                    <td>${goal.year}</td>
+                    <td><button class="btn btn-raised btn-danger" click.delegate="removeGoal($index)">Remove Goal</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="panel-goals" class="panel panel-primary" if.bind="goalsList.length > 0">
+            <div class="panel-heading">
+                <h3 id="panel-title-heading" class="panel-title">Goal Budget</h3>
+            </div>
+            <div class="panel-body">
+                <div id="goals-results-text">
+                    You must save ${monthlySavings | currency} a month to afford these goals.
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="col-md-2 btn btn-raised btn-primary" style="margin: 5vh 42vw" click.delegate="routeResults()">Back</button>
+ 
 </template>

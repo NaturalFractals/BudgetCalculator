@@ -19,35 +19,35 @@ export class DonutDetails {
     changeNavigationTab(category) {
         switch(category) {
             case this.masterBudget.budgetCategories[0]:
-                this.currentExpense = (this.masterBudget.childCare.cost + (this.currentYear - 2017)) * 1.0558;
+                this.currentExpense = parseInt(this.masterBudget.childCare.cost * Math.pow(1.0558, this.currentYear - 2017));
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[1]:
-                this.currentExpense = (this.masterBudget.food.cost + (this.currentYear - 2017)) * 1.0295;
+                this.currentExpense = parseInt(this.masterBudget.food.cost * Math.pow(1.0295, this.currentYear - 2017))
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[2]:
-                this.currentExpense = (this.masterBudget.housing.cost + (this.currentYear - 2017)) * 1.0269;
+                this.currentExpense = parseInt(this.masterBudget.housing.cost * Math.pow(1.0269, this.currentYear - 2017));
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[3]:
-                this.currentExpense = (this.masterBudget.medical.cost + (this.currentYear - 2017)) * 1.0379;
+                this.currentExpense = parseInt(this.masterBudget.medical.cost * Math.pow(1.0379, this.currentYear - 2017));
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[4]:
-                this.currentExpense = (this.masterBudget.other.cost + (this.currentYear - 2017)) * 1;
+                this.currentExpense = parseInt(this.masterBudget.other.cost * Math.pow(1, this.currentYear - 2017));
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[5]:
-                this.currentExpense = this.masterBudget.savings.cost + (this.currentYear - 2017) * 1;
+                this.currentExpense = parseInt(this.masterBudget.savings.cost * Math.pow(1, this.currentYear - 2017));
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[6]:
-                this.currentExpense = this.masterBudget.taxes.cost + (this.currentYear - 2017) * 1;
+                this.currentExpense = parseInt(this.masterBudget.taxes.cost * Math.pow(1, this.currentYear - 2017));
                 this.currentCategory = category;
                 break;
             case this.masterBudget.budgetCategories[7]:
-                this.currentExpense = this.masterBudget.transportation.cost + (this.currentYear - 2017) * 1.0329;
+                this.currentExpense = parseInt(this.masterBudget.transportation.cost * Math.pow(1.0329, this.currentYear - 2017));
                 this.currentCategory = category;
                 break;
             default:

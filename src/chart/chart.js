@@ -24,6 +24,23 @@ export class Chart {
         var dataIndex = this.getDataIndex(moduleName);
         var visible = this.chart.series[0].data[dataIndex].visible ? false : true;
         this.chart.series[0].data[dataIndex].setVisible(visible);
+
+        // var savingsDiff = 0;
+        // switch (moduleName) {
+        //     case "Child Care":  savingsDiff = this.masterBudget.childCare.cost; break;
+        //     case "Food":        savingsDiff = this.masterBudget.food.cost; break;
+        //     case "Housing":     savingsDiff = this.masterBudget.housing.cost; break;
+        //     case "Medical":     savingsDiff = this.masterBudget.medical.cost; break;
+        //     case "Other":       savingsDiff = this.masterBudget.other.cost; break;
+        //     case "Savings":     savingsDiff = this.masterBudget.savings.cost; break;
+        //     case "Taxes":       savingsDiff = this.masterBudget.taxes.cost; break;
+        //     default:            savingsDiff = this.masterBudget.transportation.cost; break;
+        // }
+
+        // console.log(this.masterBudget.food.cost);
+        // visible ? this.masterBudget.savings.omitted -= savingsDiff : this.masterBudget.savings.omitted += savingsDiff;
+        // this.masterBudget.savings.calculateAdvancedSavings();
+        // console.log(this.masterBudget.savings.cost);
     }
 
     getDataIndex(moduleName) {
