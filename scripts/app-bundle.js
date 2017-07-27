@@ -204,8 +204,17 @@ define('constants',['exports'], function (exports) {
             'label': 'Public Transportation Cost',
             'variable': 'publicTransportationCost'
         }, {
-            'label': 'Other',
-            'variable': 'otherCost'
+            'label': 'Payment',
+            'variable': 'paymentCost'
+        }, {
+            'label': 'Repairs',
+            'variable': 'repairCost'
+        }, {
+            'label': 'Insurance',
+            'variable': 'insuranceCost'
+        }, {
+            'label': 'Gas',
+            'variable': 'gasCost'
         }];
 
         this.transportationCar = [{
@@ -346,8 +355,8 @@ define('masterBudget',['exports', 'budget-breakdown-module/category-modules/food
             this.location = "";
             this.annualIncome;
             this.totalMonthlyIncome = 2000;
-            this.numberChildren = 2;
-            this.numberAdults = 1;
+            this.numberChildren = 1;
+            this.numberAdults = 2;
             this.stateLocation = 'Alabama';
 
             this.food = food;
@@ -403,6 +412,23 @@ define('auto-budget/auto-budget',['exports', 'aurelia-framework', 'aurelia-route
 
         return AutoBudget;
     }()) || _class);
+});
+define('budget-breakdown-module/breakdown',["exports"], function (exports) {
+    "use strict";
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var Breakdown = exports.Breakdown = function Breakdown() {
+        _classCallCheck(this, Breakdown);
+    };
 });
 define('chart/chart',['exports', 'aurelia-framework', '../utilities/chartFactory', 'masterBudget', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _chartFactory, _masterBudget, _aureliaEventAggregator) {
     'use strict';
@@ -689,6 +715,14 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
                 this.neutralArray.splice(this.neutralArray.indexOf('Vacation'), 1);
                 this.cutArray.push('Vacation');
             }
+            if (this.neutralArray.indexOf('Tuition') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Vacation'), 1);
+                this.reduceArray.push('Tuition');
+            }
+            if (this.neutralArray.indexOf('Workday Coffee/Lunch') > -1) {
+                this.neutralArray.splice(this.neutralArray.indexOf('Workday Coffee/Lunch'), 1);
+                this.reduceArray.push('Workday Coffee/Lunch');
+            }
             var cost = this.masterBudget.sumOfAllCost;
             var percentReduction = 0.95;
             var tempMasterBudget = this.masterBudget;
@@ -785,23 +819,6 @@ define('chart/gauge-chart',['exports', 'aurelia-framework', '../utilities/chartF
 
         return GaugeChart;
     }()) || _class);
-});
-define('budget-breakdown-module/breakdown',["exports"], function (exports) {
-    "use strict";
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var Breakdown = exports.Breakdown = function Breakdown() {
-        _classCallCheck(this, Breakdown);
-    };
 });
 define('five-year/card-info-one',["exports"], function (exports) {
     "use strict";
@@ -1148,11 +1165,11 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
             this.router = router;
             this.httpClient = httpClient;
             this.masterBudget = masterBudget;
-            this.getLocation();
+            this.getLocation(false);
         }
 
         Intro.prototype.getLocation = function () {
-            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(userInput) {
                 var self, childCare, childCareData, carCost, carCostData, homeInsurance, homeInsuranceData, healthInsurance, healthInsuranceData;
                 return regeneratorRuntime.wrap(function _callee3$(_context3) {
                     while (1) {
@@ -1191,23 +1208,25 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                                                         case 6:
                                                                             data2 = _context.sent;
 
-                                                                            self.getCurrentLocation(data2);
-                                                                            _context.next = 10;
+                                                                            self.getCurrentLocation(data2, userInput);
+                                                                            console.log(self.masterBudget.location);
+                                                                            _context.next = 11;
                                                                             return self.httpClient.fetch('api/household-cost-county/get.json');
 
-                                                                        case 10:
+                                                                        case 11:
                                                                             householdCost = _context.sent;
-                                                                            _context.next = 13;
+                                                                            _context.next = 14;
                                                                             return householdCost.json();
 
-                                                                        case 13:
+                                                                        case 14:
                                                                             houseHoldCostData = _context.sent;
 
                                                                             houseHoldCostData.costByCounty.forEach(function (houseObject) {
                                                                                 if (houseObject.County == self.masterBudget.location) self.masterBudget.housing.cost += houseObject[self.masterBudget.numberAdults];
+                                                                                console.log(houseObject);
                                                                             });
 
-                                                                        case 15:
+                                                                        case 16:
                                                                         case 'end':
                                                                             return _context.stop();
                                                                     }
@@ -1215,7 +1234,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                                                             }, _callee, this);
                                                         }));
 
-                                                        return function (_x) {
+                                                        return function (_x2) {
                                                             return _ref3.apply(this, arguments);
                                                         };
                                                     }());
@@ -1315,7 +1334,7 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
                 }, _callee3, this);
             }));
 
-            function getLocation() {
+            function getLocation(_x) {
                 return _ref.apply(this, arguments);
             }
 
@@ -1334,9 +1353,9 @@ define('intro/intro',['exports', 'aurelia-framework', 'aurelia-router', 'aurelia
             console.log(this.masterBudget.food.cost);
         };
 
-        Intro.prototype.getCurrentLocation = function getCurrentLocation(jsonData) {
+        Intro.prototype.getCurrentLocation = function getCurrentLocation(jsonData, userInput) {
             var array = jsonData.results[4].formatted_address.split(",");
-            this.masterBudget.location = array[0];
+            if (!userInput) this.masterBudget.location = array[0];
         };
 
         Intro.prototype.route = function route() {
@@ -1911,6 +1930,60 @@ define('budget-breakdown-module/category-modules/housing/housing',['exports', 'a
         return Housing;
     }()) || _class) || _class);
 });
+define('budget-breakdown-module/category-modules/medical/medical',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
+    'use strict';
+
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Medical = undefined;
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _dec, _dec2, _class;
+
+    var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
+        function Medical(constants, eventAggregator) {
+            _classCallCheck(this, Medical);
+
+            this.includeInBudget = true;
+            this.constants = constants;
+            this.cost = 0;
+            this.costPercentage = 0;
+            this.healthInsuranceCost = 0;
+            this.healthInflation = 1.0379;
+            this.medicationCost = 0;
+            this.dentalCost = 0;
+            this.otherMedicalCost = 0;
+            this.collapsed = true;
+            this.eventAggregator = eventAggregator;
+            this.isMonthly = true;
+        }
+
+        Medical.prototype.toggle = function toggle() {
+            this.collapsed = !this.collapsed;
+        };
+
+        Medical.prototype.calculateAdvancedMedical = function calculateAdvancedMedical() {
+            var scale = this.isMonthly ? 1 : 1 / 12;
+            this.cost = parseInt((parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost) + parseInt(this.medicationCost) + parseInt(this.otherMedicalCost)) * scale);
+
+
+            this.eventAggregator.publish('update', { name: 'Medical', value: this.cost });
+        };
+
+        Medical.prototype.toggleHorizon = function toggleHorizon() {
+            this.isMonthly = !this.isMonthly;
+            this.calculateAdvancedMedical();
+        };
+
+        return Medical;
+    }()) || _class) || _class);
+});
 define('budget-breakdown-module/category-modules/other/other',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
     'use strict';
 
@@ -1967,60 +2040,6 @@ define('budget-breakdown-module/category-modules/other/other',['exports', 'aurel
         };
 
         return Other;
-    }()) || _class) || _class);
-});
-define('budget-breakdown-module/category-modules/medical/medical',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Medical = undefined;
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _dec, _dec2, _class;
-
-    var Medical = exports.Medical = (_dec = (0, _aureliaFramework.inject)(_constants.Constants, _aureliaEventAggregator.EventAggregator), _dec2 = (0, _aureliaFramework.singleton)(), _dec(_class = _dec2(_class = function () {
-        function Medical(constants, eventAggregator) {
-            _classCallCheck(this, Medical);
-
-            this.includeInBudget = true;
-            this.constants = constants;
-            this.cost = 0;
-            this.costPercentage = 0;
-            this.healthInsuranceCost = 0;
-            this.healthInflation = 1.0379;
-            this.medicationCost = 0;
-            this.dentalCost = 0;
-            this.otherMedicalCost = 0;
-            this.collapsed = true;
-            this.eventAggregator = eventAggregator;
-            this.isMonthly = true;
-        }
-
-        Medical.prototype.toggle = function toggle() {
-            this.collapsed = !this.collapsed;
-        };
-
-        Medical.prototype.calculateAdvancedMedical = function calculateAdvancedMedical() {
-            var scale = this.isMonthly ? 1 : 1 / 12;
-            this.cost = parseInt((parseInt(this.dentalCost) + parseInt(this.healthInsuranceCost) + parseInt(this.medicationCost) + parseInt(this.otherMedicalCost)) * scale);
-
-
-            this.eventAggregator.publish('update', { name: 'Medical', value: this.cost });
-        };
-
-        Medical.prototype.toggleHorizon = function toggleHorizon() {
-            this.isMonthly = !this.isMonthly;
-            this.calculateAdvancedMedical();
-        };
-
-        return Medical;
     }()) || _class) || _class);
 });
 define('budget-breakdown-module/category-modules/savings/savings',['exports', 'aurelia-framework', 'constants', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _constants, _aureliaEventAggregator) {
@@ -2153,7 +2172,10 @@ define('budget-breakdown-module/category-modules/transportation/transportation',
             this.constants = constants;
             this.cost = 0;
             this.costPercentage = 0;
-            this.otherCost = 0;
+            this.paymentCost = 0;
+            this.repairCost = 0;
+            this.insuranceCost = 0;
+            this.gasCost = 0;
             this.collapsed = true;
             this.publicTransportationCost = 0;
             this.publicTransportationInflation = 1.0329;
@@ -2166,7 +2188,7 @@ define('budget-breakdown-module/category-modules/transportation/transportation',
 
         Transportation.prototype.calculateAdvancedTransportationCost = function calculateAdvancedTransportationCost() {
             var scale = this.isMonthly ? 1 : 1 / 12;
-            this.cost = parseInt((parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost)) * scale);
+            this.cost = parseInt((parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost) + parseInt(this.repairCost) + parseInt(this.gasCost) + parseInt(this.insuranceCost) + parseInt(this.paymentCost)) * scale);
 
 
             this.eventAggregator.publish('update', { name: 'Transportation', value: this.cost });
@@ -2201,9 +2223,9 @@ define('text!five-year/card-info-taxes.html', ['module'], function(module) { mod
 define('text!five-year/card-info-transportation.html', ['module'], function(module) { module.exports = "<template>Think about carpooling with a co-worker or friend to save money on gas! You can also shop around and compare insurance costs.</template>"; });
 define('text!five-year/donut-details.html', ['module'], function(module) { module.exports = "<template><require from=\"../utilities/currency\"></require><require from=\"../utilities/percent\"></require><nav class=\"navbar navbar-light teal\"><div class=\"container-fluid\"><ul repeat.for=\"category of masterBudget.budgetCategories\" class=\"nav navbar-nav\"><li class=\"${category === currentCategory ? 'active': ''}\"><a click.delegate=\"changeNavigationTab(category)\">${category}</a></li></ul></div></nav><div><h2 style=\"padding:10px\">Your monthly ${currentCategory} expense in ${currentYear} is ${currentExpense | currency}.</h2><br><div><h3 style=\"padding:10px\">Tip to save:</h3><h4 style=\"padding:10px\" if.bind=\"currentCategory == 'Child Care'\">Ask your employer about workplace benefits , some offer discounts for their employees!</h4><h4 style=\"padding:10px\" if.bind=\"currentCategory == 'Medical'\">Ask about options or discounts before securing services. Sometimes paying in cash earns you a discount!</h4><h4 style=\"padding:10px\" if.bind=\"currentCategory == 'Food'\">Try dining out less and packing your own lunch. Did you know you can save around $12.00 each week if you make a cup of coffee at home!</h4><h4 style=\"padding:10px\" if.bind=\"currentCategory == 'Transportation'\">Think about carpooling with a co-worker or friend to save money on gas! You can also shop around and compare insurance costs.</h4><h4 style=\"padding:10px\" if.bind=\"currentCategory == 'Other'\">If you don’t use your gym membership as much as you like, cancel it! Try outdoor activities that are free like tennis, hiking, or running.</h4><h4 style=\"padding:10px\" if.bind=\"currentCategory == 'Savings'\">Sometimes you should cut back on savings for a bit. Cut back by 5 or 10% for a few months until you can afford it.</h4><h4 style=\"padding:10px\" if.bind=\"currentCategory == 'Taxes'\">Use a Certified Public Accountant or Professional Tax Service to maximize your tax savings opportunities.</h4><h4 style=\"padding:10px\" if.bind=\"currentCategory == 'Housing'\">The government offers taxpayer credits for certain alternative energy sources. Consider becoming more energy efficient!</h4></div></div></template>"; });
 define('text!five-year/five-year.html', ['module'], function(module) { module.exports = "<template><div id=\"five-year-module-container\"><div class=\"row\"><div id=\"content-header\"><h1 style=\"font-size:36px;text-align:center;margin-bottom:40px\"><b>Five Year Plan<b></b></b></h1></div><div class=\"progress\" style=\"margin-bottom:5vh\"><div class=\"progress-bar\" style=\"width:100%\"></div></div><div id=\"goals-chart-div\" class=\"card\"><compose view-model=\"chart/donut-chart\" view-model.ref=\"chartVM\"></compose></div><div id=\"donut-details\" class=\"card\"><compose view-model=\"./donut-details\"></compose></div></div><button type=\"button\" class=\"col-md-2 btn btn-raised btn-primary\" style=\"margin:25vh 55vh\" click.delegate=\"routeResults()\">Back</button></div></template>"; });
-define('text!goals/goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><require from=\"../utilities/currency\"></require><div><h1 id=\"content-header\" style=\"font-size:36px;text-align:center;margin-left:0\"><b>Goals<b></b></b></h1></div><br><div class=\"progress\" style=\"margin:0 20vw\"><div class=\"progress-bar\" style=\"width:100%\"></div></div><div id=\"goal-template\"><div><h2 style=\"margin-left:0;width:100vw\">How much will you need to save reach your goals?</h2><h4>Enter your goals to find out your necessary monthly savings.</h4></div></div><table id=\"goal-template\" class=\"table table-striped table-hover\"><thead><tr><th>Goal</th><th>Cost</th><th>Purchase Month</th><th>Purchase Year</th><th></th></tr></thead><tbody><tr><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"text\" class=\"form-control\" id=\"inputGoal\" placeholder=\"Boat\" value.bind=\"selectedName\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputCost\" placeholder=\"8000\" value.bind=\"selectedCost\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><select id=\"inputMonth\" class=\"form-control\" value.bind=\"selectedMonth\"><option repeat.for=\"month of months\" value.bind=\"month\">${month}</option></select></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputYear\" placeholder=\"2019\" value.bind=\"selectedYear\"></div></div></td><td><button class=\"btn btn-raised btn-info\" click.delegate=\"addGoal()\">Add Goal</button></td></tr><tr repeat.for=\"goal of goalsList\"><td>${goal.name}</td><td>${goal.cost}</td><td>${goal.month}</td><td>${goal.year}</td><td><button class=\"btn btn-raised btn-danger\" click.delegate=\"removeGoal($index)\">Remove Goal</button></td></tr></tbody></table><div id=\"panel-goals\" class=\"panel panel-primary\" if.bind=\"goalsList.length > 0\"><div class=\"panel-heading\"><h3 id=\"panel-title-heading\" class=\"panel-title\">Goal Budget</h3></div><div class=\"panel-body\"><div id=\"goals-results-text\">You must save ${monthlySavings | currency} a month to afford these goals.</div></div></div><button type=\"button\" class=\"col-md-2 btn btn-raised btn-primary\" style=\"margin:5vh 42vw\" click.delegate=\"routeResults()\">Back</button></template>"; });
+define('text!goals/goals.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><require from=\"../utilities/currency\"></require><div><h2>How much will you need to reach your Goal?</h2><h4>Start with a goal to help you realize the savings needed to reach this goal</h4><h1 id=\"content-header\" style=\"font-size:36px;text-align:center;margin-left:0\"><b>Goals<b></b></b></h1></div><br><div class=\"progress\" style=\"margin:0 20vw\"><div class=\"progress-bar\" style=\"width:100%\"></div></div><div id=\"goal-template\"><div><h2 style=\"margin-left:0;width:100vw\">How much will you need to save reach your goals?</h2><h4>Enter your goals to find out your necessary monthly savings.</h4></div></div><table id=\"goal-template\" class=\"table table-striped table-hover\"><thead><tr><th>Goal</th><th>Cost</th><th>Purchase Month</th><th>Purchase Year</th><th></th></tr></thead><tbody><tr><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"text\" class=\"form-control\" id=\"inputGoal\" placeholder=\"Boat\" value.bind=\"selectedName\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputCost\" placeholder=\"8000\" value.bind=\"selectedCost\"></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><select id=\"inputMonth\" class=\"form-control\" value.bind=\"selectedMonth\"><option repeat.for=\"month of months\" value.bind=\"month\">${month}</option></select></div></div></td><td><div class=\"form-group form-inline\"><div class=\"col-md-10\"><input type=\"number\" class=\"form-control\" id=\"inputYear\" placeholder=\"2019\" value.bind=\"selectedYear\"></div></div></td><td><button class=\"btn btn-raised btn-info\" click.delegate=\"addGoal()\">Add Goal</button></td></tr><tr repeat.for=\"goal of goalsList\"><td>${goal.name}</td><td>${goal.cost}</td><td>${goal.month}</td><td>${goal.year}</td><td><button class=\"btn btn-raised btn-danger\" click.delegate=\"removeGoal($index)\">Remove Goal</button></td></tr></tbody></table><div id=\"panel-goals\" class=\"panel panel-primary\" if.bind=\"goalsList.length > 0\"><div class=\"panel-heading\"><h3 id=\"panel-title-heading\" class=\"panel-title\">Goal Budget</h3></div><div class=\"panel-body\"><div id=\"goals-results-text\">You must save ${monthlySavings | currency} a month to afford these goals.</div></div></div><button type=\"button\" class=\"col-md-2 btn btn-raised btn-primary\" style=\"margin:5vh 42vw\" click.delegate=\"routeResults()\">Back</button></template>"; });
+define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"view overlay hm-blue-light\" id=\"intro-template\"><h1 id=\"intro-page-title\">Budget Planning</h1><div class=\"card\" id=\"intro-card\"><form><div id=\"intro-form\" class=\"form-group\"><label for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"$50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome() getLocation(true)\"></div><div id=\"intro-form\" class=\"form-group\"><label for=\"\"><b>Location:</b></label><input type=\"text\" class=\"form-control\" value.bind=\"masterBudget.location\"></div><div class=\"btn-toolbar\" role=\"toolbar\" id=\"adults-toolbar\"><b style=\"margin:0 auto\">Adults in Household</b><div class=\"btn-group btn-group-justified btn-group-raised\" data-toggle=\"buttons\"><label click.delegate=\"test(i)\" id=\"adult-intro-button\" repeat.for=\"i of 2\" class=\"btn btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div><br><div class=\"btn-toolbar\" role=\"toolbar\" id=\"children-toolbar\"><b>Children in Household</b><div class=\"btn-group btn-group-justified btn-group-raised\" data-toggle=\"buttons\"><label click.delegate=\"test2(i)\" id=\"children-intro-button\" repeat.for=\"i of 5\" class=\"btn btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i + 1\" name=\"options\"> ${i}</label></div></div><br><div id=\"budgetButton\"><button class=\"btn btn-lg btn-raised btn-info\" click.delegate=\"route() getMonthlyIncome()\">Budget</button></div></form></div></div></template>"; });
 define('text!results/results.html', ['module'], function(module) { module.exports = "<template><div id=\"content-header\"><h1 style=\"background:#e0f2f1;font-size:36px;text-align:center\"><b>Budget Planning<b></b></b></h1></div><br><compose view-model=\"results-banner-module/banner\"></compose><div style=\"background:#e0f2f1\"><div id=\"results-container\" class=\"row\"><div id=\"chart-div\"><compose view-model=\"chart/chart\" view-model.ref=\"chartVM\"></compose></div><div id=\"breakdown-div\"><compose view-model=\"budget-breakdown-module/breakdown\"></compose></div><div class=\"button-group\" id=\"button-div\"><button type=\"button\" class=\"col-md-2 btn btn-raised btn-primary\" click.delegate=\"routeGoals()\">Goals</button> <button type=\"button\" class=\"col-md-3 btn btn-raised btn-primary\" click.delegate=\"routeFiveYearPlan()\">Five Year Plan</button> <button type=\"button\" class=\"col-md-2 btn btn-raised btn-primary\" click.delegate=\"routeAutoBudget()\">Auto Budget</button></div></div></div></template>"; });
-define('text!intro/intro.html', ['module'], function(module) { module.exports = "<template><require from=\"css/styles.css\"></require><div class=\"view overlay hm-blue-light\" id=\"intro-template\"><h1 id=\"intro-page-title\">Budget Planning</h1><div class=\"card\" id=\"intro-card\"><form><div id=\"intro-form\" class=\"form-group\"><label for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"$50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome()\"></div><div id=\"intro-form\" class=\"form-group\"><label for=\"\"><b>Location:</b></label><input type=\"text\" class=\"form-control\" value.bind=\"masterBudget.location\"></div><div class=\"btn-toolbar\" role=\"toolbar\" id=\"adults-toolbar\"><b style=\"margin:0 auto\">Adults in Household</b><div class=\"btn-group btn-group-justified btn-group-raised\" data-toggle=\"buttons\"><label click.delegate=\"test(i)\" id=\"adult-intro-button\" repeat.for=\"i of 2\" class=\"btn btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div><br><div class=\"btn-toolbar\" role=\"toolbar\" id=\"children-toolbar\"><b>Children in Household</b><div class=\"btn-group btn-group-justified btn-group-raised\" data-toggle=\"buttons\"><label click.delegate=\"test2(i)\" id=\"children-intro-button\" repeat.for=\"i of 5\" class=\"btn btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i + 1\" name=\"options\"> ${i}</label></div></div><br><div id=\"budgetButton\"><button class=\"btn btn-lg btn-raised btn-info\" click.delegate=\"route() getMonthlyIncome()\">Budget</button></div></form></div></div></template>"; });
 define('text!results-banner-module/banner.html', ['module'], function(module) { module.exports = "<template><table id=\"banner-table\" class=\"table card\"><tr><td><div><label id=\"breakdown-header-label\" for=\"\"><b>Annual Income:</b></label><input type=\"text\" class=\"form-control\" placeholder=\"50,000\" value.bind=\"masterBudget.annualIncome\" change.delegate=\"sanitizeIncome() getMonthlyIncome()\"></div></td><td><div><label id=\"breakdown-header-label\" for=\"\"><b>Location:</b></label><input type=\"text\" value.bind=\"masterBudget.location\" class=\"form-control\"></div></td><td><div id=\"breakdown-buttons\" class=\"btn-toolbar\" role=\"toolbar\"><b>Adults in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"breakdown-buttons-label\" repeat.for=\"i of 2\" class=\"btn btn-sm btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberAdults\" value.bind=\"i + 1\" name=\"options\"> ${i + 1}</label></div></div></td><td><div id=\"breakdown-buttons\" class=\"btn-toolbar\" role=\"toolbar\"><b>Children in Household</b><div class=\"radio-group\" data-toggle=\"buttons\"><label id=\"breakdown-buttons-label\" repeat.for=\"i of 5\" class=\"btn btn-sm btn-raised btn-primary\"><input type=\"radio\" checked.bind=\"masterBudget.numberChildren\" value.bind=\"i\" name=\"options\"> ${i}</label></div></div></td></tr></table></template>"; });
 define('text!budget-breakdown-module/category-modules/child-care/child-care.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css\"><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingOne\"><dv class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-child-care checkbox-inline\"><input id=\"checkbox1\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Child Care')\"><label for=\"checkbox1\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseChildCare\" aria-expanded=\"true\" aria-controls=\"collapseChildCare\">Child Care<span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></dv></div><div class=\"col-md-4\"></div><div class=\"col-md-4\"><span class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</span><span class=\"permonth\">&nbsp&nbsp&nbsp/ Month</span></div><br><br><br><div id=\"collapseChildCare\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingChildCare\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.childCare\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label>${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedChildCareCost()\"></div></div></div></div></div></template>"; });
 define('text!budget-breakdown-module/category-modules/food/food.html', ['module'], function(module) { module.exports = "<template><require from=\"../../../utilities/currency\"></require><require from=\"../../../utilities/percent\"></require><div class=\"card\"><div class=\"card-header\" role=\"tab\" id=\"headingFood\"><div class=\"col-md-4\"><h5 class=\"mb-0\"><div class=\"checkbox checkbox-food checkbox-inline\"><input id=\"checkbox2\" type=\"checkbox\" checked.bind=\"includeInBudget\" change.delegate=\"eventAggregator.publish('toggle element', 'Food')\"><label for=\"checkbox2\"></label></div><a click.delegate=\"toggle()\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseFood\" aria-expanded=\"true\" aria-controls=\"collapseFood\">Food <span class=\"${collapsed ? 'glyphicon glyphicon-chevron-down arrows' : 'glyphicon glyphicon-chevron-up arrows'}\"></span></a></h5></div><div class=\"col-md-4\"></div><div class=\"col-md-4\"><span class=\"${includeInBudget ? 'blackparagraph' : 'grayparagraph'}\">${cost | currency}</span><span class=\"permonth\">&nbsp&nbsp&nbsp/ Month</span></div></div><br><br><br><div id=\"collapseFood\" class=\"collapse\" role=\"tabpanel\" aria-labelledby=\"headingFood\"><div class=\"card-block\"><div class=\"btn-group btn-group-raised\" data-toggle=\"buttons\" click.delegate=\"toggleHorizon()\"><label class=\"btn btn-sm ${isMonthly ? 'btn-primary' : 'btn-secondary'}\">Monthly</label><label class=\"btn btn-sm ${!isMonthly ? 'btn-primary' : 'btn-secondary'}\">Yearly</label></div><div repeat.for=\"constant of constants.food\" class=\"form-group\"><div class=\"input-group mb-2 mr-sm-2 mb-sm-0\"><label for=\"food-input\">${constant.label}</label><input type=\"number\" value.bind=\"$parent[constant.variable]\" change.delegate=\"calculateAdvancedFoodCost()\"></div></div></div></div></div></template>"; });

@@ -193,8 +193,20 @@ export class Constants {
                 'variable': 'publicTransportationCost'
             },
             {
-                'label': 'Other',
-                'variable': 'otherCost'
+                'label': 'Payment',
+                'variable': 'paymentCost'
+            },
+            {
+                'label': 'Repairs',
+                'variable': 'repairCost'
+            },
+            {
+                'label': 'Insurance',
+                'variable': 'insuranceCost'
+            },
+            {
+                'label': 'Gas',
+                'variable': 'gasCost'
             }
         ];
 

@@ -7,7 +7,7 @@
                 <!-- Input annual income-->
                 <div id="intro-form" class="form-group">
                     <label for=""><b>Annual Income:</b></label>
-                    <input type="text" class="form-control" placeholder="$50,000" value.bind="masterBudget.annualIncome" change.delegate="sanitizeIncome() getMonthlyIncome()">
+                    <input type="text" class="form-control" placeholder="$50,000" value.bind="masterBudget.annualIncome" change.delegate="sanitizeIncome() getMonthlyIncome() getLocation(true)">
                 </div>
                 <!-- Input user's location-->
                 <div id="intro-form" class="form-group">

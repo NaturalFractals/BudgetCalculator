@@ -10,7 +10,10 @@ export class Transportation {
         this.constants = constants;
         this.cost = 0;
         this.costPercentage = 0;
-        this.otherCost = 0;
+        this.paymentCost = 0;
+        this.repairCost = 0;
+        this.insuranceCost = 0;
+        this.gasCost = 0;
         this.collapsed = true;
         this.publicTransportationCost = 0;
         this.publicTransportationInflation = 1.0329;
@@ -24,7 +27,8 @@ export class Transportation {
     //Calculates the average transportation for the basic calc page.
     calculateAdvancedTransportationCost() {
         var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers
-        this.cost = parseInt( ( parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost) ) * scale);
+        this.cost = parseInt( ( parseInt(this.carYearlyUpkeepCost) + parseInt(this.carMonthlyOwnershipCost)  + parseInt(this.repairCost) 
+            + parseInt(this.gasCost) + parseInt(this.insuranceCost) + parseInt(this.paymentCost)) * scale);
         // this.cost = this.cost.toFixed(2);
 
         this.eventAggregator.publish('update', {name: 'Transportation', value: this.cost});

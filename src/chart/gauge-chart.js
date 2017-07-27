@@ -101,6 +101,14 @@ export class GaugeChart {
             this.neutralArray.splice(this.neutralArray.indexOf('Vacation'), 1);
             this.cutArray.push('Vacation');
         }
+        if(this.neutralArray.indexOf('Tuition') > -1) {
+            this.neutralArray.splice(this.neutralArray.indexOf('Vacation'), 1);
+            this.reduceArray.push('Tuition');
+        }
+        if(this.neutralArray.indexOf('Workday Coffee/Lunch') > -1) {
+            this.neutralArray.splice(this.neutralArray.indexOf('Workday Coffee/Lunch'), 1);
+            this.reduceArray.push('Workday Coffee/Lunch');
+        }
         let cost = this.masterBudget.sumOfAllCost;
         let percentReduction = 0.95;
         var tempMasterBudget = this.masterBudget;
