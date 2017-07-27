@@ -33,10 +33,16 @@
         <div style="padding-bottom: 1vh" class="input-group mb-2 mr-sm-2 mb-sm-0">
           <label>Gross Income After Taxes: </label>${grossIncome | currency}
         </div>
-        <div repeat.for="constant of constants.taxes" class="form-group">
+        <div style="padding-bottom: 1vh" class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <label>State Taxes: </label>${stateTaxCost | currency}
+        </div>
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+          <label>Federal Taxes: </label>${federalTaxCost | currency}
+        </div>
+        <div class="form-group">
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-            <label>${constant.label}</label>
-            <input type="number" value.bind="$parent[constant.variable]" change.delegate="calculateAdvancedTaxCost()">
+            <label>Other Taxes: </label>
+            <input type="number" value.bind="otherTaxCost">
           </div>
         </div>
       </div>

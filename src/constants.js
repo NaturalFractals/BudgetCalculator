@@ -289,6 +289,10 @@ export class Constants {
                 'variable': 'stateTaxCost'
             },
             {
+                'label': 'Federal Taxes',
+                'variable': 'federalTaxCost'
+            },
+            {
                 'label': 'Other Taxes',
                 'variable': 'otherTaxCost'
             }

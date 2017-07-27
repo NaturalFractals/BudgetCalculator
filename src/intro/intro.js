@@ -41,7 +41,6 @@ export class Intro {
                 houseHoldCostData.costByCounty.forEach((houseObject) => {
                     if (houseObject.County == self.masterBudget.location)
                         self.masterBudget.housing.cost += houseObject[self.masterBudget.numberAdults]
-                    console.log(houseObject);
                 })
             });
         };
@@ -92,16 +91,41 @@ export class Intro {
         });
     }
 
+    //Handles the click button for adults
     test(clickAction) {
+        var self = this;
         this.masterBudget.numberAdults = clickAction + 1;
-        console.log(this.masterBudget.numberAdults);
+        let federalSingle = [0, 9325, 37950, 91900, 191650, 416700, 418401, 100000000000];
+        let federalSinglePercent = [0.1, 0.15, 0.25, 0.28, 0.33, 0.35, 0.40, 0.3960]; 
+        let federalMarried = [0, 18650, 75900, 153100, 233350, 416700, 470700, 1000000000];
+        let federalMarriedPercent = [0.1, 0.15, 0.25, 0.28, 0.33, 0.33, 0.35, 0.3960];
+        var count = 0;
+        var index = -1;
+        if(clickAction + 1 == 1) {
+            federalSingle.forEach((value) => {
+                count += 1;
+                if(self.income <= value && index == -1) {
+                    index = count;
+                }
+            });
+            this.masterBudget.taxes.federalTaxCost = parseInt(this.income) * federalSinglePercent[index];
+            this.masterBudget.taxes.cost += parseInt(this.masterBudget.taxes.federalTaxCost);
+        } else {
+            federalMarried.forEach((value) => {
+                count++;
+                if(self.income <= value && index == -1) {
+                    index = count;
+                }
+            });
+            this.masterBudget.taxes.federalTaxCost = parseInt(this.income) * federalMarriedPercent[index];
+            this.masterBudget.taxes.cost += this.masterBudget.taxes.federalTaxCost;
+        }
     }
 
+    //Handles the click button for the children
     test2(clickAction) {
         this.masterBudget.numberChildren = clickAction;
-        console.log(this.masterBudget.numberChildren);
         this.masterBudget.food.calculateFoodCost(this.masterBudget.numberChildren, this.masterBudget.numberAdults);
-        console.log(this.masterBudget.food.cost);
     }
 
     //Get current county/location of user
@@ -115,6 +139,13 @@ export class Intro {
     route() {
         if(this.masterBudget.numberChildren == 0)
             this.masterBudget.childCare.cost = 0;
+        if(this.masterBudget.numberChildren > 1) {
+            var tempMultiplier = parseInt(this.masterBudget.childCare.cost);
+            for(var i = 1; i < parseInt(this.masterBudget.numberChildren); i++) {
+                this.masterBudget.childCare.cost += parseInt(tempMultiplier) * 0.5;
+            }
+        }
+        this.masterBudget.taxes.calculateAdvancedTaxCost();
         this.router.navigate("#/results");
     }
 
@@ -136,7 +167,7 @@ export class Intro {
         let stateTaxData = await stateTax.json();
         stateTaxData.taxes.forEach((state) => {
             if (self.masterBudget.stateLocation == state[0] && self.income < state[2]) {
-                self.masterBudget.taxes.cost = self.income * state[1];
+                self.masterBudget.taxes.stateTaxCost = self.income * state[1];
                 self.masterBudget.taxes.grossIncome = self.income - self.masterBudget.taxes.cost;
                 self.masterBudget.totalMonthlyIncome = parseInt(this.income) / 12;
                 self.masterBudget.savings.cost = this.income * 0.15;

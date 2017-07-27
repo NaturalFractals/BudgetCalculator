@@ -12,6 +12,7 @@ export class Taxes {
         this.grossIncome = 0;
         this.costPercentage = 0;
         this.stateTaxCost = 0;
+        this.federalTaxCost = 0;
         this.housingTaxCost = 0;
         this.otherTaxCost = 0;
         this.collapsed = true;
@@ -27,7 +28,7 @@ export class Taxes {
     //Calculates cost of vehicle and housing tax entered by the user.
     calculateAdvancedTaxCost() {
         var scale = this.isMonthly ? 1 : 1 / 12;   // divide by 12 if the user input yearly numbers
-        this.cost =  parseInt( ( parseInt(this.vehicleTaxCost) + parseInt(this.housingTaxCost) ) * scale);
+        this.cost =  parseInt( ( parseInt(this.stateTaxCost) + parseInt(this.federalTaxCost) + parseInt(this.otherTaxCost)) * scale);
         // this.cost = this.cost.toFixed(2);
 
         this.eventAggregator.publish('update', {name: 'Taxes', value: this.cost});
