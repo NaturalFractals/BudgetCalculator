@@ -13,17 +13,18 @@
     </nav>
     <!-- <div class="card" id="donut-details-div"> Dont want the CSS, made a regular div-->
     <div>
-        <h4> Your monthly ${currentCategory} expense in ${currentYear} is ${currentExpense | currency}. </h4>
+        <h2 style="padding: 10px"> Your monthly ${currentCategory} expense in ${currentYear} is ${currentExpense | currency}. </h2>
+        <br>
         <div>
-            <h3>Top ways to save:</h3>
-            <p if.bind="currentCategory == 'Child Care'">Ask your employer about workplace benefits , some offer discounts for their employees!</p>
-            <p if.bind="currentCategory == 'Medical'">Ask about options or discounts before securing services. Sometimes paying in cash earns you a discount!</p>
-            <p if.bind="currentCategory == 'Food'">Try dining out less and packing your own lunch. Did you know you can save around $12.00 each week if you make a cup of coffee at home!</p>
-            <p if.bind="currentCategory == 'Transportation'">Think about carpooling with a co-worker or friend to save money on gas! You can also shop around and compare insurance costs.</p>
-            <p if.bind="currentCategory == 'Other'">If you don’t use your gym membership as much as you like, cancel it! Try outdoor activities that are free like tennis, hiking, or running.</p>
-            <p if.bind="currentCategory == 'Savings'">Sometimes you should cut back on savings for a bit. Cut back by 5 or 10% for a few months until you can afford it.</p>
-            <p if.bind="currentCategory == 'Taxes'">Adjust your withholdings to receive more money per paycheck. Be careful, you may pay more when the tax deadline comes!</p>
-            <p if.bind="currentCategory == 'Housing'">The government offers taxpayer credits for certain alternative energy sources. Consider becoming more energy efficient!</p>
+            <h3 style="padding: 10px">Tip to save:</h3>
+            <h4 style="padding: 10px" if.bind="currentCategory == 'Child Care'">Ask your employer about workplace benefits , some offer discounts for their employees!</h4>
+            <h4 style="padding: 10px" if.bind="currentCategory == 'Medical'">Ask about options or discounts before securing services. Sometimes paying in cash earns you a discount!</h4>
+            <h4 style="padding: 10px" if.bind="currentCategory == 'Food'">Try dining out less and packing your own lunch. Did you know you can save around $12.00 each week if you make a cup of coffee at home!</h4>
+            <h4 style="padding: 10px" if.bind="currentCategory == 'Transportation'">Think about carpooling with a co-worker or friend to save money on gas! You can also shop around and compare insurance costs.</h4>
+            <h4 style="padding: 10px" if.bind="currentCategory == 'Other'">If you don’t use your gym membership as much as you like, cancel it! Try outdoor activities that are free like tennis, hiking, or running.</h4>
+            <h4 style="padding: 10px" if.bind="currentCategory == 'Savings'">Sometimes you should cut back on savings for a bit. Cut back by 5 or 10% for a few months until you can afford it.</h4>
+            <h4 style="padding: 10px" if.bind="currentCategory == 'Taxes'">Adjust your withholdings to receive more money per paycheck. Be careful, you may pay more when the tax deadline comes!</h4>
+            <h4 style="padding: 10px" if.bind="currentCategory == 'Housing'">The government offers taxpayer credits for certain alternative energy sources. Consider becoming more energy efficient!</h4>
         </div>
     </div>
 </template>
