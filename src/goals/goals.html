@@ -12,13 +12,13 @@
     <div id="goal-template">
         <!-- Title for goals page-->
         <div>
-            <h2>How much will you need to reach your Goal?</h2>
-            <h4>Start with a goal to help your realize the savings needed to reach this goal</h4>
+            <h2 style="margin-left: 0vw; width: 100vw">How much will you need to save reach your goals?</h2>
+            <h4>Enter your goals to find out your necessary monthly savings.</h4>
         </div>
     </div>
-    <div id="goal-template">
+    <!-- <div id="goal-template">
         Your current savings are ${masterBudget.savings.cost} a month. How much more will you need to save to be able to afford goal purchases?
-    </div>
+    </div> -->
 
     <table id="goal-template" class="table table-striped table-hover ">
         <thead>
@@ -84,5 +84,7 @@
                 You must save ${monthlySavings | currency} a month to afford these goals.
             </div>
         </div>
-    </div> 
+    </div>
+
+    <button type="button" class="col-md-2 btn btn-raised btn-primary" style="margin: 5vh 42vw" click.delegate="routeResults()">Back</button>
 </template>

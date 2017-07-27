@@ -1,23 +1,20 @@
 <template>
     <div id="five-year-module-container">
-        <div id="content-header">
-            <h1 style="font-size: 36px; text-align:center; margin-bottom: 45px;"><b>Five Year Plan<b></h1>
+        <div class="row">
+            <div id="content-header">
+                <h1 style="font-size: 36px; text-align:center; margin-bottom: 45px;"><b>Five Year Plan<b></h1>
+            </div>
+
+            <div id="goals-chart-div" class="card">
+                <compose view-model="chart/donut-chart" view-model.ref="chartVM"></compose>
+            </div>
+            <div id="donut-details" class="card">
+                <compose view-model="./donut-details"></compose>
+            </div>
         </div>
 
-        <div id="goals-chart-div" class="card">
-            <compose view-model="chart/donut-chart" view-model.ref="chartVM"></compose>
-        </div>
-        <div id="donut-details" class="card">
-            <compose view-model="./donut-details"></compose>
-        </div>
+
+        <button type="button" class="col-md-2 btn btn-raised btn-primary" style="margin: 25vh 55vh" click.delegate="routeResults()">Back</button>
     </div>
-    <!--<div id="five-year-info-container">
-        <table id="information-cards">
-            <tr>
-                <td as-element="./card-info-one"></td>
-                <td as-element="./card-info-two"></td>
-                <td as-element="./card-info-three"></td>
-            </tr>
-        </table>
-    </div>-->
+
 </template>
