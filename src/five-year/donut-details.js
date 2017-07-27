@@ -17,7 +17,6 @@ export class DonutDetails {
 
     //Changes the information of the currrent details based on navigation click
     changeNavigationTab(category) {
-
         switch(category) {
             case this.masterBudget.budgetCategories[0]:
                 this.currentExpense = parseInt(this.masterBudget.childCare.cost * Math.pow(1.0558, this.currentYear - 2017));

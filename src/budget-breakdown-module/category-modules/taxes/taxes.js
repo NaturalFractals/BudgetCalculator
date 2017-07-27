@@ -16,7 +16,7 @@ export class Taxes {
         this.otherTaxCost = 0;
         this.collapsed = true;
         this.eventAggregator = eventAggregator;
-        this.isMonthly = true;
+        this.isMonthly = false;
     }
 
     //Toggles the arrow of the collapse menu

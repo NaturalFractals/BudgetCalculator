@@ -131,10 +131,11 @@ export class GaugeChart {
             self.constants.autoBudgetFields.forEach((field) => {
                 if (field.label === item) {
                     let c = tempMasterBudget[field.class];
-                    c[field.variable] = 0;
+                    c['cost'] = 0;
                 }
             });
         });
+        console.log(this.masterBudget.savings);
         await this.reduceArray.forEach((item) => {
             self.constants.autoBudgetFields.forEach((field) => {
                 if (field.lable === item) {
