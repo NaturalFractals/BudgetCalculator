@@ -8,16 +8,16 @@
     <div style="background:#e0f2f1">
         <!-- Container for chart and table -->
         <div id="results-container" class="row">
-            <div id="chart-div">
+            <div id="chart-div" class="column-md-1" style="width:30vw">
                 <compose view-model="chart/chart" view-model.ref="chartVM"></compose>
             </div>
-            <div id="breakdown-div">
+            <div id="breakdown-div" class="column-md-1" style="width:35vw;">
                 <compose view-model="budget-breakdown-module/breakdown"></compose>
             </div>
             <div class="button-group" id="button-div">
-                <button type="button" class="col-md-2 btn btn-raised btn-primary" click.delegate="routeGoals()">Goals</button>
-                <button type="button" class="col-md-3 btn btn-raised btn-primary" click.delegate="routeFiveYearPlan()">Five Year Plan</button>
-                <button type="button" class="col-md-2 btn btn-raised btn-primary" click.delegate="routeAutoBudget()">Auto Budget</button>
+                <button type="button" class="btn btn-raised btn-primary" click.delegate="routeGoals()">Goals</button>
+                <button type="button" class="btn btn-raised btn-primary" click.delegate="routeFiveYearPlan()">Five Year Plan</button>
+                <button type="button" class="btn btn-raised btn-primary" click.delegate="routeAutoBudget()">Auto Budget</button>
             </div>
         </div>
 </template>
